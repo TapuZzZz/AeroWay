@@ -9,10 +9,10 @@
 </head>
 <body>
   <div class="wrapper">
-    <h1>Signup</h1>
+    <h1 class="reveal-top">Signup</h1>
 
     <form action="../sql/createuser.php" method="post" id="signup"> 
-      <div>
+      <div class="reveal-left">
         <label for="name-input">
           <img src="../img/icons/user.png" style="max-width: 22px;">
         </label>
@@ -40,7 +40,7 @@
         <input type="password" name="password" id="password-input" placeholder="Password" >
       </div>
       
-      <div>
+      <div class="reveal-left">
         <label for="repeat-password-input">
           <img src="../img/icons/key.png" style="max-width: 22px;">
         </label>
@@ -55,15 +55,11 @@
       
     </form>
     
-    <p>Already have an Account? <a href="./login.html">Login</a></p>
+    <p class="reveal-bottom">Already have an Account? <a href="./login.html">Login</a></p>
   </div>
 
   <script src="../js/validation.js"></script>
   <script src="../js/BackgroundCycle.js"></script>
-  <script src="../js/ScrollReveal.js"></script>
-
-  <!-- scroll reveal -->
-  <script src="https://unpkg.com/scrollreveal"></script>
 
 </body>
 </html>
