@@ -19,11 +19,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>AeroWay</title>
+    <link rel="icon" href="../img/logo.png" type="image/icon type">
     <link rel="stylesheet" href="../css/index.css" />
     <!-- box icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   </head>
-  <body>
+  <body class="">
     <nav>
       <div class="logo">
         <img src="../img/logo.png" id="logo-img" class="logo-img" />
@@ -34,16 +35,15 @@
       <ul>
         <li><a href="#">1</a></li>
         <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-      </ul>
+        <li><a href="#"><i class="bx bx-user"></i></a></li>
+        <li><a href="#"><i class="bx bx-sun"></i></a></li>
+        </ul>
     </nav>
 
-    <script src="../js/DarkTheme.js"></script>
     <script src="../js/LogoAnimation.js"></script>
     <script src="../js/ScrollReveal.js"></script>
+    <script src="../js/DarkTheme.js"></script>
     <!-- scrollreveal -->
     <script src="https://unpkg.com/scrollreveal"></script>
-    
   </body>
 </html>

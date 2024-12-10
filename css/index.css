@@ -7,10 +7,17 @@
   --hov-color: rgba(248, 63, 63, 0.233);
 }
 
+.dark-theme {
+    --base-color: #000; /* רקע כהה */
+    --text-color: #fff; /* טקסט לבן */
+    --hov-color: rgba(255, 255, 255, 0.233); /* צבע הובר מותאם */
+}
+
 * {
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    outline: 1px dashed red;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -49,21 +56,41 @@ nav .logo h1 {
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-}
+    list-style: none;
+    display: flex; /* שמירה על פריסה בשורה */
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem; /* רווח קטן בין כל <li> */
+  }
 
 nav ul li {
-  margin-left: 2rem;
+    margin-left: 1rem;
 }
 
 nav ul li a {
-  text-decoration: none;
-  color: var(--text-color);
-  font-size: 1rem;
-  font-weight: 400;
-  padding: 6px 12px;
-  border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-weight: bold; /* טקסט תמיד מודגש */
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 6px 12px;
+    border-radius: 5px;
+}
+
+nav ul li a i {
+  font-size: 1.5rem; /* גודל אייקון */
+  padding: 10px;
+  border-radius: 50%; /* מעגל סביב האייקון */
+  background-color: var(--base-color); /* צבע רקע */
+  transition: all 0.3s ease; /* אנימציה חלקה לכל שינוי */
+}
+
+nav ul li a:hover i {
+  background-color: var(--accent-color); /* צבע רקע כשעוברים עם העכבר */
+  color: #fff; /* שינוי צבע האייקון ללבן */
+  transform: scale(1.1); /* הגדלה קלה של האייקון */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* צל קטן להבלטה */
 }
 
 #logo-name span {
@@ -99,5 +126,5 @@ nav ul li a {
   nav ul {
     display: none;
   }
-  
+
 }
