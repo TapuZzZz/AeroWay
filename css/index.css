@@ -1,23 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
-
 :root {
   --accent-color: #f62f2f;
   --base-color: #f8f7f2;
   --text-color: #2E2B41;
   --hov-color: rgba(248, 63, 63, 0.233);
+  --shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 .dark-theme {
-    --base-color: #000;
-    --text-color: #fff;
-    --hov-color: rgba(255, 255, 255, 0.233);
+  --base-color: #000;
+  --text-color: #fff;
+  --hov-color: rgba(255, 255, 255, 0.233);
 }
 
 * {
-    outline: 1px dashed red;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    outline: 1px green dashed;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -41,6 +40,7 @@ nav {
 nav .logo {
   display: flex;
   align-items: center;
+  flex: 1;
 }
 
 nav .logo img {
@@ -56,41 +56,50 @@ nav .logo h1 {
 }
 
 nav ul {
-    list-style: none;
-    display: flex; /* שמירה על פריסה בשורה */
-    padding: 0;
-    margin: 0;
-    gap: 0.5rem; /* רווח קטן בין כל <li> */
-  }
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
 
 nav ul li {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 nav ul li a {
-    display: flex;
-    align-items: center;
-    font-weight: bold; /* טקסט תמיד מודגש */
-    justify-content: center;
-    text-decoration: none;
-    color: var(--text-color);
-    padding: 6px 12px;
-    border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  height: 48px;
 }
 
 nav ul li a i {
-  font-size: 1.5rem; /* גודל אייקון */
-  padding: 10px;
-  border-radius: 50%; /* מעגל סביב האייקון */
-  background-color: var(--base-color); /* צבע רקע */
-  transition: all 0.3s ease; /* אנימציה חלקה לכל שינוי */
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+nav ul li a:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 nav ul li a:hover i {
-  background-color: var(--accent-color); /* צבע רקע כשעוברים עם העכבר */
-  color: #fff; /* שינוי צבע האייקון ללבן */
-  transform: scale(1.1); /* הגדלה קלה של האייקון */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* צל קטן להבלטה */
+  background-color: var(--accent-color);
+  color: #fff;
+  transform: scale(1.1);
 }
 
 #logo-name span {
@@ -122,9 +131,73 @@ nav ul li a:hover i {
   }
 }
 
+/* Remove section colors */
+.section {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--text-color);
+}
+
+footer {
+  background-color: var(--base-color);
+  color: var(--text-color);
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid var(--accent-color);
+}
+
+footer p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+footer ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  gap: 25px;
+}
+
+footer ul li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+  color: var(--accent-color); /* Accent color on hover for footer links */
+}
+
+footer ul li a:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 790px) {
+  footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  footer ul {
+    margin-top: 10px;
+  }
+
+  footer p {
+    margin-bottom: 10px;
+  }
+}
+
 @media screen and (max-width: 790px) {
   nav ul {
     display: none;
   }
-
 }

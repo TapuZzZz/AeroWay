@@ -33,12 +33,38 @@
         </h1>
       </div>
       <ul>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Flights</a></li>
         <li><a href="#"><i class="bx bx-user"></i></a></li>
         <li><a href="#"><i class="bx bx-sun"></i></a></li>
-        </ul>
+      </ul>
     </nav>
+
+    <!-- Fullscreen sections -->
+    <section class="section home">
+      <h1>Welcome to AeroWay</h1>
+    </section>
+
+    <section class="section flights">
+      <h1>Flights Section</h1>
+    </section>
+
+    <section class="section about">
+      <h1>About Us</h1>
+    </section>
+
+    <section class="section contact">
+      <h1>Contact Us</h1>
+    </section>
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Your Company | All rights reserved.</p>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </footer>
 
     <script src="../js/LogoAnimation.js"></script>
     <script src="../js/ScrollReveal.js"></script>
