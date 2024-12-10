@@ -1,15 +1,15 @@
 <?php
-session_start();
+  session_start();
 
-if (isset($_SESSION['user_name'])) {
-    $user_name = $_SESSION['user_name'];
-    $user_email = $_SESSION['email'];
-    $user_id = $_SESSION['user_id'];
-} else {
-    $user_name = '';
-    $user_email = '';
-    $user_id = '';
-}
+  if (isset($_SESSION['user_name'])) {
+      $user_name = $_SESSION['user_name'];
+      $user_email = $_SESSION['email'];
+      $user_id = $_SESSION['user_id'];
+  } else {
+      $user_name = '';
+      $user_email = '';
+      $user_id = '';
+  }
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +20,8 @@ if (isset($_SESSION['user_name'])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>AeroWay</title>
     <link rel="stylesheet" href="../css/index.css" />
-    <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  </head>
+    </head>
   <body>
     <nav>
       <div class="logo">
@@ -32,14 +31,15 @@ if (isset($_SESSION['user_name'])) {
         </h1>
       </div>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Flights</a></li>
-        <li><a href="#"> <span class="material-icons">account_circle</span> </a></li> <!-- User Info Icon -->
-        <li><a href="#" id="theme-toggle"> <span class="material-icons">brightness_4</span> </a></li> <!-- Theme Change Icon -->
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
       </ul>
     </nav>
 
     <script src="../js/DarkTheme.js"></script>
     <script src="../js/LogoAnimation.js"></script>
+
   </body>
 </html>

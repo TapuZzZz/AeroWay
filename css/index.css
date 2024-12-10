@@ -22,7 +22,7 @@ body {
 }
 
 nav {
-  padding: 10px 5%; /* Increased padding for navbar */
+  padding: 10px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,9 +37,9 @@ nav .logo {
 }
 
 nav .logo img {
-  height: 30px; /* Logo size */
+  height: 30px;
   width: auto;
-  margin-right: 15px; /* Space between logo and text */
+  margin-right: 15px;
 }
 
 nav .logo h1 {
@@ -54,7 +54,7 @@ nav ul {
 }
 
 nav ul li {
-  margin-left: 2rem; /* Spacing between menu items */
+  margin-left: 2rem;
 }
 
 nav ul li a {
@@ -64,10 +64,6 @@ nav ul li a {
   font-weight: 400;
   padding: 6px 12px;
   border-radius: 5px;
-}
-
-nav ul li a:hover {
-  background-color: var(--hov-color);
 }
 
 #logo-name span {
@@ -83,15 +79,15 @@ nav ul li a:hover {
 @keyframes jumpRotateZ {
   0% {
     transform: translateY(0) rotateZ(0deg);
-    color: var(--text-color); 
+    color: var(--text-color);
   }
   30% {
     transform: translateY(-15px) rotateZ(180deg);
-    color: var(--accent-color); 
+    color: var(--accent-color);
   }
   70% {
     transform: translateY(-15px) rotateZ(360deg);
-    color: var(--accent-color); 
+    color: var(--accent-color);
   }
   100% {
     transform: translateY(0) rotateZ(360deg);
