@@ -1,7 +1,4 @@
-alert("Script loaded!");
-
 const sunIcon = document.querySelector(".bx-sun");
-
 
 sunIcon.addEventListener("click", () => {
     
