@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <link rel="icon" href="../img/logo.png" type="image/icon type">
+  <link rel="stylesheet" href="../css/login-signup.css">
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Signup</h1>
+
+    <form action="../sql/createuser.php" method="post" id="signup"> 
+      <div>
+        <label for="name-input">
+          <img src="../img/icons/user.png" style="max-width: 22px;">
+        </label>
+        <input type="text" name="name" id="name-input" placeholder="Full Name" maxlength="100">
+      </div>
+
+      <div>
+        <label for="IDnumber">
+          <img src="../img/icons/id.png" style="max-width: 22px;">
+        </label>
+        <input type="text" name="IDnumber" id="IDnumber" placeholder="ID Number" maxlength="9">
+      </div>
+
+      <div>
+        <label for="email">
+          <img src="../img/icons/mail.png" style="max-width: 22px;">
+        </label>
+        <input type="email" name="email" id="email" placeholder="Email" >
+      </div>
+      
+      <div class="password-wrapper">
+        <label for="password-input">
+          <img src="../img/icons/lock.png" style="max-width: 22px;">
+        </label>
+        <input type="password" name="password" id="password-input" placeholder="Password" >
+      </div>
+      
+      <div>
+        <label for="repeat-password-input">
+          <img src="../img/icons/key.png" style="max-width: 22px;">
+        </label>
+        <input type="password" name="repeat-password" id="repeat-password-input" placeholder="Repeat Password" >
+      </div>
+      
+      <div class="terms">
+        <span>I agree to the <a href="../pdf/TermsOfUse.pdf">Terms Of Service</a> and I read the Privacy Notice.</span>
+      </div>
+
+      <button type="submit">Signup</button>
+      
+    </form>
+    
+    <p>Already have an Account? <a href="./login.html">Login</a></p>
+  </div>
+
+  <script src="../js/validation.js"></script>
+  <script src="../js/BackgroundCycle.js"></script>
+</body>
+</html>
