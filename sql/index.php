@@ -14,155 +14,207 @@ if (isset($_SESSION['user_name'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flight Booking</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    /* General Styling */
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #e9ecef;
-      color: #333;
-    }
-    a {
-      text-decoration: none;
-      color: #f62f2f;
-    }
-    a:hover {
-      color: #22577a;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Responsive Navbar</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
-    /* Navbar Styling */
-    .navbar {
-      background-color: #22577a;
-      color: #ffffff;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .navbar nav {
-      display: flex;
-      gap: 15px;
-    }
-    .navbar nav a {
-      color: #ffffff;
-      font-size: 14px;
-      transition: color 0.3s;
-    }
-    .navbar nav a:hover {
-      color: #f62f2f;
-    }
-    .navbar .user-info {
-      font-size: 14px;
-    }
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    /* Header Section */
-    .header {
-      background-image: url('../images/banner.jpg');
-      background-size: cover;
-      background-position: center;
-      padding: 40px 20px;
-      text-align: center;
-      color: #ffffff;
-    }
-    .header h1 {
-      font-size: 36px;
-      margin: 0;
-    }
-    .header p {
-      font-size: 16px;
-    }
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
 
-    /* Search Section */
-    .search-bar {
-      background-color: #ffffff;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin: -30px 20px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      border-radius: 8px;
-    }
-    .search-bar input,
-    .search-bar select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-      flex: 1;
-    }
-    .search-bar button {
-      padding: 10px 20px;
-      background-color: #f62f2f;
-      color: #ffffff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .search-bar button:hover {
-      background-color: #22577a;
-    }
+nav {
+  padding: 5px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  z-index: 1;
+}
+nav .logo {
+  display: flex;
+  align-items: center;
+}
+nav .logo img {
+  height: 25px;
+  width: auto;
+  margin-right: 10px;
+}
+nav .logo h1 {
+  font-size: 1.1rem;
+  background: linear-gradient(to right, #b927fc 0%, #2c64fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-    /* Footer Styling */
-    .footer {
-      background-color: #22577a;
-      color: #ffffff;
-      text-align: center;
-      padding: 15px 0;
-      margin-top: 20px;
-      font-size: 14px;
-    }
-    .footer a {
-      color: #f62f2f;
-    }
-    .footer a:hover {
-      color: #ffffff;
-    }
-  </style>
-</head>
-<body>
-  <div class="navbar">
+nav ul {
+  list-style: none;
+  display: flex;
+}
+nav ul li {
+  margin-left: 1.5rem;
+}
+nav ul li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 95%;
+  font-weight: 400;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background-color: #f5f5f5;
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger .line {
+  width: 25px;
+  height: 1px;
+  background-color: #1f1f1f;
+  display: block;
+  margin: 7px auto;
+  transition: all 0.3s ease-in-out;
+}
+.hamburger-active {
+  transition: all 0.3s ease-in-out;
+  transition-delay: 0.6s;
+  transform: rotate(45deg);
+}
+
+.hamburger-active .line:nth-child(2) {
+  width: 0px;
+}
+
+.hamburger-active .line:nth-child(1),
+.hamburger-active .line:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.hamburger-active .line:nth-child(1) {
+  transform: translateY(12px);
+}
+
+.hamburger-active .line:nth-child(3) {
+  transform: translateY(-5px) rotate(90deg);
+}
+
+.menubar {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 60%;
+  height: 100vh;
+  padding: 20% 0;
+  background: rgba(255, 255, 255);
+  transition: all 0.5s ease-in;
+  z-index: 2;
+}
+.active {
+  left: 0;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.menubar ul {
+  padding: 0;
+  list-style: none;
+}
+.menubar ul li {
+  margin-bottom: 32px;
+}
+
+.menubar ul li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 95%;
+  font-weight: 400;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.menubar ul li a:hover {
+  background-color: #f5f5f5;
+}
+@media screen and (max-width: 790px) {
+  .hamburger {
+    display: block;
+  }
+  nav ul {
+    display: none;
+  }
+}
+
+    </style>
+  </head>
+  <body>
     <nav>
-      <a href="#">Home</a>
-      <a href="#search">Search Flights</a>
-      <a href="#offers">Special Offers</a>
+      <div class="logo">
+        <img src="assets/Logo64x64.png" alt="logo" />
+        <h1>LOGO</h1>
+      </div>
+      <ul>
+        <li>
+          <a href="#">1</a>
+        </li>
+        <li>
+          <a href="#">2</a>
+        </li>
+        <li>
+          <a href="#">3</a>
+        </li>
+        <li>
+          <a href="#">4</a>
+        </li>
+        <li>
+          <a href="#">5</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
     </nav>
-    <div class="user-info">
-      <?php if ($user_name): ?>
-        Logged in as: <?php echo htmlspecialchars($user_name); ?>
-      <?php else: ?>
-        <a href="../html/login.html">Login</a>
-      <?php endif; ?>
+    <div class="menubar">
+      <ul>
+        <li>
+          <a href="#">1</a>
+        </li>
+        <li>
+          <a href="#">2</a>
+        </li>
+        <li>
+          <a href="#">3</a>
+        </li>
+        <li>
+          <a href="#">4</a>
+        </li>
+        <li>
+          <a href="#">5</a>
+        </li>
+      </ul>
     </div>
-  </div>
 
-  <div class="header">
-    <h1>Flight Booking</h1>
-    <p>Book your next adventure today!</p>
-  </div>
-
-  <div class="search-bar">
-    <input type="text" placeholder="From">
-    <input type="text" placeholder="To">
-    <input type="date" placeholder="Departure Date">
-    <select>
-      <option>Economy</option>
-      <option>Business</option>
-    </select>
-    <button>Search</button>
-  </div>
-
-  <div class="footer">
-    &copy; 2024 Flight Booking Platform. All Rights Reserved.
-  </div>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
