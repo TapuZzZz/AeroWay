@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+:root {
+  --accent-color: #f62f2f;
+  --base-color: #f8f7f2;
+  --text-color: #2E2B41;
+  --hov-color: rgba(248, 63, 63, 0.233);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--base-color);
+  color: var(--text-color);
+}
+
+nav {
+  padding: 10px 5%; /* Increased padding for navbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  z-index: 1;
+}
+
+nav .logo {
+  display: flex;
+  align-items: center;
+}
+
+nav .logo img {
+  height: 30px; /* Logo size */
+  width: auto;
+  margin-right: 15px; /* Space between logo and text */
+}
+
+nav .logo h1 {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 2rem; /* Spacing between menu items */
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background-color: var(--hov-color);
+}
+
+#logo-name span {
+  display: inline-block;
+  font-size: inherit;
+  transition: transform 0.5s ease, color 0.5s ease;
+}
+
+#logo-name span.animate {
+  animation: jumpRotateZ 1s ease forwards;
+}
+
+@keyframes jumpRotateZ {
+  0% {
+    transform: translateY(0) rotateZ(0deg);
+    color: var(--text-color); 
+  }
+  30% {
+    transform: translateY(-15px) rotateZ(180deg);
+    color: var(--accent-color); 
+  }
+  70% {
+    transform: translateY(-15px) rotateZ(360deg);
+    color: var(--accent-color); 
+  }
+  100% {
+    transform: translateY(0) rotateZ(360deg);
+    color: var(--text-color);
+  }
+}
+
+@media screen and (max-width: 790px) {
+  .hamburger {
+    display: block;
+  }
+
+  nav ul {
+    display: none;
+  }
+}
