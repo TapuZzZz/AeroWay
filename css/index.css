@@ -96,11 +96,8 @@ nav ul li a {
 }
 
 @media screen and (max-width: 790px) {
-  .hamburger {
-    display: block;
-  }
-
   nav ul {
     display: none;
   }
+  
 }
