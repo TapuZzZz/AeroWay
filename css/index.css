@@ -3,17 +3,18 @@
   --base-color: #f8f7f2;
   --text-color: #2E2B41;
   --hov-color: rgba(248, 63, 63, 0.233);
-  --shadow-color: rgba(0, 0, 0, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.2); /* Light mode shadow */
 }
 
 .dark-theme {
   --base-color: #000;
   --text-color: #fff;
   --hov-color: rgba(255, 255, 255, 0.233);
+  --shadow-color: rgba(255, 255, 255, 0.2); /* Dark mode shadow */
 }
 
 * {
-    outline: 1px green dashed;
+  outline: 1px gold dashed;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25,16 +26,25 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: var(--base-color);
   color: var(--text-color);
+  overflow-x: hidden;
 }
 
 nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
   padding: 10px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: 0px 2px 5px var(--shadow-color), 0px 1px 3px var(--shadow-color);
   z-index: 1;
+  background-color: var(--base-color);
+  transition: box-shadow 0.3s ease;
+}
+
+nav.scrolled {
+  box-shadow: 0px 4px 8px var(--shadow-color), 0px 3px 6px var(--shadow-color);
 }
 
 nav .logo {
@@ -89,17 +99,18 @@ nav ul li a i {
   width: 24px;
   height: 24px;
 }
-
-nav ul li a:hover {
-  background-color: var(--accent-color);
-  color: #fff;
-  box-shadow: 0 4px 8px var(--shadow-color);
+.sun-moon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  cursor: pointer;  /* Makes the icon look clickable */
+  transition: transform 0.3s ease;
 }
 
-nav ul li a:hover i {
-  background-color: var(--accent-color);
-  color: #fff;
-  transform: scale(1.1);
+.sun-moon i {
+  font-size: 1.5rem; /* Adjust the size of the icon */
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 #logo-name span {
@@ -149,7 +160,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 2px solid var(--accent-color);
+  box-shadow: 0 -2px 5px var(--shadow-color);
 }
 
 footer p {

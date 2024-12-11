@@ -3,20 +3,15 @@ document.addEventListener('DOMContentLoaded', function () {
     origin: 'top',
     distance: '40px',
     duration: 2000,
-    delay: 50
+    delay: 50,
+    reset: false
   });
 
   ScrollReveal().reveal('.logo-img', {
     origin: 'left',
     distance: '40px',
     duration: 2000,
-    delay: 50
-  });
-
-  ScrollReveal().reveal('nav ul li a', {
-    origin: 'top',
-    distance: '40px',
-    duration: 2000,
-    delay: 50
+    delay: 50,
+    reset: false
   });
 });

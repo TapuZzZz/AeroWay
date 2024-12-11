@@ -1,7 +1,7 @@
 const sunIcon = document.querySelector(".bx-sun");
 
 sunIcon.addEventListener("click", () => {
-    
+
     if (sunIcon.classList.contains("bx-sun")) {
         sunIcon.classList.remove("bx-sun");
         sunIcon.classList.add("bx-moon");
@@ -11,4 +11,5 @@ sunIcon.addEventListener("click", () => {
     }
 
     document.body.classList.toggle("dark-theme");
+
 });
