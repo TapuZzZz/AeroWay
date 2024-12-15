@@ -7,14 +7,13 @@
 }
 
 .dark-theme {
-  --base-color: #000;
+  --base-color: #0b061f;
   --text-color: #fff;
   --hov-color: rgba(255, 255, 255, 0.233);
-  --shadow-color: rgba(255, 255, 255, 0.2); /* Dark mode shadow */
+  --shadow-color: rgba(255, 0, 0, 0.5); /* Dark mode shadow */
 }
 
 * {
-  outline: 1px gold dashed;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
