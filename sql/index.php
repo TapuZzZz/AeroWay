@@ -48,7 +48,35 @@
       <div class="home-content">
         <div class="form-container">
           <form action="#" method="POST" class="flight-search-form">
-            
+            <div class="form-group">
+              <label for="departure">Departure</label>
+              <input type="text" id="departure" name="departure" required>
+            </div>
+            <div class="form-group">
+              <label for="arrival">Arrival</label>
+              <input type="text" id="arrival" name="arrival" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="dep-date">Departure Date</label>
+                <input type="date" id="dep-date" name="dep-date" required>
+              </div>
+              <div class="form-group">
+                <label for="arr-date">Arrival Date</label>
+                <input type="date" id="arr-date" name="arr-date" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="adults">Adults</label>
+                <input type="number" id="adults" name="adults" min="1" value="1" required>
+              </div>
+              <div class="form-group">
+                <label for="children">Children</label>
+                <input type="number" id="children" name="children" min="0" value="0">
+              </div>
+            </div>
+            <button type="submit" class="submit-btn">Search Flights</button>
           </form>
         </div>
         <div class="img-container">
@@ -56,6 +84,7 @@
         </div>
       </div>
     </section>
+
 
     <section class="section flights" id="destinations">
       <h1>Flights Section</h1>
@@ -69,27 +98,80 @@
       <h1>Contact Us</h1>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
-
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About AeroWay</h3>
+          <p>Your trusted partner for seamless air travel experiences.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#destinations">Destinations</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-icons">
+            <a href="#" class="social-icon"><i class='bx bxl-facebook'></i></a>
+            <a href="#" class="social-icon"><i class='bx bxl-twitter'></i></a>
+            <a href="#" class="social-icon"><i class='bx bxl-instagram'></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 AeroWay. All rights reserved.</p>
+        <a href="#home" class="scroll-to-top">
+          <i class='bx bx-up-arrow-alt'></i>
+        </a>
+      </div>
     </footer>
 
     <script>
-      // Check if the user is logged in
       const isLoggedIn = <?php echo json_encode($is_logged_in); ?>;
 
-      // Handle user icon click
       document.getElementById('user-icon').addEventListener('click', function (e) {
         e.preventDefault();
         if (isLoggedIn) {
-          // Redirect to personal info page
           window.location.href = 'personal_info.php';
         } else {
-          // Redirect to login page
           window.location.href = 'login.php';
         }
       });
     </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const departureInput = document.getElementById('departure');
+        const arrivalInput = document.getElementById('arrival');
+
+        function handleInput(event) {
+          event.target.value = event.target.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+        }
+
+        departureInput.addEventListener('input', handleInput);
+        arrivalInput.addEventListener('input', handleInput);
+      });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const input = document.querySelector('.number-input input');
+        const incrementBtn = document.querySelector('.number-input .increment');
+        const decrementBtn = document.querySelector('.number-input .decrement');
+
+        incrementBtn.addEventListener('click', function() {
+          input.stepUp();
+        });
+
+        decrementBtn.addEventListener('click', function() {
+          input.stepDown();
+        });
+      });
+    </script>
+
     <script src="../js/LogoAnimation.js"></script>
     <script src="../js/ScrollReveal.js"></script>
     <script src="../js/DarkTheme.js"></script>
