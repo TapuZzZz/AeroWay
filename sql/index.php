@@ -36,8 +36,8 @@
       </div>
       <ul>
         <li><a href="#home">Home</a></li>
-        <li><a href="#">Destinations</a></li>
-        <li><a href="#">Help and contact</a></li>
+        <li><a href="#destinations">Destinations</a></li>
+        <li><a href="#contact">Help and contact</a></li>
         <li><a href="#" id="user-icon"><i class="bx bx-user"></i></a></li>
         <li class="sun-moon"><i class="bx bx-sun"></i></li>
       </ul>
@@ -91,9 +91,7 @@
     </section>
 
 
-
-
-    <section class="section flights">
+    <section class="section flights" id="destinations">
       <h1>Flights Section</h1>
     </section>
 
@@ -101,17 +99,12 @@
       <h1>About Us</h1>
     </section>
 
-    <section class="section contact">
+    <section class="section contact" id="contact">
       <h1>Contact Us</h1>
     </section>
     <!-- Footer -->
-    <footer>
-      <p>&copy; 2024 AeroWay | All rights reserved.</p>
-      <ul>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
+    <footer class="footer">
+
     </footer>
 
     <script>

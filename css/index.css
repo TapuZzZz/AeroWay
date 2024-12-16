@@ -1,20 +1,20 @@
 :root {
   --accent-color: #f62f2f;
-  --base-color: #f8f7f2;
-  --text-color: #2E2B41;
+  --base-color: #f6f6f6;
+  --text-color: #333;
   --hov-color: rgba(248, 63, 63, 0.233);
+  --white-color: #fdfdfd;
   --shadow-color: rgba(0, 0, 0, 0.2); /* Light mode shadow */
 }
 
 .dark-theme {
   --base-color: #0b061f;
-  --text-color: #fff;
+  --text-color: #fdfdfd;
   --hov-color: rgba(255, 255, 255, 0.233);
   --shadow-color: rgba(255, 0, 0, 0.5); /* Dark mode shadow */
 }
 
 * {
-  outline: red 1px dashed;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -342,62 +342,10 @@ nav ul li a i {
 }
 
 
+/* Contact CSS */
+
+
 /* Footer CSS */
-
-
-footer {
-  background-color: var(--base-color);
-  color: var(--text-color);
-  padding: 20px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 -2px 5px var(--shadow-color);
-}
-
-footer p {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-footer ul {
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
-  gap: 25px;
-}
-
-footer ul li a {
-  text-decoration: none;
-  color: var(--text-color);
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-footer ul li a:hover {
-  color: var(--accent-color); /* Accent color on hover for footer links */
-}
-
-footer ul li a:focus {
-  outline: none;
-}
-
-@media screen and (max-width: 810px) {
-  footer {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  footer ul {
-    margin-top: 10px;
-  }
-
-  footer p {
-    margin-bottom: 10px;
-  }
-}
 
 @media screen and (max-width: 810px) {
   nav ul {
