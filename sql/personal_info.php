@@ -34,9 +34,11 @@ $user_id = $_SESSION['user_id'];
                 </a>
             </div>
             <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="flights.php">Flights</a></li>
+                <li><a href="#home">Order</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#contact">Help and contact</a></li>
                 <li><a href="logout.php"><i class="bx bx-log-out"></i> Logout</a></li>
+                <li class="sun-moon"><i class='bx bx-sun'></i></li> <!-- Theme toggle button -->
             </ul>
         </nav>
     </header>
@@ -61,5 +63,8 @@ $user_id = $_SESSION['user_id'];
             <li><a href="#">Contact</a></li>
         </ul>
     </footer>
+
+    <!-- Add your JavaScript for theme toggle here -->
+    <script src="../js/DarkTheme.js"></script> <!-- Assuming you have a JS file for theme toggle -->
 </body>
 </html>
