@@ -85,13 +85,12 @@
       </div>
     </section>
 
-
     <section class="section flights" id="destinations">
       <h1>Flights Section</h1>
     </section>
 
-    <section class="section about">
-      <h1>About Us</h1>
+    <section class="section about" id="about">
+      <h1>About Section</h1>
     </section>
 
     <section class="section contact" id="contact">
