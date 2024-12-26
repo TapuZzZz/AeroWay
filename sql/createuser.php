@@ -21,29 +21,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_check_query = "SELECT * FROM users WHERE IdNumber = '$id_number' OR Email = '$email' LIMIT 1";
     $result = $conn->query($id_check_query);
 
-    if ($result->num_rows > 0) {
-        echo "<p style='color: red;'>Error: This ID number or email already exists!</p>";
-    } elseif (!preg_match("/^[a-zA-Z\s]+$/", $full_name)) {
-        echo "<p style='color: red;'>Error: Full name must consist of only English letters and spaces!</p>";
-    } elseif (str_word_count($full_name) < 2) {
-        echo "<p style='color: red;'>Error: Full name must consist of two words!</p>";
-    } elseif (!preg_match("/^\d{9}$/", $id_number)) {
-        echo "<p style='color: red;'>Error: ID number must be exactly 9 digits and contain only numbers!</p>";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<p style='color: red;'>Error: Invalid email format! Only English characters allowed.</p>";
-    } elseif ($password !== $repeat_password) {
-        echo "<p style='color: red;'>Error: Passwords do not match!</p>";
-    } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (FullName, IdNumber, Email, Password) VALUES ('$full_name', '$id_number', '$email', '$hashed_password')";
+    $error = "";
 
-        if ($conn->query($sql) === TRUE) {
-            header("Location: ../html/login.html");
-            exit();
-        } else {
-            $errortext =  "<p style='color: red;'>Error: " . $conn->error . "</p>";
-            exit();
-        }
+    switch (true) {
+        case ($result->num_rows > 0):
+            $error = "<p style='color: red;'>Error: This ID number or email already exists!</p>";
+            break;
+        case (!preg_match("/^[a-zA-Z\s]+$/", $full_name)):
+            $error = "<p style='color: red;'>Error: Full name must consist of only English letters and spaces!</p>";
+            break;
+        case (str_word_count($full_name) < 2):
+            $error = "<p style='color: red;'>Error: Full name must consist of two words!</p>";
+            break;
+        case (!preg_match("/^\d{9}$/", $id_number)):
+            $error = "<p style='color: red;'>Error: ID number must be exactly 9 digits and contain only numbers!</p>";
+            break;
+        case (!filter_var($email, FILTER_VALIDATE_EMAIL)):
+            $error = "<p style='color: red;'>Error: Invalid email format! Only English characters allowed.</p>";
+            break;
+        case ($password !== $repeat_password):
+            $error = "<p style='color: red;'>Error: Passwords do not match!</p>";
+            break;
+        default:
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO users (FullName, IdNumber, Email, Password) VALUES ('$full_name', '$id_number', '$email', '$hashed_password')";
+
+            if ($conn->query($sql) === TRUE) {
+                header("Location: ../html/login.html");
+                exit();
+            } else {
+                $error = "<p style='color: red;'>Error: " . $conn->error . "</p>";
+            }
+            break;
+    }
+
+    if ($error) {
+        echo $error;
     }
 }
 
