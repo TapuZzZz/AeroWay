@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroWay - loader</title>
+    <link rel="icon" href="../img/logo.png" type="image/icon type">
+</head>
+
+<style>
+    :root {
+        --accent-color: #f62f2f;
+        --base-color: #f6f6f6;
+        --text-color: #333;
+        --hov-color: rgba(248, 63, 63, 0.233);
+        --white-color: #fdfdfd;
+        --shadow-color: rgba(0, 0, 0, 0.2);
+        --form-bg-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .dark-theme {
+        --base-color: #212121;
+        --text-color: #fdfdfd;
+        --hov-color: rgba(255, 255, 255, 0.233);
+        --shadow-color: rgba(255, 255, 255, 0.2);
+        --form-bg-color: #212121;
+    }
+
+    * {
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--base-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .loader {
+        width: 48px;
+        height: 48px;
+        display: block;
+        margin: 20px auto;
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .loader::after {
+        content: '';
+        width: 48px;
+        height: 48px;
+        left: 0;
+        bottom: 0;
+        position: absolute;
+        border-radius: 50% 50% 0;
+        border: 15px solid red;
+        transform: rotate(45deg) translate(0, 0);
+        box-sizing: border-box;
+        animation: animMarker 0.4s ease-in-out infinite alternate;
+    }
+
+    .loader::before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 150%;
+        width: 24px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--shadow-color);
+        animation: animShadow 0.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes animMarker {
+        0% {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        100% {
+            transform: rotate(45deg) translate(-5px, -5px);
+        }
+    }
+
+    @keyframes animShadow {
+        0% {
+            transform: scale(0.5);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+        
+</style>
+<body>
+
+    <div class="loader"></div>
+
+    <script src="../js/DarkTheme.js"></script>
+
+    <script>
+        
+    </script>
+
+</body>
+</html>

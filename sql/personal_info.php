@@ -21,27 +21,26 @@ $user_id = $_SESSION['user_id'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Personal Information</title>
+    <link rel="icon" href="../img/logo.png" type="image/icon type">
     <link rel="stylesheet" href="../css/personal_info.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <header>
-        <nav>
+    <nav>
+        <a href="../sql/index.php" class="logo-link"> <!-- Added an anchor tag around the logo -->
             <div class="logo">
-                <a href="index.php">
-                    <img src="../img/logo.png" alt="Logo" class="logo-img">
-                    <h1 class="logo-name">AeroWay</h1>
-                </a>
+                <img src="../img/logo.png" id="logo-img" class="logo-img" alt="Logo" />
+                <h1 id="logo-name" class="logo-name">
+                    <span>A</span><span>e</span><span>r</span><span>o</span><span>W</span><span>a</span><span>y</span>
+                </h1>
             </div>
-            <ul>
-                <li><a href="#home">Order</a></li>
-                <li><a href="#destinations">Destinations</a></li>
-                <li><a href="#contact">Help and contact</a></li>
-                <li><a href="logout.php"><i class="bx bx-log-out"></i> Logout</a></li>
-                <li class="sun-moon"><i class='bx bx-sun'></i></li> <!-- Theme toggle button -->
-            </ul>
-        </nav>
-    </header>
+        </a>
+        <ul>
+            <li><a href="./index.php">Order</a></li>
+            <li><a href="#" id="user-icon" class="active"><i class="bx bx-user"></i></a></li>
+            <li class="sun-moon"><i class="bx bx-sun"></i></li>
+        </ul>
+    </nav>
 
     <main>
         <section class="personal-info">
@@ -55,16 +54,7 @@ $user_id = $_SESSION['user_id'];
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 AeroWay | All rights reserved.</p>
-        <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </footer>
-
-    <!-- Add your JavaScript for theme toggle here -->
-    <script src="../js/DarkTheme.js"></script> <!-- Assuming you have a JS file for theme toggle -->
+    <script src="../js/LogoAnimation.js"></script>
+    <script src="../js/DarkTheme.js"></script>
 </body>
 </html>

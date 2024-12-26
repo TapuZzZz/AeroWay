@@ -9,11 +9,11 @@
 }
 
 .dark-theme {
-  --base-color: #0b061f;
+  --base-color: #212121;
   --text-color: #fdfdfd;
   --hov-color: rgba(255, 255, 255, 0.233);
   --shadow-color: rgba(255, 0, 0, 0.5);
-  --form-bg-color: rgba(11, 6, 31, 0.9);
+  --form-bg-color: #212121;
 }
 
 * {
@@ -35,16 +35,28 @@ body {
   overflow-x: hidden;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color); 
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(248, 63, 63, 0.9);
+}
+
 /* NavBar CSS */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 10px 5%;
+  padding: 5px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 2px 5px var(--shadow-color), 0px 1px 3px var(--shadow-color);
   z-index: 1;
   background-color: var(--base-color);
   transition: box-shadow 0.3s ease;
