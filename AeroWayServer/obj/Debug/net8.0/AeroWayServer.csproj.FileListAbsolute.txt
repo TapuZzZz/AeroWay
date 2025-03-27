@@ -1,0 +1,120 @@
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/AeroWayServer
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/AeroWayServer.deps.json
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/AeroWayServer.runtimeconfig.json
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/AeroWayServer.pdb
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.AssemblyInfoInputs.cache
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.AssemblyInfo.cs
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.csproj.CoreCompileInputs.cache
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/refint/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.pdb
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.genruntimeconfig.cache
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/ref/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/Google.Protobuf.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/K4os.Compression.LZ4.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/K4os.Compression.LZ4.Streams.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/K4os.Hash.xxHash.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/MySql.Data.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.Diagnostics.EventLog.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.IO.Pipelines.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.Security.Permissions.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.Text.Encodings.Web.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.Text.Json.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/System.Windows.Extensions.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/ZstdSharp.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/comerr64.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/gssapi64.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/k5sprt64.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/krb5_64.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/krbcc64.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Windows.Extensions.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.csproj.AssemblyReference.cache
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayS.1EA3B0C4.Up2Date
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/AeroWayServer
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/AeroWayServer.deps.json
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/AeroWayServer.runtimeconfig.json
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/AeroWayServer.pdb
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/Google.Protobuf.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/K4os.Compression.LZ4.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/K4os.Compression.LZ4.Streams.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/K4os.Hash.xxHash.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/MySql.Data.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.Diagnostics.EventLog.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.IO.Pipelines.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.Security.Permissions.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.Text.Encodings.Web.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.Text.Json.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/System.Windows.Extensions.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/ZstdSharp.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/comerr64.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/gssapi64.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/k5sprt64.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/krb5_64.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/krbcc64.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Windows.Extensions.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.csproj.AssemblyReference.cache
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.AssemblyInfoInputs.cache
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.AssemblyInfo.cs
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.csproj.CoreCompileInputs.cache
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayS.1EA3B0C4.Up2Date
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/refint/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.pdb
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/AeroWayServer.genruntimeconfig.cache
+/Users/tapuz/Desktop/AeroWay 2/AeroWayServer/obj/Debug/net8.0/ref/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/AeroWayServer
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/AeroWayServer.deps.json
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/AeroWayServer.runtimeconfig.json
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/AeroWayServer.pdb
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/Google.Protobuf.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/K4os.Compression.LZ4.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/K4os.Compression.LZ4.Streams.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/K4os.Hash.xxHash.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/MySql.Data.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.Diagnostics.EventLog.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.IO.Pipelines.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.Security.Permissions.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.Text.Encodings.Web.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.Text.Json.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/System.Windows.Extensions.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/ZstdSharp.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/comerr64.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/gssapi64.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/k5sprt64.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/krb5_64.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win-x64/native/krbcc64.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Windows.Extensions.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.csproj.AssemblyReference.cache
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.AssemblyInfoInputs.cache
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.AssemblyInfo.cs
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.csproj.CoreCompileInputs.cache
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayS.1EA3B0C4.Up2Date
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/refint/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.pdb
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.genruntimeconfig.cache
+/Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/ref/AeroWayServer.dll

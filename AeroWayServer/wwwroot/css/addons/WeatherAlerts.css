@@ -1,0 +1,1147 @@
+/* Optimized WeatherAlerts.css - Complete CSS for Weather Alerts Map */
+
+/* Map container with relative positioning */
+.map-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #090a1a;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+    background-image: 
+        linear-gradient(to right, rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Map image with exact dimensions */
+.world-map-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Attribution information */
+.map-attribution {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 3px 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    user-select: none;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Remove drag indicator */
+.drag-indicator {
+    display: none !important;
+}
+
+/* Airport points container - full coverage */
+.airport-points-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* Airport points - basic styling */
+.airport-point {
+    position: absolute;
+    z-index: 60;
+    pointer-events: all;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+}
+
+/* The dot itself - enhanced styling */
+.airport-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #0ea5e9;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 61;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.4), 0 0 15px rgba(14, 165, 233, 0.4);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Continuous pulse effect for dots */
+@keyframes weatherPulse {
+    0% { 
+        box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.4), 0 0 15px rgba(14, 165, 233, 0.1); 
+    }
+    50% { 
+        box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.6), 0 0 20px rgba(14, 165, 233, 0.4); 
+    }
+    100% { 
+        box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.4), 0 0 15px rgba(14, 165, 233, 0.1); 
+    }
+}
+
+#weatherAlertsPopup .airport-dot {
+    animation: weatherPulse 3s infinite;
+}
+
+/* Hover animation for the dot */
+#weatherAlertsPopup .airport-point:hover .airport-dot {
+    transform: translate(-50%, -50%) scale(1.5);
+    background-color: #fff;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.6), 0 0 25px rgba(14, 165, 233, 0.6);
+}
+
+/* ========== Enhanced Airport Tooltip - Compact Glass Design ========== */
+#weatherAlertsPopup .airport-tooltip {
+    position: absolute;
+    width: auto;
+    min-width: 140px;
+    max-width: 180px;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%) translateY(-8px) scale(0.95);
+    background: rgba(35, 37, 74, 0.85);
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 10px 12px;
+    border-radius: 12px;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(14, 165, 233, 0.5),
+        0 0 18px rgba(56, 189, 248, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.2s ease, 
+                visibility 0s linear 0.2s,
+                box-shadow 0.25s ease;
+    z-index: 990;
+    pointer-events: none;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    text-align: center;
+    white-space: normal;
+    letter-spacing: 0.2px;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    line-height: 1.3;
+    margin-bottom: 6px;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Elegant inner glow effect */
+#weatherAlertsPopup .airport-tooltip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+                rgba(56, 189, 248, 0.25) 0%, 
+                rgba(14, 165, 233, 0.05) 100%);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Airport name styling with enhanced typography */
+#weatherAlertsPopup .airport-tooltip .tooltip-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+    display: block;
+    color: rgba(255, 255, 255, 0.97);
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* Code and country container - Elegant styling */
+#weatherAlertsPopup .airport-tooltip .tooltip-code-container {
+    display: inline-block;
+    background: rgba(14, 165, 233, 0.25);
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-top: 5px;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Airport code styling with improved visibility */
+#weatherAlertsPopup .airport-tooltip .tooltip-code {
+    color: #e4e8ff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Country text with balanced contrast */
+#weatherAlertsPopup .airport-tooltip .tooltip-country {
+    font-size: 12px;
+    opacity: 0.95;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    margin-left: 2px;
+}
+
+/* Hover animation with refined scaling and professional shadow */
+#weatherAlertsPopup .airport-point:hover .airport-tooltip {
+    transform: translateX(-50%) translateY(-12px) scale(1);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.45s cubic-bezier(0.24, 1.56, 0.54, 1), 
+                opacity 0.3s ease, 
+                visibility 0s linear 0s,
+                box-shadow 0.3s ease;
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.4), 
+        0 0 0 1px rgba(56, 189, 248, 0.6),
+        0 0 25px rgba(14, 165, 233, 0.5);
+}
+
+/* ========== Weather Alert Styles ========== */
+
+/* SVG container for weather alerts */
+.weather-routes-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 40;
+}
+
+/* Styling for weather alert circles */
+.weather-alert-circle {
+    fill-opacity: 0.2;
+    stroke-width: 2;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.weather-alert-circle:hover {
+    fill-opacity: 0.4;
+    stroke-width: 3;
+}
+
+/* Weather condition-specific colors - UPDATED FOR VARIETY */
+.weather-alert-circle[data-condition="Clear"] {
+    fill: rgba(14, 165, 233, 0.2);
+    stroke: #0ea5e9;
+}
+
+.weather-alert-circle[data-condition="Cloudy"] {
+    fill: rgba(148, 163, 184, 0.2);
+    stroke: #94a3b8;
+}
+
+.weather-alert-circle[data-condition="Rain"] {
+    fill: rgba(59, 130, 246, 0.2);
+    stroke: #3b82f6;
+}
+
+.weather-alert-circle[data-condition="Lightning"] {
+    fill: rgba(124, 58, 237, 0.2);
+    stroke: #7c3aed;
+}
+
+.weather-alert-circle[data-condition="Snow"] {
+    fill: rgba(226, 232, 240, 0.2);
+    stroke: #e2e8f0;
+}
+
+.weather-alert-circle[data-condition="Storm"] {
+    fill: rgba(220, 38, 38, 0.2);
+    stroke: #dc2626;
+}
+
+/* Highlighting airport points when a weather alert is active */
+.airport-point.has-active-weather .airport-dot {
+    transform: translate(-50%, -50%) scale(1.2);
+    background-color: #f8fafc;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.5), 0 0 20px rgba(14, 165, 233, 0.4);
+    z-index: 65;
+}
+
+/* ========== Weather Filter Legend ========== */
+
+@keyframes weatherLegendEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes weatherLegendExit {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+}
+
+.weather-status-filter-legend {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(15, 23, 42, 0.6);
+    border-radius: 8px;
+    padding: 10px;
+    color: white;
+    z-index: 70;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(14, 165, 233, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    user-select: none;
+    max-width: 250px;
+    animation: weatherLegendEnter 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    transform-origin: bottom left;
+}
+
+.weather-status-filter-legend.exiting {
+    animation: weatherLegendExit 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.weather-status-filter-legend .legend-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+    padding-bottom: 5px;
+}
+
+.weather-status-filter-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+.weather-status-filter-legend .legend-item.active {
+    opacity: 1;
+    background-color: rgba(14, 165, 233, 0.1);
+}
+
+.weather-status-filter-legend .legend-item:hover {
+    background-color: rgba(14, 165, 233, 0.15);
+}
+
+.weather-status-filter-legend .legend-item.no-data {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+}
+
+.weather-status-filter-legend .legend-item.no-data .color-indicator {
+    filter: grayscale(70%);
+}
+
+.weather-status-filter-legend .color-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.weather-status-filter-legend .legend-label {
+    flex: 1;
+}
+
+/* API Error message styling */
+.weather-api-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 23, 42, 0.8);
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 400px;
+}
+
+.weather-api-error .error-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.weather-api-error h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.weather-api-error p {
+    font-size: 16px;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+[data-theme="light"] .weather-api-error {
+    background: rgba(241, 245, 249, 0.8);
+    color: #1e293b;
+    border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+/* ========== Enhanced Weather Info Popup ========== */
+
+.weather-info-popup {
+    position: fixed !important;
+    background: linear-gradient(
+        145deg, 
+        rgba(37, 99, 235, 0.1) 0%, 
+        rgba(99, 102, 241, 0.15) 100%
+    );
+    border-radius: 16px;
+    padding: 20px 24px;
+    color: white;
+    font-size: 14px;
+    max-width: 320px;
+    min-width: 250px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(15px) scale(0.92);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    backdrop-filter: blur(12px) saturate(180%);
+    z-index: 10000 !important;
+    overflow: hidden;
+    outline: none;
+    will-change: transform, opacity;
+}
+
+.weather-info-popup::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+        90deg, 
+        rgba(14, 165, 233, 0.7) 0%, 
+        rgba(56, 189, 248, 0.7) 100%
+    );
+}
+
+.weather-info-popup.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.weather-info-title {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    position: relative;
+    letter-spacing: -0.5px;
+}
+
+/* Time display style */
+.local-time {
+    font-size: 14px;
+    opacity: 0.8;
+    font-weight: 400;
+    margin-left: auto;
+    background: rgba(14, 165, 233, 0.15);
+    padding: 4px 8px;
+    border-radius: 4px;
+    letter-spacing: 0;
+}
+
+.weather-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+    position: relative;
+}
+
+.weather-info-label, .weather-info-value {
+    display: flex;
+    align-items: center;
+}
+
+.weather-info-row:hover {
+    opacity: 1;
+}
+
+.weather-info-label {
+    font-weight: 500;
+    color: rgba(148, 163, 184, 0.8);
+    min-width: 95px;
+    transition: color 0.2s ease;
+    align-self: center;
+}
+
+.weather-info-value {
+    font-weight: 600;
+    color: #f1f5f9;
+    text-align: right;
+    align-self: center;
+}
+
+.weather-info-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    vertical-align: middle;
+}
+
+/* Modern, gradient-based status colors - ENHANCED COLOR VARIETY */
+.status-Clear {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
+    color: #0ea5e9;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.status-Cloudy {
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.2) 0%, rgba(148, 163, 184, 0.1) 100%);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.status-Rain {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.status-Lightning {  /* Changed from status-Thunderstorm */
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(124, 58, 237, 0.1) 100%);
+    color: #7c3aed;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+
+.status-Snow {
+    background: linear-gradient(135deg, rgba(226, 232, 240, 0.2) 0%, rgba(226, 232, 240, 0.1) 100%);
+    color: #e2e8f0;
+    border: 1px solid rgba(226, 232, 240, 0.3);
+}
+
+.status-Storm {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.2) 0%, rgba(220, 38, 38, 0.1) 100%);
+    color: #dc2626;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+/* ========== Loading Indicator Styles ========== */
+
+#weather-loading-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    color: white;
+    transition: opacity 0.5s ease;
+}
+
+#weather-loading-indicator.fade-out {
+    opacity: 0;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 4px solid rgba(56, 189, 248, 0.3);
+    border-top-color: #38bdf8;
+    animation: spinner 1.2s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Wind direction styles */
+.wind-direction-container {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 6px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    background: rgba(14, 165, 233, 0.15);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.wind-direction-text {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.wind-direction-arrow {
+    font-size: 16px;
+    line-height: 1;
+    display: inline-block;
+    transform: scale(1.2);
+    font-weight: bold;
+}
+
+/* ========== Light Mode Adjustments ========== */
+
+[data-theme="light"] #weatherAlertsPopup .map-container {
+    background-color: #f4f5f7;
+    background-image: 
+        linear-gradient(to right, rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+}
+
+[data-theme="light"] #weatherAlertsPopup .map-attribution {
+    color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced airport dot glow for light mode */
+[data-theme="light"] #weatherAlertsPopup .airport-dot {
+    background-color: #0ea5e9;
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5), 0 0 15px rgba(14, 165, 233, 0.5);
+}
+
+/* Enhanced hover glow for light mode */
+[data-theme="light"] #weatherAlertsPopup .airport-point:hover .airport-dot {
+    background-color: #fff;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.7), 0 0 25px rgba(14, 165, 233, 0.7);
+}
+
+/* Light mode animation with stronger glow */
+@keyframes weatherPulseLight {
+    0% { box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5), 0 0 15px rgba(14, 165, 233, 0.4); }
+    50% { box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.7), 0 0 25px rgba(14, 165, 233, 0.6); }
+    100% { box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5), 0 0 15px rgba(14, 165, 233, 0.4); }
+}
+
+[data-theme="light"] #weatherAlertsPopup .airport-dot {
+    animation: weatherPulseLight 3s infinite;
+}
+
+/* Light mode for airport tooltips with enhanced glow */
+[data-theme="light"] #weatherAlertsPopup .airport-tooltip {
+    background: rgba(243, 244, 255, 0.9);
+    color: #1e293b;
+    border: 1px solid rgba(14, 165, 233, 0.4);
+    box-shadow: 
+        0 8px 25px rgba(14, 165, 233, 0.25),
+        0 0 0 1px rgba(14, 165, 233, 0.3),
+        0 0 20px rgba(56, 189, 248, 0.3);
+}
+
+[data-theme="light"] #weatherAlertsPopup .airport-tooltip::before {
+    background: linear-gradient(135deg, 
+                rgba(14, 165, 233, 0.2) 0%, 
+                rgba(56, 189, 248, 0.08) 100%);
+}
+
+[data-theme="light"] #weatherAlertsPopup .airport-tooltip .tooltip-title {
+    color: #1e293b;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced glow for code container */
+[data-theme="light"] #weatherAlertsPopup .airport-tooltip .tooltip-code-container {
+    background: rgba(14, 165, 233, 0.2);
+    border: 1px solid rgba(14, 165, 233, 0.4);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
+}
+
+[data-theme="light"] #weatherAlertsPopup .airport-tooltip .tooltip-code {
+    color: #0369a1;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light"] #weatherAlertsPopup .airport-tooltip .tooltip-country {
+    color: #334155;
+}
+
+/* Enhanced hover glow for tooltip */
+[data-theme="light"] #weatherAlertsPopup .airport-point:hover .airport-tooltip {
+    box-shadow: 
+        0 12px 30px rgba(14, 165, 233, 0.25), 
+        0 0 0 1px rgba(14, 165, 233, 0.4),
+        0 0 25px rgba(56, 189, 248, 0.35);
+}
+
+/* Light mode for weather legend with enhanced glow */
+[data-theme="light"] .weather-status-filter-legend {
+    background-color: rgba(241, 245, 249, 0.7);
+    color: #1e293b;
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
+    backdrop-filter: blur(12px);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-title {
+    border-bottom: 1px solid rgba(14, 165, 233, 0.25);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item {
+    color: #334155;
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item.active {
+    background-color: rgba(14, 165, 233, 0.15);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item:hover {
+    background-color: rgba(14, 165, 233, 0.2);
+}
+
+/* Enhanced color indicators with glow for better visibility in light mode */
+[data-theme="light"] .weather-status-filter-legend .color-indicator {
+    border: 1px solid rgba(15, 23, 42, 0.3);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Weather condition-specific colors for light mode legend indicators with glow */
+[data-theme="light"] .weather-status-filter-legend .legend-item[data-condition="Clear"] .color-indicator {
+    background-color: #0369a1;
+    box-shadow: 0 0 8px rgba(3, 105, 161, 0.5);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item[data-condition="Cloudy"] .color-indicator {
+    background-color: #475569;
+    box-shadow: 0 0 8px rgba(71, 85, 105, 0.5);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item[data-condition="Rain"] .color-indicator {
+    background-color: #1d4ed8;
+    box-shadow: 0 0 8px rgba(29, 78, 216, 0.5);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item[data-condition="Lightning"] .color-indicator {
+    background-color: #6d28d9;
+    box-shadow: 0 0 8px rgba(109, 40, 217, 0.5);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item[data-condition="Snow"] .color-indicator {
+    background-color: #475569;
+    box-shadow: 0 0 8px rgba(71, 85, 105, 0.5);
+}
+
+[data-theme="light"] .weather-status-filter-legend .legend-item[data-condition="Storm"] .color-indicator {
+    background-color: #b91c1c;
+    box-shadow: 0 0 8px rgba(185, 28, 28, 0.5);
+}
+
+/* Light mode for weather info popup with enhanced glow */
+[data-theme="light"] .weather-info-popup {
+    background: linear-gradient(
+        145deg, 
+        rgba(241, 245, 249, 0.85) 0%, 
+        rgba(226, 232, 240, 0.7) 100%
+    );
+    color: #1e293b;
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    box-shadow: 
+        0 10px 30px rgba(14, 165, 233, 0.2),
+        0 0 20px rgba(56, 189, 248, 0.15);
+    backdrop-filter: blur(12px) saturate(180%);
+}
+
+[data-theme="light"] .weather-info-popup::before {
+    background: linear-gradient(
+        90deg, 
+        rgba(3, 105, 161, 0.6) 0%, 
+        rgba(14, 165, 233, 0.6) 100%
+    );
+}
+
+[data-theme="light"] .weather-info-title {
+    color: #1e293b;
+}
+
+[data-theme="light"] .local-time {
+    background: rgba(14, 165, 233, 0.15);
+    color: #0369a1;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.15);
+}
+
+[data-theme="light"] .weather-info-label {
+    color: rgba(71, 85, 105, 0.8);
+}
+
+[data-theme="light"] .weather-info-value {
+    color: #0f172a;
+}
+
+/* Weather condition status colors for light mode - Enhanced contrast and glow */
+[data-theme="light"] .status-Clear {
+    background: linear-gradient(135deg, rgba(3, 105, 161, 0.2) 0%, rgba(3, 105, 161, 0.1) 100%);
+    color: #0369a1;
+    border: 1px solid rgba(3, 105, 161, 0.4);
+    box-shadow: 0 2px 8px rgba(3, 105, 161, 0.2);
+}
+
+[data-theme="light"] .status-Cloudy {
+    background: linear-gradient(135deg, rgba(71, 85, 105, 0.2) 0%, rgba(71, 85, 105, 0.1) 100%);
+    color: #475569;
+    border: 1px solid rgba(71, 85, 105, 0.4);
+    box-shadow: 0 2px 8px rgba(71, 85, 105, 0.2);
+}
+
+[data-theme="light"] .status-Rain {
+    background: linear-gradient(135deg, rgba(29, 78, 216, 0.2) 0%, rgba(29, 78, 216, 0.1) 100%);
+    color: #1d4ed8;
+    border: 1px solid rgba(29, 78, 216, 0.4);
+    box-shadow: 0 2px 8px rgba(29, 78, 216, 0.2);
+}
+
+[data-theme="light"] .status-Lightning {
+    background: linear-gradient(135deg, rgba(109, 40, 217, 0.2) 0%, rgba(109, 40, 217, 0.1) 100%);
+    color: #6d28d9;
+    border: 1px solid rgba(109, 40, 217, 0.4);
+    box-shadow: 0 2px 8px rgba(109, 40, 217, 0.2);
+}
+
+[data-theme="light"] .status-Snow {
+    background: linear-gradient(135deg, rgba(71, 85, 105, 0.2) 0%, rgba(71, 85, 105, 0.1) 100%);
+    color: #475569;
+    border: 1px solid rgba(71, 85, 105, 0.4);
+    box-shadow: 0 2px 8px rgba(71, 85, 105, 0.2);
+}
+
+[data-theme="light"] .status-Storm {
+    background: linear-gradient(135deg, rgba(185, 28, 28, 0.2) 0%, rgba(185, 28, 28, 0.1) 100%);
+    color: #b91c1c;
+    border: 1px solid rgba(185, 28, 28, 0.4);
+    box-shadow: 0 2px 8px rgba(185, 28, 28, 0.2);
+}
+
+/* Weather alert circles in light mode with improved visibility and glow */
+[data-theme="light"] .weather-alert-circle {
+    filter: brightness(0.85);
+}
+
+[data-theme="light"] .weather-alert-circle[data-condition="Clear"] {
+    fill: rgba(3, 105, 161, 0.3);
+    stroke: #0369a1;
+    filter: drop-shadow(0 0 4px rgba(3, 105, 161, 0.5));
+}
+
+[data-theme="light"] .weather-alert-circle[data-condition="Cloudy"] {
+    fill: rgba(71, 85, 105, 0.3);
+    stroke: #475569;
+    filter: drop-shadow(0 0 4px rgba(71, 85, 105, 0.5));
+}
+
+[data-theme="light"] .weather-alert-circle[data-condition="Rain"] {
+    fill: rgba(29, 78, 216, 0.3);
+    stroke: #1d4ed8;
+    filter: drop-shadow(0 0 4px rgba(29, 78, 216, 0.5));
+}
+
+[data-theme="light"] .weather-alert-circle[data-condition="Lightning"] {
+    fill: rgba(109, 40, 217, 0.3);
+    stroke: #6d28d9;
+    filter: drop-shadow(0 0 4px rgba(109, 40, 217, 0.5));
+}
+
+[data-theme="light"] .weather-alert-circle[data-condition="Snow"] {
+    fill: rgba(71, 85, 105, 0.4);
+    stroke: #475569;
+    filter: drop-shadow(0 0 4px rgba(71, 85, 105, 0.5));
+}
+
+[data-theme="light"] .weather-alert-circle[data-condition="Storm"] {
+    fill: rgba(185, 28, 28, 0.3);
+    stroke: #b91c1c;
+    filter: drop-shadow(0 0 4px rgba(185, 28, 28, 0.5));
+}
+
+[data-theme="light"] .wind-direction-container {
+    background: rgba(3, 105, 161, 0.15);
+    border: 1px solid rgba(3, 105, 161, 0.3);
+    box-shadow: 0 2px 6px rgba(3, 105, 161, 0.15);
+}
+
+[data-theme="light"] .wind-direction-arrow {
+    color: #0369a1;
+}
+
+/* Dark mode specific styles */
+[data-theme="dark"] .wind-direction-container {
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .wind-direction-arrow {
+    color: #38bdf8;
+}
+
+/* Hover state for weather circles with enhanced glow */
+[data-theme="light"] .weather-alert-circle:hover {
+    filter: brightness(1.1) drop-shadow(0 0 8px rgba(14, 165, 233, 0.8));
+}
+
+/* Loading indicator in light mode */
+[data-theme="light"] #weather-loading-indicator {
+    background-color: rgba(248, 250, 252, 0.7);
+    color: #0f172a;
+    backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .loading-spinner {
+    border-color: rgba(14, 165, 233, 0.2);
+    border-top-color: #0ea5e9;
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+}
+
+[data-theme="light"] .loading-text {
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    color: #0f172a;
+}
+
+/* Popup Management Styles */
+#weatherAlertsPopup .popup-body {
+    height: calc(100% - 60px);
+    min-height: 500px;
+    overflow: hidden;
+    padding: 0;
+}
+
+#weatherAlertsPopup .map-container {
+    height: 100%;
+    width: 100%;
+}
+
+/* ========== Screen size compatibility check - CRITICAL ========== */
+/* Media Query to control screen size compatibility */
+@media (max-width: 1299px), (max-height: 845px) {
+    .popup-container {
+        width: 95%;
+        height: 95vh;
+    }
+    
+    #weatherAlertsPopup .screen-too-small {
+        display: flex;
+        z-index: 9999;
+    }
+
+    #weatherAlertsPopup .map-container,
+    #weatherAlertsPopup .popup-body > *:not(.screen-too-small) {
+        visibility: hidden;
+    }
+}
+
+/* Error Message with Modern SVG Warning Icon - Customized for Weather Alerts */
+#weatherAlertsPopup .screen-too-small {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    backdrop-filter: blur(8px);
+    border-radius: 10px;
+}
+
+/* Modern SVG-Based Warning Icon */
+.warning-icon-container {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 2rem auto;
+    position: relative;
+    animation: gentle-pulse 3s infinite;
+}
+
+/* SVG styling */
+.warning-icon-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.5));
+}
+
+/* SVG internal styling */
+.warning-circle {
+    fill: #fbbf24;
+}
+
+.warning-mark {
+    fill: #111827;
+}
+
+/* Improved Typography */
+.screen-too-small h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: #f1f5f9;
+    letter-spacing: -0.01em;
+}
+
+.screen-too-small p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    max-width: 550px;
+    line-height: 1.6;
+    color: #cbd5e1;
+    opacity: 0.9;
+}
+
+/* Enhanced Close Button */
+.screen-too-small-button {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    letter-spacing: 0.01em;
+}
+
+.screen-too-small-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+}
+
+.screen-too-small-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+/* Smoother Pulse Animation */
+@keyframes gentle-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Light Mode Support for Error Message */
+[data-theme="light"] .screen-too-small {
+    background: linear-gradient(135deg, rgba(241, 245, 249, 0.95), rgba(226, 232, 240, 0.95));
+    color: #0f172a;
+}
+
+[data-theme="light"] .warning-circle {
+    fill: #f59e0b;
+}
+
+[data-theme="light"] .warning-mark {
+    fill: #ffffff;
+}
+
+[data-theme="light"] .warning-icon-svg {
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+}
+
+[data-theme="light"] .screen-too-small h2 {
+    color: #1e293b;
+}
+
+[data-theme="light"] .screen-too-small p {
+    color: #334155;
+}
+
+/* Light Mode Support for Error Message in Weather Alerts */
+[data-theme="light"] #weatherAlertsPopup .screen-too-small {
+    background: linear-gradient(135deg, rgba(241, 245, 249, 0.95), rgba(226, 232, 240, 0.95));
+    color: #0f172a;
+}
+
+[data-theme="light"] #weatherAlertsPopup .warning-circle {
+    fill: #f59e0b;
+}
+
+[data-theme="light"] #weatherAlertsPopup .warning-mark {
+    fill: #ffffff;
+}
+
+[data-theme="light"] #weatherAlertsPopup .warning-icon-svg {
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+}
+
+[data-theme="light"] #weatherAlertsPopup .screen-too-small h2 {
+    color: #1e293b;
+}
+
+[data-theme="light"] #weatherAlertsPopup .screen-too-small p {
+    color: #334155;
+}

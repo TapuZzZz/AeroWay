@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AeroWay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/_Layout.cshtml.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/@(ViewData["CssFile"] ?? "home").css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body data-theme="dark">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="/" class="navbar-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <span class="logo-text">Aero<span class="logo-accent">Way</span></span>
+                </a>
+                
+                <div class="navbar-menu">
+                    <a href="/" class="navbar-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")">Home</a>
+                    <a href="/Home/Flights" class="navbar-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Flights" ? "active" : "")">Flights</a>
+                    <a href="/Home/Destinations" class="navbar-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Destinations" ? "active" : "")">Destinations</a>
+                    <a href="/Home/Services" class="navbar-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Services" ? "active" : "")">Services</a>
+                    <a href="/Home/Contact" class="navbar-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Contact" ? "active" : "")">Contact</a>
+                </div>
+                
+                <div class="navbar-buttons">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="navbar-btn btn-login">
+                        <i class="fas fa-user"></i>
+                        <span>Login</span>
+                    </button>
+                    <button class="navbar-btn btn-signup">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Sign Up</span>
+                    </button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <div class="mobile-menu-items">
+                    <a href="/" class="mobile-menu-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")">Home</a>
+                    <a href="/Home/Flights" class="mobile-menu-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Flights" ? "active" : "")">Flights</a>
+                    <a href="/Home/Destinations" class="mobile-menu-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Destinations" ? "active" : "")">Destinations</a>
+                    <a href="/Home/Services" class="mobile-menu-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Services" ? "active" : "")">Services</a>
+                    <a href="/Home/Contact" class="mobile-menu-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Contact" ? "active" : "")">Contact</a>
+                    <div class="mobile-buttons">
+                        <button class="navbar-btn btn-login">
+                            <i class="fas fa-user"></i>
+                            <span>Login</span>
+                        </button>
+                        <button class="navbar-btn btn-signup">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main id="main-content" role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3 class="footer-title">About AeroWay</h3>
+                    <p class="footer-description">
+                        AeroWay provides safe, comfortable, and affordable flights to destinations 
+                        around the world with exceptional customer service and modern amenities.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Useful Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/Home/About">About Us</a></li>
+                        <li><a href="/Home/Destinations">Destinations</a></li>
+                        <li><a href="/Home/Services">Services</a></li>
+                        <li><a href="/Home/FAQ">FAQ</a></li>
+                        <li><a href="/Home/Contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Baggage Information</a></li>
+                        <li><a href="#">Travel Insurance</a></li>
+                        <li><a href="#">Travel Requirements</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Contact</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 AeroWay Street, Tel Aviv</li>
+                        <li><i class="fas fa-phone"></i> +972 12 345 6789</li>
+                        <li><i class="fas fa-envelope"></i> support@aeroway.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; @DateTime.Now.Year AeroWay. All Rights Reserved.</p>
+                <div class="footer-payment">
+                    <span>Accepted Payments</span>
+                    <i class="fab fa-cc-visa" aria-label="Visa"></i>
+                    <i class="fab fa-cc-mastercard" aria-label="MasterCard"></i>
+                    <i class="fab fa-cc-amex" aria-label="American Express"></i>
+                    <i class="fab fa-cc-paypal" aria-label="PayPal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @if (ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Home")
+    {
+        <script src="~/js/index.js" asp-append-version="true"></script>
+    }
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

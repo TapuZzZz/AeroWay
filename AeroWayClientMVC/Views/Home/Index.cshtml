@@ -1,0 +1,641 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    ViewData["CssFile"] = "home";
+}
+
+<!-- Animated Hero Section with 3D Effect -->
+<section class="hero-section">
+    <div class="hero-background">
+        <div class="animated-plane">
+            <i class="fas fa-plane"></i>
+        </div>
+        <div class="animated-clouds">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+            <div class="cloud cloud-4"></div>
+        </div>
+    </div>
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1 class="hero-title">
+                <span class="hero-title-line">Discover</span>
+                <span class="hero-title-line">The World</span>
+                <span class="hero-subtitle">One Flight at a Time</span>
+            </h1>
+            <p class="hero-description">Experience unparalleled comfort, safety, and luxury on your journey with AeroWay.</p>
+            <div class="hero-buttons">
+                <a href="#search-flights" class="hero-btn primary">Book Now</a>
+                <a href="/Home/Destinations" class="hero-btn secondary">Explore Destinations</a>
+            </div>
+        </div>
+        <div class="hero-globe">
+            <div class="globe-container">
+                <div class="globe"></div>
+                <div class="globe-shadow"></div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll-indicator">
+        <a href="#search-flights">
+            <div class="scroll-icon">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Scroll to Search</span>
+        </a>
+    </div>
+</section>
+
+<!-- Floating Search Section with Glass Effect -->
+<section id="search-flights" class="search-section">
+    <div class="search-container">
+        <div class="search-card">
+            <div class="search-tabs">
+                <button class="search-tab active" data-tab="flight">
+                    <i class="fas fa-plane"></i> 
+                    <span>Flights</span>
+                </button>
+                <button class="search-tab" data-tab="hotel">
+                    <i class="fas fa-hotel"></i> 
+                    <span>Hotels</span>
+                </button>
+                <button class="search-tab" data-tab="car">
+                    <i class="fas fa-car"></i> 
+                    <span>Car Rental</span>
+                </button>
+                <button class="search-tab" data-tab="package">
+                    <i class="fas fa-suitcase"></i> 
+                    <span>Packages</span>
+                </button>
+            </div>
+            
+            <div class="search-content">
+                <div class="tab-content active" id="flight-tab">
+                    <div class="trip-type">
+                        <label class="trip-radio">
+                            <input type="radio" name="trip-type" value="roundtrip" checked>
+                            <span class="radio-control"></span>
+                            <span class="radio-label">Round Trip</span>
+                        </label>
+                        <label class="trip-radio">
+                            <input type="radio" name="trip-type" value="oneway">
+                            <span class="radio-control"></span>
+                            <span class="radio-label">One Way</span>
+                        </label>
+                        <label class="trip-radio">
+                            <input type="radio" name="trip-type" value="multicity">
+                            <span class="radio-control"></span>
+                            <span class="radio-label">Multi-City</span>
+                        </label>
+                    </div>
+                    
+                    <div class="search-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="from">From</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-plane-departure"></i>
+                                    <input type="text" id="from" placeholder="City or Airport">
+                                    <div class="focus-border"></div>
+                                </div>
+                            </div>
+                            
+                            <button class="swap-btn" title="Swap Airports">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            
+                            <div class="form-group">
+                                <label for="to">To</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-plane-arrival"></i>
+                                    <input type="text" id="to" placeholder="City or Airport">
+                                    <div class="focus-border"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="depart">Depart</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <input type="date" id="depart">
+                                    <div class="focus-border"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group return-date">
+                                <label for="return">Return</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <input type="date" id="return">
+                                    <div class="focus-border"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="passengers">Passengers</label>
+                                <div class="input-icon dropdown-parent">
+                                    <i class="fas fa-user-friends"></i>
+                                    <input type="text" id="passengers" value="1 Adult" readonly>
+                                    <div class="focus-border"></div>
+                                    <div class="passengers-dropdown">
+                                        <div class="passenger-type">
+                                            <span>Adults <small>(12+ years)</small></span>
+                                            <div class="passenger-counter">
+                                                <button class="counter-btn counter-minus" data-type="adult">-</button>
+                                                <span class="counter-value" id="adult-count">1</span>
+                                                <button class="counter-btn counter-plus" data-type="adult">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="passenger-type">
+                                            <span>Children <small>(2-11 years)</small></span>
+                                            <div class="passenger-counter">
+                                                <button class="counter-btn counter-minus" data-type="child">-</button>
+                                                <span class="counter-value" id="child-count">0</span>
+                                                <button class="counter-btn counter-plus" data-type="child">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="passenger-type">
+                                            <span>Infants <small>(<2 years)</small></span>
+                                            <div class="passenger-counter">
+                                                <button class="counter-btn counter-minus" data-type="infant">-</button>
+                                                <span class="counter-value" id="infant-count">0</span>
+                                                <button class="counter-btn counter-plus" data-type="infant">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="passenger-apply">
+                                            <button class="apply-btn">Apply</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="class">Class</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-chair"></i>
+                                    <select id="class">
+                                        <option value="economy">Economy</option>
+                                        <option value="premium">Premium Economy</option>
+                                        <option value="business">Business</option>
+                                        <option value="first">First Class</option>
+                                    </select>
+                                    <div class="focus-border"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group promo-group">
+                                <label for="promo">Promo Code</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-tag"></i>
+                                    <input type="text" id="promo" placeholder="Enter promo code">
+                                    <div class="focus-border"></div>
+                                </div>
+                            </div>
+                            
+                            <button class="search-btn">
+                                <span>Search Flights</span>
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other tab contents -->
+                <div class="tab-content" id="hotel-tab">
+                    <div class="coming-soon">
+                        <i class="fas fa-hotel"></i>
+                        <h3>Hotel Booking Coming Soon</h3>
+                        <p>We're working on bringing you the best hotel deals. Stay tuned!</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="car-tab">
+                    <div class="coming-soon">
+                        <i class="fas fa-car"></i>
+                        <h3>Car Rental Coming Soon</h3>
+                        <p>Our car rental service is under development. Check back soon!</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="package-tab">
+                    <div class="coming-soon">
+                        <i class="fas fa-suitcase"></i>
+                        <h3>Travel Packages Coming Soon</h3>
+                        <p>We're crafting perfect travel packages for your next adventure!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trending Destinations with Parallax Effect -->
+<section class="destinations-section">
+    <div class="section-container">
+        <div class="section-heading">
+            <h2 class="section-title">
+                <span class="title-icon"><i class="fas fa-map-marker-alt"></i></span>
+                Trending Destinations
+            </h2>
+            <p class="section-subtitle">Explore our most popular routes and special offers</p>
+        </div>
+        
+        <div class="destinations-slider">
+            <div class="destinations-wrapper">
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://source.unsplash.com/random/600x400/?new-york" alt="New York">
+                        <div class="destination-badge">Most Popular</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-info">
+                            <h3 class="destination-name">New York</h3>
+                            <div class="destination-details">
+                                <span class="destination-country">United States</span>
+                                <span class="destination-price">From $399</span>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <div class="destination-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <a href="#" class="destination-link">Explore <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://source.unsplash.com/random/600x400/?paris" alt="Paris">
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-info">
+                            <h3 class="destination-name">Paris</h3>
+                            <div class="destination-details">
+                                <span class="destination-country">France</span>
+                                <span class="destination-price">From $449</span>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <div class="destination-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <a href="#" class="destination-link">Explore <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://source.unsplash.com/random/600x400/?tokyo" alt="Tokyo">
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-info">
+                            <h3 class="destination-name">Tokyo</h3>
+                            <div class="destination-details">
+                                <span class="destination-country">Japan</span>
+                                <span class="destination-price">From $599</span>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <div class="destination-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <a href="#" class="destination-link">Explore <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://source.unsplash.com/random/600x400/?dubai" alt="Dubai">
+                        <div class="destination-badge">Hot Deal</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-info">
+                            <h3 class="destination-name">Dubai</h3>
+                            <div class="destination-details">
+                                <span class="destination-country">UAE</span>
+                                <span class="destination-price">From $499</span>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <div class="destination-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <a href="#" class="destination-link">Explore <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-arrow prev" aria-label="Previous destination">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="slider-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button class="slider-arrow next" aria-label="Next destination">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="view-more-container">
+            <a href="/Home/Destinations" class="view-more-btn">
+                View All Destinations
+                <i class="fas fa-globe"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section with Animated Icons -->
+<section class="services-section">
+    <div class="section-container">
+        <div class="section-heading light">
+            <h2 class="section-title">
+                <span class="title-icon"><i class="fas fa-gem"></i></span>
+                Premium Services
+            </h2>
+            <p class="section-subtitle">Experience the AeroWay difference with our exceptional offerings</p>
+        </div>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 class="service-title">Gourmet Dining</h3>
+                <p class="service-description">Indulge in premium meals crafted by renowned chefs using the finest ingredients.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <h3 class="service-title">High-Speed Wi-Fi</h3>
+                <p class="service-description">Stay connected with complimentary high-speed internet throughout your journey.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-couch"></i>
+                </div>
+                <h3 class="service-title">Luxury Seating</h3>
+                <p class="service-description">Relax in ergonomically designed seats with ample legroom and personal space.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3 class="service-title">Entertainment</h3>
+                <p class="service-description">Enjoy our curated selection of latest movies, TV shows, music, and games.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
+                <h3 class="service-title">Concierge Service</h3>
+                <p class="service-description">Our dedicated staff ensures your travel needs are addressed with personalized care.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-suitcase-rolling"></i>
+                </div>
+                <h3 class="service-title">Baggage Perks</h3>
+                <p class="service-description">Enjoy generous baggage allowance and priority handling for a stress-free experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section with Dynamic Cards -->
+<section class="testimonials-section">
+    <div class="section-container">
+        <div class="section-heading">
+            <h2 class="section-title">
+                <span class="title-icon"><i class="fas fa-comments"></i></span>
+                What Our Passengers Say
+            </h2>
+            <p class="section-subtitle">Hear from travelers who have experienced the AeroWay difference</p>
+        </div>
+        
+        <div class="testimonials-container">
+            <div class="testimonial-card">
+                <div class="testimonial-profile">
+                    <div class="profile-image">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="profile-name">Sarah Johnson</h4>
+                        <p class="profile-location">New York to London</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="testimonial-text">
+                    <p>"The service was impeccable! From check-in to landing, every detail was perfect. The cabin crew was attentive and the seats were incredibly comfortable. I'll definitely fly with AeroWay again."</p>
+                </div>
+                <div class="testimonial-date">July 15, 2024</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-profile">
+                    <div class="profile-image">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="profile-name">Michael Chen</h4>
+                        <p class="profile-location">Tokyo to San Francisco</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="testimonial-text">
+                    <p>"The in-flight entertainment and food were outstanding. I was able to catch up on work with the reliable Wi-Fi connection. The flight attendants were professional and friendly. Truly a premium experience."</p>
+                </div>
+                <div class="testimonial-date">June 23, 2024</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-profile">
+                    <div class="profile-image">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Rodriguez">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="profile-name">Emma Rodriguez</h4>
+                        <p class="profile-location">Paris to Dubai</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="testimonial-text">
+                    <p>"I've flown with many airlines, but AeroWay's attention to detail is unmatched. The lounge access was a wonderful start to my journey. The food was delicious and the seats were so comfortable I actually got some sleep!"</p>
+                </div>
+                <div class="testimonial-date">May 7, 2024</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- App Download Section -->
+<section class="app-section">
+    <div class="app-container">
+        <div class="app-content">
+            <div class="app-info">
+                <h2 class="app-title">Download the AeroWay App</h2>
+                <p class="app-description">Manage your bookings, check-in, and track flights effortlessly with our mobile app. Access exclusive mobile-only deals and earn bonus miles.</p>
+                <div class="app-buttons">
+                    <a href="#" class="app-btn">
+                        <i class="fab fa-apple"></i>
+                        <div class="btn-text">
+                            <span class="btn-small">Download on the</span>
+                            <span class="btn-large">App Store</span>
+                        </div>
+                    </a>
+                    <a href="#" class="app-btn">
+                        <i class="fab fa-google-play"></i>
+                        <div class="btn-text">
+                            <span class="btn-small">GET IT ON</span>
+                            <span class="btn-large">Google Play</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="qr-container">
+                    <div class="qr-code">
+                        <!-- Placeholder for QR code -->
+                        <div class="qr-placeholder"></div>
+                        <p>Scan to download</p>
+                    </div>
+                </div>
+            </div>
+            <div class="app-mockup">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <img src="https://source.unsplash.com/random/300x650/?app,travel" alt="AeroWay App">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section with Animation -->
+<section class="newsletter-section">
+    <div class="newsletter-container">
+        <div class="newsletter-content">
+            <div class="newsletter-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h2 class="newsletter-title">Stay Updated</h2>
+            <p class="newsletter-description">Subscribe to our newsletter for exclusive offers, travel tips, and updates on new destinations.</p>
+            <form class="newsletter-form">
+                <div class="form-group">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">
+                        <span>Subscribe</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="form-checkbox">
+                    <label class="checkbox-label">
+                        <input type="checkbox" required>
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">I agree to receive travel updates and offers from AeroWay. See our <a href="#">Privacy Policy</a>.</span>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Additional scripts for enhanced elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Testimonial carousel logic
+            const dots = document.querySelectorAll('.slider-dots .dot');
+            const prevBtn = document.querySelector('.slider-arrow.prev');
+            const nextBtn = document.querySelector('.slider-arrow.next');
+            const slider = document.querySelector('.destinations-wrapper');
+            
+            let currentSlide = 0;
+            const slideCount = dots.length;
+            
+            function goToSlide(index) {
+                currentSlide = index;
+                slider.style.transform = `translateX(-${currentSlide * 33.33}%)`;
+                
+                // Update dots
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentSlide);
+                });
+            }
+            
+            // Dot navigation
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => goToSlide(index));
+            });
+            
+            // Arrow navigation
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+                goToSlide(currentSlide);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slideCount;
+                goToSlide(currentSlide);
+            });
+            
+            // Auto slide
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % slideCount;
+                goToSlide(currentSlide);
+            }, 5000);
+        });
+    </script>
+}

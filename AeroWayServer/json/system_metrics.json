@@ -1,0 +1,149 @@
+[
+  {
+    "Timestamp": "2025-03-27T10:14:33.331814+02:00",
+    "CpuUsage": 16.3,
+    "MemoryUsage": 79.3,
+    "ThreadCount": 19,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:25:40.066757+02:00",
+    "CpuUsage": 4.9,
+    "MemoryUsage": 106.8,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:25:46.580094+02:00",
+    "CpuUsage": 10,
+    "MemoryUsage": 106.9,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:25:54.77047+02:00",
+    "CpuUsage": 5.4,
+    "MemoryUsage": 106.9,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:26:01.349492+02:00",
+    "CpuUsage": 6.2,
+    "MemoryUsage": 107.1,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:26:07.923083+02:00",
+    "CpuUsage": 9.5,
+    "MemoryUsage": 107.9,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:26:14.505208+02:00",
+    "CpuUsage": 5.5,
+    "MemoryUsage": 109.5,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:26:21.085295+02:00",
+    "CpuUsage": 9.7,
+    "MemoryUsage": 110.4,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:26:27.66271+02:00",
+    "CpuUsage": 5.9,
+    "MemoryUsage": 111.1,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:27:11.903953+02:00",
+    "CpuUsage": 5.2,
+    "MemoryUsage": 126.1,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:27:18.407197+02:00",
+    "CpuUsage": 4.5,
+    "MemoryUsage": 126.4,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:27:55.181522+02:00",
+    "CpuUsage": 9.3,
+    "MemoryUsage": 89.6,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:01.673419+02:00",
+    "CpuUsage": 4.8,
+    "MemoryUsage": 89.7,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:09.401877+02:00",
+    "CpuUsage": 8.5,
+    "MemoryUsage": 89.8,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:15.995436+02:00",
+    "CpuUsage": 7.9,
+    "MemoryUsage": 89.9,
+    "ThreadCount": 18,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:22.589081+02:00",
+    "CpuUsage": 6.1,
+    "MemoryUsage": 90.1,
+    "ThreadCount": 18,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:29.162776+02:00",
+    "CpuUsage": 7.1,
+    "MemoryUsage": 90.3,
+    "ThreadCount": 19,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:35.745501+02:00",
+    "CpuUsage": 5.4,
+    "MemoryUsage": 90.3,
+    "ThreadCount": 19,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:42.296759+02:00",
+    "CpuUsage": 6.8,
+    "MemoryUsage": 90.3,
+    "ThreadCount": 19,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:28:59.592485+02:00",
+    "CpuUsage": 4.8,
+    "MemoryUsage": 90.3,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-03-27T10:29:06.173896+02:00",
+    "CpuUsage": 5,
+    "MemoryUsage": 90.4,
+    "ThreadCount": 17,
+    "SessionCount": 0
+  }
+]

@@ -1,0 +1,625 @@
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #818cf8;
+    --success-color: #22c55e;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --background: #0f172a;
+    --surface: #1e293b;
+    --surface-light: #334155;
+    --text: #e2e8f0;
+    --highlight-color: #8b5cf6; /* Purple highlight color */
+}
+
+[data-theme="light"] {
+    --background: #f0f4f8;
+    --surface: #ffffff;
+    --surface-light: #e1e8ed;
+    --text: #334155;
+    --primary-color: #6366f1;
+    --secondary-color: #818cf8;
+    --success-color: #22c55e;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --highlight-color: #8b5cf6; /* Same purple for light mode */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    font-family: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dashboard {
+    display: flex; /* שינוי מ-grid ל-flex */
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--surface);
+    padding: 1.5rem;
+    border-right: 1px solid var(--surface-light);
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 300px;
+    padding: 1.5rem;
+    background-color: var(--background);
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto; /* הוספת גלילה אנכית למיכל הראשי */
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    margin-bottom: 0;
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 1px;
+}
+
+.logo-subtext {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0.25rem;
+}
+
+.divider {
+    height: 1px;
+    background: var(--surface-light);
+    margin: 0;
+}
+
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1.5rem;
+}
+
+.sidebar-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    background-color: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.sidebar-button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+.sidebar-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.sidebar-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.sidebar-button.danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.sidebar-button.danger::before {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.status-active {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: var(--success-color);
+}
+
+.status-paused {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+/* עיצוב מיכל הטבלה */
+.table-container {
+    background-color: var(--surface);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: visible; /* שינוי מ-hidden ל-visible */
+}
+
+
+.table-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px -1px rgba(0, 0, 0, 0.2);
+}
+
+.table-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--surface-light);
+}
+
+.table-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* תיבת חיפוש */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--surface-light);
+    border-radius: 0.5rem;
+    min-width: 250px;
+    transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.search-box input {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 0.875rem;
+    width: 100%;
+    padding-left: 0.5rem;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: #94a3b8;
+}
+
+/* עיצוב כפתורי פעולה בראש הטבלה */
+.table-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.table-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    background-color: var(--secondary-color);
+}
+
+/* עיצוב כותרת הטבלה */
+.table-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* עיצוב כללי של טבלה */
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* מיכל לטבלה עם גלילה */
+.table-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--surface-light);
+    max-height: none; /* הסרת הגבלת הגובה */
+    overflow-y: visible; /* אפשור תצוגת כל הנתונים */
+}
+
+/* עיצוב הכותרות */
+.data-table th {
+    background-color: var(--surface-light);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 1rem;
+    text-align: center; /* כל הכותרות ממורכזות */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* עיצוב התאים */
+.data-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--surface-light);
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+    /* ברירת מחדל - כל התאים ממורכזים */
+    text-align: center;
+}
+
+/* יישור תאים לפי סוג המידע */
+.data-table td:nth-child(1),
+.data-table td:nth-child(5),
+.data-table td:nth-child(6),
+.data-table td:nth-child(2),
+.data-table td:nth-child(4){
+    text-align: center;
+}
+
+.data-table td:nth-child(3) {
+    text-align: center;
+    font-family: monospace;
+    font-size: 0.9rem;
+    letter-spacing: -0.3px;
+}
+
+/* עיצוב שורות */
+.data-table tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="light"] .data-table tbody tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* אפקט מעבר עכבר על שורות */
+.data-table tbody tr:hover {
+    background-color: var(--surface-light);
+}
+
+/* כפתורי מיון */
+.sort-button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.sort-button span:last-child {
+    opacity: 0.7;
+}
+
+/* עיצוב עמודה פעילה למיון */
+th.active-sort {
+    background-color: rgba(99, 102, 241, 0.15);
+    box-shadow: inset 0 -2px 0 var(--primary-color);
+}
+
+.sort-button.active {
+    color: var(--primary-color);
+}
+
+.sort-button.active span:last-child {
+    color: var(--primary-color);
+    opacity: 1;
+}
+
+/* כפתור מזעור - אנימציה משופרת בעת לחיצה */
+.minimize-button {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    background-color: var(--surface-light);
+    color: var(--text);
+    cursor: pointer;
+    border: none;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.minimize-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* אפקט גל בלחיצה על כפתור מזעור */
+.minimize-button::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 0.8s;
+}
+
+.minimize-button:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+.table-container.minimized {
+    padding: 0.75rem;
+}
+
+/* אנימציות משופרות לפתיחה וסגירה של טבלה */
+.table-content {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: top;
+    will-change: transform, opacity, max-height;
+    overflow: hidden;
+    position: relative;
+}
+
+/* אנימציית סגירה */
+.table-container.minimized .table-content {
+    max-height: 0;
+    transform: scaleY(0.95) translateY(-10px);
+    opacity: 0;
+    margin-top: 0;
+    pointer-events: none;
+}
+
+/* אנימציית פתיחה */
+.table-container:not(.minimized) .table-content {
+    max-height: none; /* הסרת הגבלת הגובה */
+    transform: scaleY(1) translateY(0);
+    opacity: 1;
+    margin-top: 1rem;
+    pointer-events: auto;
+}ס
+
+/* אנימציה למצב ביניים בעת לחיצה על כפתור פתיחה/סגירה */
+.table-container.toggling .table-content {
+    animation: pulseOpen 0.4s ease-out;
+}
+
+@keyframes pulseOpen {
+    0% {
+        transform: scaleY(0.95) translateY(-5px);
+    }
+    50% {
+        transform: scaleY(1.02) translateY(2px);
+    }
+    100% {
+        transform: scaleY(1) translateY(0);
+    }
+}
+
+/* כפתור פתיחה/סגירה - שינוי אנימציה */
+.minimize-button span {
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.minimize-button:hover span {
+    transform: scale(1.2);
+}
+
+/* אפקט כניסה לאנימציה בעת טעינת הדף */
+@keyframes tableAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-container {
+    animation: tableAppear 0.4s ease-out forwards;
+}
+
+/* שינוי עיכוב באנימציה לכל טבלה */
+.table-container:nth-child(1) { animation-delay: 0.1s; }
+.table-container:nth-child(2) { animation-delay: 0.2s; }
+.table-container:nth-child(3) { animation-delay: 0.3s; }
+.table-container:nth-child(4) { animation-delay: 0.4s; }
+.table-container:nth-child(5) { animation-delay: 0.5s; }
+
+/* הדגשת טקסט בחיפוש */
+.highlight {
+    color: var(--highlight-color);
+    font-weight: bold;
+    text-decoration: none;
+    background-color: rgba(139, 92, 246, 0.1);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* עיצוב סרגל גלילה - Webkit (Chrome, Safari, Edge) */
+.table-scroll-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+    background: var(--surface-light);
+    border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+    border: 2px solid var(--surface-light);
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* עיצוב סרגל גלילה - Firefox */
+.table-scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--surface-light);
+}
+
+/* עיצוב סרגל גלילה - בדפדפנים אחרים ומערכות הפעלה אחרות */
+@supports not (scrollbar-width: thin) {
+    .table-scroll-container {
+        overflow-x: auto;
+    }
+}
+
+/* עיצוב סרגל גלילה - כללי */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface-light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 1024px) {
+    .dashboard {
+        display: block;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        transition: left 0.3s ease;
+    }
+    
+    .sidebar.active {
+        left: 0;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .table-controls {
+        flex-direction: column;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+    
+    /* כפתור פתיחת תפריט במובייל */
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border: none;
+        cursor: pointer;
+    }
+}
