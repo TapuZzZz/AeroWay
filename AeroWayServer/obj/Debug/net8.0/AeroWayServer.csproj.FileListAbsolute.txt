@@ -118,3 +118,4 @@
 /Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.pdb
 /Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/AeroWayServer.genruntimeconfig.cache
 /Users/tapuz/Desktop/AeroWay 3/AeroWayServer/obj/Debug/net8.0/ref/AeroWayServer.dll
+/Users/tapuz/Desktop/AeroWay/AeroWayServer/obj/Debug/net8.0/AeroWayServer.sourcelink.json
