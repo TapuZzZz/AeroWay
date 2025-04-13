@@ -1,20 +1,29 @@
-:root {
+/* ===============================================
+   CSS VARIABLES & THEME SETTINGS
+   =============================================== */
+
+   :root {
+    /* Main Colors */
     --primary-color: #6366f1;
     --secondary-color: #818cf8;
     --success-color: #22c55e;
     --danger-color: #ef4444;
     --warning-color: #f59e0b;
+    
+    /* Background & Surface Colors */
     --background: #0f172a;
     --surface: #1e293b;
     --surface-light: #334155;
     --text: #e2e8f0;
-    --highlight-color: #8b5cf6;
-    --input-bg: #1e293b;
-    --modal-bg: #111827;
     --dark-blue: #0f172a;
     --medium-blue: #1e293b;
     --light-blue: #334155;
     --blue-gray: #64748b;
+    
+    /* UI Elements */
+    --highlight-color: #8b5cf6;
+    --input-bg: #1e293b;
+    --modal-bg: #111827;
     --border-radius: 0.5rem;
     --search-bg: rgba(255, 255, 255, 0.1);
     --search-placeholder: rgba(255, 255, 255, 0.5);
@@ -27,28 +36,28 @@
     --delayed-color: #f97316;
     --arrived-color: #8b5cf6;
 
-    /* Alternate row background */
+    /* Table Colors */
     --row-odd: rgba(255, 255, 255, 0.02);
     --row-even: rgba(255, 255, 255, 0.05);
-
-    /* Table Colors */
     --table-header-bg: #1e293b;
     --table-header-text: #94a3b8;
     --table-border: rgba(255, 255, 255, 0.1);
     --table-hover: rgba(255, 255, 255, 0.08);
     
-    /* Card Colors - Dark Mode */
+    /* Card Gradients */
     --card-add-flight-gradient: linear-gradient(135deg, #4f46e5, #0284c7);
     --card-route-planning-gradient: linear-gradient(135deg, #16a34a, #0d9488);
     --card-weather-alerts-gradient: linear-gradient(135deg, #0ea5e9, #6366f1);
     --card-crew-assignments-gradient: linear-gradient(135deg, #8b5cf6, #d946ef);
     
-    /* Card Shadow */
+    /* Shadows */
     --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* Light Theme Variables */
 [data-theme="light"] {
+    /* Background & Surface Colors */
     --background: #f8fafc;
     --surface: #ffffff;
     --surface-light: #e2e8f0;
@@ -60,7 +69,7 @@
     --search-bg: rgba(0, 0, 0, 0.05);
     --search-placeholder: rgba(0, 0, 0, 0.4);
     
-    /* Improved Status Colors for Light Mode */
+    /* Status Colors for Light Mode */
     --scheduled-color: #4338ca;
     --boarding-color: #b45309;
     --departed-color: #059669;
@@ -68,26 +77,28 @@
     --delayed-color: #c2410c;
     --arrived-color: #6d28d9;
 
-    /* Improved Alternate Row Background for Light Mode */
+    /* Table Colors for Light Mode */
     --row-odd: #f1f5f9;
     --row-even: #ffffff;
-
-    /* Improved Table Colors for Light Mode */
     --table-header-bg: #e2e8f0;
     --table-header-text: #334155;
     --table-border: #cbd5e1;
     --table-hover: #e0e7ff;
     
-    /* Card Colors - Light Mode */
+    /* Card Gradients - Light Mode */
     --card-add-flight-gradient: linear-gradient(135deg, #3730a3, #0369a1);
     --card-route-planning-gradient: linear-gradient(135deg, #15803d, #0f766e);
     --card-weather-alerts-gradient: linear-gradient(135deg, #0284c7, #4f46e5);
     --card-crew-assignments-gradient: linear-gradient(135deg, #7e22ce, #c026d3);
     
-    /* Card Shadow for Light Mode */
+    /* Shadows for Light Mode */
     --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     --card-shadow-hover: 0 15px 40px rgba(15, 23, 42, 0.2);
 }
+
+/* ===============================================
+   BASE STYLES
+   =============================================== */
 
 * {
     margin: 0;
@@ -100,8 +111,12 @@ body {
     color: var(--text);
     font-family: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.5;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* ===============================================
+   LAYOUT COMPONENTS
+   =============================================== */
 
 .dashboard {
     display: grid;
@@ -109,24 +124,27 @@ body {
     min-height: 100vh;
 }
 
-/* קיבוע הסרגל הצדדי - לא משנים את האזור הזה */
+.main-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* ===============================================
+   SIDEBAR STYLES
+   =============================================== */
+
 .sidebar {
     background-color: var(--surface);
     padding: 1.5rem;
     border-right: 1px solid var(--surface-light);
     display: flex;
     flex-direction: column;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
     width: 300px;
     position: sticky;
     top: 0;
     left: 0;
     height: 100vh;
-    overflow-y: auto;
-}
-
-.main-content {
-    padding: 1.5rem;
     overflow-y: auto;
 }
 
@@ -179,7 +197,7 @@ body {
     background-color: rgba(99, 102, 241, 0.1);
     border: 1px solid rgba(99, 102, 241, 0.2);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -227,7 +245,10 @@ body {
     color: var(--danger-color);
 }
 
-/* Page Header Styles */
+/* ===============================================
+   PAGE HEADER STYLES
+   =============================================== */
+
 .page-header {
     padding: 0.5rem 0 1.5rem 0;
     display: flex;
@@ -254,7 +275,10 @@ body {
     color: var(--text);
 }
 
-/* Action Cards Styles - מודרני עם אנימציות */
+/* ===============================================
+   ACTION CARDS STYLES
+   =============================================== */
+
 .action-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -268,7 +292,7 @@ body {
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: var(--card-shadow);
-    transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
     height: 180px;
     display: flex;
@@ -343,7 +367,7 @@ body {
     position: relative;
     z-index: 2;
     color: white;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease;
 }
 
 .action-card:hover .action-icon {
@@ -359,7 +383,7 @@ body {
     z-index: 2;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease;
 }
 
 .action-subtitle {
@@ -370,7 +394,7 @@ body {
     z-index: 2;
     color: rgba(255, 255, 255, 0.9);
     max-width: 90%;
-    transition: all 0.3s ease;
+    transition: opacity 0.2s ease;
 }
 
 .action-card:hover .action-title {
@@ -410,8 +434,10 @@ body {
     }
 }
 
-/* === FLIGHTS TABLE CONTAINER FIX === */
-/* Make the container transparent to separate the components */
+/* ===============================================
+   FLIGHTS TABLE CONTAINER
+   =============================================== */
+
 .flights-table-container {
     background-color: transparent;
     border: none;
@@ -421,10 +447,13 @@ body {
     overflow: visible;
 }
 
-/* === IMPROVED FLIGHT STATS STYLING === */
+/* ===============================================
+   FLIGHTS TABLE HEADER & STATS
+   =============================================== */
+
 .flights-table-header {
     display: flex;
-    flex-direction: row; /* שינוי מ-row-reverse ל-row להצגת הסטטיסטיקות מימין */
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 1rem;
@@ -433,11 +462,11 @@ body {
     border-radius: var(--border-radius);
     margin-bottom: 0.75rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    flex-wrap: nowrap; /* מניעת גלישה לשורה חדשה */
-    gap: 0.75rem; /* מרווח בין האלמנטים */
+    flex-wrap: nowrap;
+    gap: 0.75rem;
 }
 
-/* Flight Stats Container with LTR Support */
+/* Flight Stats Container */
 .flight-stats {
     display: flex;
     gap: 0.5rem;
@@ -446,15 +475,15 @@ body {
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 6px 0.1rem;
-    direction: ltr; /* תמיכה ב-LTR */
-    order: 1; /* משנה את הסדר ב-flexbox */
+    direction: ltr;
+    order: 1;
 }
 
 .flight-stats::-webkit-scrollbar {
     display: none;
 }
 
-/* Redesigned Stat Item */
+/* Stat Item */
 .stat-item {
     display: flex;
     align-items: center;
@@ -465,17 +494,16 @@ body {
     background-color: rgba(255, 255, 255, 0.05);
     white-space: nowrap;
     flex-shrink: 0;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     position: relative;
     top: 0;
     min-width: 110px;
-    
-    /* Bold border for visibility */
     border-width: 2px;
     border-style: solid;
+    cursor: pointer;
 }
 
-/* Status indicator text layout improvements */
+/* Status indicator text layout */
 .stat-icon {
     font-size: 1.1rem;
     line-height: 1;
@@ -485,7 +513,7 @@ body {
 }
 
 .stat-value {
-    font-weight: 800; /* בולט יותר כמבוקש */
+    font-weight: 800;
     font-size: 1rem;
 }
 
@@ -495,7 +523,7 @@ body {
     font-size: 0.75rem;
 }
 
-/* Status colors and hover effects */
+/* Status colors */
 .stat-item.total {
     border-color: var(--primary-color);
     background-color: rgba(99, 102, 241, 0.08);
@@ -565,6 +593,17 @@ body {
 
 .stat-item.cancelled:hover {
     background-color: rgba(239, 68, 68, 0.15);
+}
+
+/* Active filter styling */
+.stat-item.active-filter {
+    border-width: 3px;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .stat-item.active-filter {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Light mode color adjustments */
@@ -642,7 +681,10 @@ body {
     background-color: rgba(220, 38, 38, 0.15);
 }
 
-/* === IMPROVED SEARCH STYLING === */
+/* ===============================================
+   SEARCH COMPONENT
+   =============================================== */
+
 .flight-search {
     position: relative;
     flex-grow: 1;
@@ -661,7 +703,7 @@ body {
     font-size: 0.95rem;
     font-weight: 500;
     letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     height: 46px;
     text-transform: uppercase;
@@ -671,7 +713,7 @@ body {
     color: #94a3b8;
     font-size: 0.9rem;
     font-weight: 400;
-    text-transform: none; /* בטל המרה אוטומטית לאותיות גדולות בפלייסהולדר */
+    text-transform: none;
 }
 
 [data-theme="dark"] .search-input {
@@ -692,12 +734,6 @@ body {
     box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.3);
 }
 
-.search-input::placeholder {
-    color: #94a3b8;
-    font-size: 0.9rem;
-    font-weight: 400;
-}
-
 .search-icon {
     position: absolute;
     left: 0.85rem;
@@ -705,7 +741,7 @@ body {
     transform: translateY(-50%);
     color: #6366f1;
     font-size: 1.2rem;
-    transition: all 0.3s ease;
+    transition: color 0.2s ease;
 }
 
 [data-theme="dark"] .search-icon {
@@ -740,7 +776,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* וודא שה-X מופיע */
 .clear-search::before {
     content: "×";
     display: block;
@@ -752,7 +787,7 @@ body {
     background-color: #8b5cf6;
 }
 
-/* הדגשת חיפוש בצבע סגול בהיר יותר */
+/* Search highlighting */
 .highlight-search {
     background-color: #c4b5fd;
     color: #1e293b;
@@ -768,16 +803,14 @@ body {
     box-shadow: 0 0 0 1px #8b5cf6;
 }
 
-/* מסגרת אדומה כשאין תוצאות */
-/* מסגרת אדומה כשאין תוצאות */
+/* Error state for no results */
 .no-results-border {
     border-color: #ef4444 !important;
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.4) !important;
     animation: errorPulse 1.5s infinite;
-    background-color: rgba(239, 68, 68, 0.1) !important; /* רקע אדום עדין */
+    background-color: rgba(239, 68, 68, 0.1) !important;
 }
 
-/* כפתור X במצב אין תוצאות */
 .search-input.no-results-border + .search-icon + .clear-search,
 .clear-search.no-results-border {
     background-color: #ef4444 !important;
@@ -786,14 +819,12 @@ body {
     box-shadow: 0 0 8px rgba(239, 68, 68, 0.5) !important;
 }
 
-/* אנימציה לטובת בולטות */
 @keyframes errorPulse {
     0% { border-color: #ef4444; }
     50% { border-color: #f87171; }
     100% { border-color: #ef4444; }
 }
 
-/* כשאין תוצאות, הודעה בולטת יותר */
 .no-results {
     text-align: center;
     padding: 2rem;
@@ -806,7 +837,10 @@ body {
     margin: 1rem 0;
 }
 
-/* Style the flight table as a separate component with its own rounded corners */
+/* ===============================================
+   FLIGHTS TABLE STYLES
+   =============================================== */
+
 .flights-table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -830,7 +864,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Table styles with proper corners */
+/* Table core styles */
 .flights-table {
     width: 100%;
     border-collapse: separate;
@@ -852,7 +886,7 @@ body {
     border-bottom: 1px solid var(--table-border);
 }
 
-/* First table row should have rounded top corners */
+/* Table corner styles */
 .flights-table th:first-child {
     border-top-left-radius: var(--border-radius);
 }
@@ -861,7 +895,6 @@ body {
     border-top-right-radius: var(--border-radius);
 }
 
-/* Last table row should have rounded bottom corners */
 .flights-table tr:last-child td:first-child {
     border-bottom-left-radius: var(--border-radius);
 }
@@ -875,10 +908,10 @@ body {
     border-top: 1px solid var(--table-border);
     text-align: center;
     vertical-align: middle;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
-/* שורות בצבעים מתחלפים - שיפור במצב בהיר */
+/* Alternating row colors */
 [data-theme="light"] .flights-table tbody tr:nth-child(odd) {
     background-color: var(--row-odd);
 }
@@ -903,25 +936,26 @@ body {
     background-color: var(--table-hover);
 }
 
-/* מרכוז כל התאים */
+/* Table cell alignment */
 .flights-table th, 
 .flights-table td {
     text-align: center;
     vertical-align: middle;
 }
 
-/* ביטול סגנון קודם שהגדיר ישור שמאלי למספר טיסה */
 .flights-table th:first-child, 
 .flights-table td.flight-number {
     text-align: center;
 }
 
-/* מרכוז גם כפתורי פעולות */
 .flights-table td.actions {
     text-align: center;
 }
 
-/* Status Badge for flights table updated to match stat items */
+/* ===============================================
+   STATUS BADGES
+   =============================================== */
+
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -930,7 +964,7 @@ body {
     padding: 0.35rem 0.75rem;
     border-radius: 0.35rem;
     font-size: 0.85rem;
-    font-weight: 700; /* בולט יותר כמבוקש */
+    font-weight: 700;
     width: auto;
     min-width: 120px;
     height: 30px;
@@ -938,7 +972,7 @@ body {
     border-width: 2px;
     border-style: solid;
     box-sizing: border-box;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .status-badge::before {
@@ -950,6 +984,7 @@ body {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
+/* Status badge variants */
 .status-badge.scheduled {
     background-color: rgba(129, 140, 248, 0.15);
     color: var(--scheduled-color);
@@ -1010,7 +1045,7 @@ body {
     background-color: var(--arrived-color);
 }
 
-/* Light mode adjustments */
+/* Light mode status badge adjustments */
 [data-theme="light"] .status-badge {
     background-color: rgba(255, 255, 255, 0.8);
     border-width: 2px;
@@ -1053,7 +1088,10 @@ body {
     border-color: #6d28d9;
 }
 
-/* Action Buttons - שיפור במצב בהיר */
+/* ===============================================
+   ACTION BUTTONS
+   =============================================== */
+
 .action-btn {
     background: none;
     border: none;
@@ -1062,7 +1100,7 @@ body {
     font-size: 1rem;
     cursor: pointer;
     color: var(--blue-gray);
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .action-btn:hover {
@@ -1082,7 +1120,10 @@ body {
     color: var(--danger-color);
 }
 
-/* No data or error messages */
+/* ===============================================
+   ERROR & STATUS MESSAGES
+   =============================================== */
+
 .no-data, .error-data {
     padding: 2rem;
     text-align: center;
@@ -1093,20 +1134,22 @@ body {
     color: var(--danger-color);
 }
 
-/* === RESPONIVE ADJUSTMENTS === */
+/* ===============================================
+   RESPONSIVE DESIGN
+   =============================================== */
 
-/* יותר מ-1200px - מסך גדול */
+/* Large screens (1200px+) */
 @media (min-width: 1201px) {
     .flights-table-header {
         flex-wrap: nowrap;
     }
     
     .flight-search {
-        max-width: calc(100% - 650px); /* יותר מקום לסטטוסים במסכים גדולים */
+        max-width: calc(100% - 650px);
     }
 }
 
-/* בין 992px ל-1200px - מסך בינוני */
+/* Medium screens (992px-1200px) */
 @media (max-width: 1200px) and (min-width: 992px) {
     .flights-table-header {
         flex-wrap: nowrap;
@@ -1122,7 +1165,7 @@ body {
     }
 }
 
-/* בין 768px ל-992px - טאבלט */
+/* Tablet screens (768px-992px) */
 @media (max-width: 992px) and (min-width: 768px) {
     .flights-table-header {
         flex-wrap: wrap;
@@ -1142,7 +1185,7 @@ body {
     }
 }
 
-/* פחות מ-768px - טלפון נייד */
+/* Mobile screens (below 768px) */
 @media (max-width: 768px) {
     .dashboard {
         grid-template-columns: 1fr;
@@ -1187,7 +1230,7 @@ body {
     }
 }
 
-/* פחות מ-480px - טלפון נייד קטן */
+/* Small mobile screens (below 480px) */
 @media (max-width: 480px) {
     .flights-table-header {
         padding: 0.75rem;

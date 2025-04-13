@@ -1232,3 +1232,476 @@
 [2025-03-27 19:57:15] 🌐 HTTP Server is running on http://localhost:8080
 [2025-03-27 19:57:15] 🚀 Server is listening on port 8000...
 [2025-03-27 19:57:31] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-27 20:11:28] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 20:11:28] 🚀 Server is listening on port 8000...
+[2025-03-27 20:12:16] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-27 20:31:55] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 20:31:55] 🚀 Server is listening on port 8000...
+[2025-03-27 20:34:39] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 20:34:39] 🚀 Server is listening on port 8000...
+[2025-03-27 20:40:17] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 20:40:17] 🚀 Server is listening on port 8000...
+[2025-03-27 20:43:41] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 20:43:41] 🚀 Server is listening on port 8000...
+[2025-03-27 20:44:11] ✈️ Flight AE123 from DXB to LHR added successfully
+[2025-03-27 20:44:38] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 20:44:38] 🚀 Server is listening on port 8000...
+[2025-03-27 20:44:47] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-27 21:01:43] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 21:01:43] 🚀 Server is listening on port 8000...
+[2025-03-27 21:06:09] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 21:06:09] 🚀 Server is listening on port 8000...
+[2025-03-27 21:10:19] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 21:10:19] 🚀 Server is listening on port 8000...
+[2025-03-27 21:16:52] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 21:16:52] 🚀 Server is listening on port 8000...
+[2025-03-27 22:37:04] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 22:37:04] 🚀 Server is listening on port 8000...
+[2025-03-27 22:37:58] ❌ Database error while adding flight: Data too long for column 'Aircraft' at row 1
+[2025-03-27 22:39:45] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 22:39:45] 🚀 Server is listening on port 8000...
+[2025-03-27 22:48:08] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 22:48:08] 🚀 Server is listening on port 8000...
+[2025-03-27 22:49:04] Received form data for flight: AW1234
+[2025-03-27 22:49:04] ❌ SQL Error adding flight: Data too long for column 'Aircraft' at row 1
+[2025-03-27 22:49:04] SQL Error Number: 1406, SQL State: 
+[2025-03-27 22:52:13] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-27 22:52:13] 🚀 Server is listening on port 8000...
+[2025-03-27 22:53:06] Received form data for flight: AW1234
+[2025-03-27 22:53:06] ✅ Flight added successfully: AW1234
+[2025-03-28 00:13:31] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:13:31] 🚀 Server is listening on port 8000...
+[2025-03-28 00:13:41] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-28 00:14:53] Received form data for flight: AW333
+[2025-03-28 00:14:53] ✅ Flight added successfully: AW333
+[2025-03-28 00:20:30] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:20:30] 🚀 Server is listening on port 8000...
+[2025-03-28 00:24:23] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:24:23] 🚀 Server is listening on port 8000...
+[2025-03-28 00:25:07] Received form data for flight: AW123
+[2025-03-28 00:25:07] ✅ Flight added successfully: AW123
+[2025-03-28 00:31:59] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:31:59] 🚀 Server is listening on port 8000...
+[2025-03-28 00:32:31] 📝 Received form data for flight: AW222
+[2025-03-28 00:32:31] 🔌 Database connection opened
+[2025-03-28 00:32:31] ✅ Flight added successfully: AW222
+[2025-03-28 00:32:31] ✅ Add flight request processed and response sent
+[2025-03-28 00:38:28] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:38:28] 🚀 Server is listening on port 8000...
+[2025-03-28 00:38:58] 📄 Received form data for flight: AW444
+[2025-03-28 00:38:58] 🔌 Database connection opened
+[2025-03-28 00:38:58] ✅ Flight AW444 added successfully
+[2025-03-28 00:38:58] 🔌 Database connection closed
+[2025-03-28 00:38:58] ✅ Add flight response sent successfully
+[2025-03-28 00:41:21] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:41:21] 🚀 Server is listening on port 8000...
+[2025-03-28 00:42:09] 📄 Received form data for flight: AW666
+[2025-03-28 00:42:09] 🔌 Database connection opened
+[2025-03-28 00:42:09] ✅ Flight AW666 added successfully
+[2025-03-28 00:42:09] 🔌 Database connection closed
+[2025-03-28 00:42:09] ✅ Add flight response sent successfully
+[2025-03-28 00:47:16] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:47:16] 🚀 Server is listening on port 8000...
+[2025-03-28 00:47:52] 📄 Received form data for flight: AW123
+[2025-03-28 00:47:52] 🔌 Database connection opened
+[2025-03-28 00:47:52] ✅ Flight AW123 added successfully
+[2025-03-28 00:47:52] 🔌 Database connection closed
+[2025-03-28 00:47:52] ✅ Add flight response sent successfully
+[2025-03-28 00:54:27] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 00:54:27] 🚀 Server is listening on port 8000...
+[2025-03-28 00:54:59] 📄 Received form data for flight: FW123
+[2025-03-28 00:54:59] 🔌 Database connection opened
+[2025-03-28 00:54:59] ✅ Flight FW123 added successfully
+[2025-03-28 00:54:59] 🔌 Database connection closed
+[2025-03-28 00:54:59] ✅ Add flight response sent successfully
+[2025-03-28 00:55:35] 📄 Received form data for flight: CWQWE
+[2025-03-28 00:55:35] 📄 Received form data for flight: CWQWE
+[2025-03-28 00:55:35] 🔌 Database connection opened
+[2025-03-28 00:55:35] ✅ Flight CWQWE added successfully
+[2025-03-28 00:55:35] 🔌 Database connection closed
+[2025-03-28 00:55:35] ✅ Add flight response sent successfully
+[2025-03-28 00:55:35] 🔌 Database connection opened
+[2025-03-28 00:55:35] ✅ Flight CWQWE added successfully
+[2025-03-28 00:55:35] 🔌 Database connection closed
+[2025-03-28 00:55:35] ✅ Add flight response sent successfully
+[2025-03-28 01:11:47] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 01:11:47] 🚀 Server is listening on port 8000...
+[2025-03-28 01:19:51] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 01:19:51] 🚀 Server is listening on port 8000...
+[2025-03-28 01:26:15] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 01:26:15] 🚀 Server is listening on port 8000...
+[2025-03-28 09:03:22] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:03:22] 🚀 Server is listening on port 8000...
+[2025-03-28 09:03:33] Received form data for new flight: AW308 from TLV to JFK
+[2025-03-28 09:03:33] ❌ Error processing flight addition: Data too long for column 'Aircraft' at row 1
+[2025-03-28 09:04:30] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:04:30] 🚀 Server is listening on port 8000...
+[2025-03-28 09:04:34] Received form data for new flight: AW308 from TLV to JFK
+[2025-03-28 09:04:34] ❌ Error processing flight addition: Data too long for column 'Aircraft' at row 1
+[2025-03-28 09:04:40] Received form data for new flight: AW179 from TLV to JFK
+[2025-03-28 09:04:40] ❌ Error processing flight addition: Data too long for column 'Aircraft' at row 1
+[2025-03-28 09:08:23] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:08:23] 🚀 Server is listening on port 8000...
+[2025-03-28 09:08:30] Received form data for new flight: AW766 from TLV to JFK
+[2025-03-28 09:08:30] ❌ Error processing flight addition: Data too long for column 'Aircraft' at row 1
+[2025-03-28 09:08:34] Received form data for new flight: AW766 from TLV to JFK
+[2025-03-28 09:08:34] ❌ Error processing flight addition: Data too long for column 'Aircraft' at row 1
+[2025-03-28 09:08:40] Received form data for new flight: AW225 from TLV to JFK
+[2025-03-28 09:08:40] ❌ Error processing flight addition: Data too long for column 'Aircraft' at row 1
+[2025-03-28 09:09:16] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:09:16] 🚀 Server is listening on port 8000...
+[2025-03-28 09:09:27] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-28 09:09:34] Received form data for new flight: AW534 from TLV to JFK
+[2025-03-28 09:12:08] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:12:08] 🚀 Server is listening on port 8000...
+[2025-03-28 09:12:28] Received form data for new flight: AW847 from TLV to JFK
+[2025-03-28 09:12:28] Aircraft value: 'Boeing 737-800', Length: 14
+[2025-03-28 09:12:28] ✅ Successfully added flight: AW847
+[2025-03-28 09:13:31] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:13:31] 🚀 Server is listening on port 8000...
+[2025-03-28 09:13:49] Received form data for new flight: AW631 from TLV to JFK
+[2025-03-28 09:13:49] Aircraft value: 'Boeing 737-800', Length: 14
+[2025-03-28 09:13:49] ✅ Successfully added flight: AW631
+[2025-03-28 09:15:34] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:15:34] 🚀 Server is listening on port 8000...
+[2025-03-28 09:15:37] Received form data for new flight: AW631 from TLV to JFK
+[2025-03-28 09:15:37] Aircraft value: 'Boeing 737-800', Length: 14
+[2025-03-28 09:15:37] ✅ Successfully added flight: AW631
+[2025-03-28 09:15:50] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-28 09:15:59] Received form data for new flight: AW123 from TLV to JFK
+[2025-03-28 09:15:59] Aircraft value: 'Boeing 737-800', Length: 14
+[2025-03-28 09:15:59] ✅ Successfully added flight: AW123
+[2025-03-28 09:24:37] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:24:37] 🚀 Server is listening on port 8000...
+[2025-03-28 09:24:43] Received form data for new flight: AW933 from TLV to JFK
+[2025-03-28 09:24:43] ✅ Successfully added flight: AW933
+[2025-03-28 09:29:44] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:29:44] 🚀 Server is listening on port 8000...
+[2025-03-28 09:29:54] ❌ HTTP Server Error: Unable to write data to the transport connection: Broken pipe.
+[2025-03-28 09:30:11] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:30:11] 🚀 Server is listening on port 8000...
+[2025-03-28 09:30:22] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-28 09:30:32] Received form data for new flight: AW957 from TLV to JFK
+[2025-03-28 09:30:32] ✅ Successfully added flight: AW957
+[2025-03-28 09:36:41] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:36:41] 🚀 Server is listening on port 8000...
+[2025-03-28 09:36:47] Received form data for new flight: AW875 from TLV to JFK
+[2025-03-28 09:36:47] ✅ Successfully added flight: AW875
+[2025-03-28 09:47:52] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:47:52] 🚀 Server is listening on port 8000...
+[2025-03-28 09:48:12] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-28 09:48:19] Received form data for new flight: AW202 from TLV to JFK
+[2025-03-28 09:48:19] ✅ Successfully added flight: AW202
+[2025-03-28 09:48:31] Received form data for new flight: AW996 from TLV to JFK
+[2025-03-28 09:48:31] ✅ Successfully added flight: AW996
+[2025-03-28 09:48:43] Received form data for new flight: AW223 from TLV to JFK
+[2025-03-28 09:48:43] ✅ Successfully added flight: AW223
+[2025-03-28 09:49:00] Received form data for new flight: AW495 from TLV to JFK
+[2025-03-28 09:49:00] ✅ Successfully added flight: AW495
+[2025-03-28 09:49:31] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:49:31] 🚀 Server is listening on port 8000...
+[2025-03-28 09:49:36] Received form data for new flight: AW222 from TLV to JFK
+[2025-03-28 09:49:36] ✅ Successfully added flight: AW222
+[2025-03-28 09:49:41] Received form data for new flight: AW448 from TLV to JFK
+[2025-03-28 09:49:42] ✅ Successfully added flight: AW448
+[2025-03-28 09:49:46] Received form data for new flight: AW258 from TLV to JFK
+[2025-03-28 09:49:46] ✅ Successfully added flight: AW258
+[2025-03-28 09:51:54] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 09:51:54] 🚀 Server is listening on port 8000...
+[2025-03-28 09:52:07] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-28 09:52:13] Received form data for new flight: AW724 from TLV to JFK
+[2025-03-28 09:52:13] ✅ Successfully added flight: AW724
+[2025-03-28 10:35:25] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 10:35:25] 🚀 Server is listening on port 8000...
+[2025-03-28 10:35:29] Received form data for new flight: AW435 from TLV to JFK
+[2025-03-28 10:35:29] ✅ Successfully added flight: AW435
+[2025-03-28 10:37:35] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-28 10:37:35] 🚀 Server is listening on port 8000...
+[2025-03-28 10:37:47] Received form data for new flight: AW624 from TLV to JFK
+[2025-03-28 10:37:47] ✅ Successfully added flight: AW624
+[2025-03-28 10:37:57] Received form data for new flight: AW432 from TLV to JFK
+[2025-03-28 10:37:57] ✅ Successfully added flight: AW432
+[2025-03-29 15:14:50] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-29 15:14:50] 🚀 Server is listening on port 8000...
+[2025-03-29 15:14:54] ⚠️ Unauthorized access attempt to /apple-touch-icon-precomposed.png from ::1
+[2025-03-29 15:14:54] ⚠️ Unauthorized access attempt to /apple-touch-icon.png from ::1
+[2025-03-29 15:15:01] ❌ Failed login attempt for user 'AeroWay2025'
+[2025-03-29 15:15:06] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-03-29 16:20:16] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-29 16:20:16] 🚀 Server is listening on port 8000...
+[2025-03-29 16:28:50] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-29 16:28:50] 🚀 Server is listening on port 8000...
+[2025-03-29 16:38:21] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-29 16:38:21] 🚀 Server is listening on port 8000...
+[2025-03-29 17:02:21] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-29 17:02:21] 🚀 Server is listening on port 8000...
+[2025-03-29 17:32:20] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-29 17:32:20] 🚀 Server is listening on port 8000...
+[2025-03-29 17:34:20] 🌐 HTTP Server is running on http://localhost:8080
+[2025-03-29 17:34:20] 🚀 Server is listening on port 8000...
+[2025-03-29 17:35:33] 🛫 Flight creation request from ::1
+[2025-03-29 17:35:33] ❌ Error processing flight creation request: The JSON value could not be converted to System.DateTime. Path: $.DepartureTime | LineNumber: 0 | BytePositionInLine: 97.
+[2025-04-01 23:35:23] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-01 23:35:39] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-01 23:38:13] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-01 23:38:13] 🚀 Server is listening on port 8000...
+[2025-04-01 23:56:59] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-01 23:56:59] 🚀 Server is listening on port 8000...
+[2025-04-02 00:06:49] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 00:06:49] 🚀 Server is listening on port 8000...
+[2025-04-02 00:09:25] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 00:09:25] 🚀 Server is listening on port 8000...
+[2025-04-02 00:15:16] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 00:15:16] 🚀 Server is listening on port 8000...
+[2025-04-02 09:56:30] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-02 09:58:00] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-02 10:21:07] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 10:21:07] 🚀 Server is listening on port 8000...
+[2025-04-02 10:27:25] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 10:27:25] 🚀 Server is listening on port 8000...
+[2025-04-02 10:40:14] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 10:40:14] 🚀 Server is listening on port 8000...
+[2025-04-02 10:47:01] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 10:47:01] 🚀 Server is listening on port 8000...
+[2025-04-02 10:54:44] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 10:54:44] 🚀 Server is listening on port 8000...
+[2025-04-02 11:01:52] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 11:01:52] 🚀 Server is listening on port 8000...
+[2025-04-02 11:02:18] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-02 11:02:18] 🚀 Server is listening on port 8000...
+[2025-04-02 15:37:58] ⚠️ Unauthorized access attempt to /apple-touch-icon-precomposed.png from ::1
+[2025-04-02 15:37:58] ⚠️ Unauthorized access attempt to /apple-touch-icon.png from ::1
+[2025-04-02 19:37:58] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-03 09:52:32] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-03 09:53:36] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 09:53:36] 🚀 Server is listening on port 8000...
+[2025-04-03 10:15:44] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 10:15:44] 🚀 Server is listening on port 8000...
+[2025-04-03 12:35:56] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 12:35:56] 🚀 Server is listening on port 8000...
+[2025-04-03 12:37:51] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 12:37:51] 🚀 Server is listening on port 8000...
+[2025-04-03 15:20:06] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 15:20:06] 🚀 Server is listening on port 8000...
+[2025-04-03 15:46:16] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 15:46:16] 🚀 Server is listening on port 8000...
+[2025-04-03 16:10:54] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 16:10:54] 🚀 Server is listening on port 8000...
+[2025-04-03 18:29:47] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-03 19:11:11] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-03 23:14:38] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 23:14:38] 🚀 Server is listening on port 8000...
+[2025-04-03 23:23:00] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-03 23:23:00] 🚀 Server is listening on port 8000...
+[2025-04-04 08:29:40] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-04 08:29:40] 🚀 Server is listening on port 8000...
+[2025-04-04 08:29:57] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-04 08:48:36] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-04 08:48:36] 🚀 Server is listening on port 8000...
+[2025-04-04 09:01:00] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-04 09:01:00] 🚀 Server is listening on port 8000...
+[2025-04-04 09:10:04] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-04 09:10:04] 🚀 Server is listening on port 8000...
+[2025-04-04 16:40:44] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-04 16:42:21] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-04 17:17:53] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-04 17:17:53] 🚀 Server is listening on port 8000...
+[2025-04-04 21:07:11] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-04 21:07:11] 🚀 Server is listening on port 8000...
+[2025-04-04 21:23:21] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-04 21:23:21] 🚀 Server is listening on port 8000...
+[2025-04-05 11:28:43] ⚠️ Unauthorized access attempt to /apple-touch-icon.png from ::1
+[2025-04-05 11:28:43] ⚠️ Unauthorized access attempt to /apple-touch-icon-precomposed.png from ::1
+[2025-04-05 11:28:43] ⚠️ Unauthorized access attempt to /favicon.ico from ::1
+[2025-04-05 11:28:43] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-05 11:43:37] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-05 11:43:37] 🚀 Server is listening on port 8000...
+[2025-04-05 11:45:48] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-05 11:45:57] ❌ HTTP Server Error: Unable to write data to the transport connection: Broken pipe.
+[2025-04-05 11:46:03] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-05 11:46:03] 🚀 Server is listening on port 8000...
+[2025-04-05 16:24:52] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-05 16:24:52] 🚀 Server is listening on port 8000...
+[2025-04-05 16:25:07] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-05 16:50:59] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-05 16:50:59] 🚀 Server is listening on port 8000...
+[2025-04-05 16:54:20] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-05 16:54:20] 🚀 Server is listening on port 8000...
+[2025-04-05 17:15:46] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-05 17:15:46] 🚀 Server is listening on port 8000...
+[2025-04-05 23:54:20] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-05 23:54:20] 🚀 Server is listening on port 8000...
+[2025-04-06 17:28:29] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-06 17:28:29] 🚀 Server is listening on port 8000...
+[2025-04-06 17:28:32] ⚠️ Unauthorized access attempt to /apple-touch-icon-precomposed.png from ::1
+[2025-04-06 17:28:32] ⚠️ Unauthorized access attempt to /apple-touch-icon.png from ::1
+[2025-04-06 17:28:45] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-06 17:45:29] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-06 17:45:29] 🚀 Server is listening on port 8000...
+[2025-04-06 17:45:45] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-06 17:45:45] 🚀 Server is listening on port 8000...
+[2025-04-07 02:00:51] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-07 14:13:45] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-07 14:30:17] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-07 14:30:17] 🚀 Server is listening on port 8000...
+[2025-04-07 14:30:30] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-07 14:40:30] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-07 14:40:30] 🚀 Server is listening on port 8000...
+[2025-04-08 00:45:32] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-12 21:15:30] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 21:15:30] 🚀 Server is listening on port 8000...
+[2025-04-12 21:15:33] ⚠️ Unauthorized access attempt to /favicon.ico from ::1
+[2025-04-12 21:15:33] ⚠️ Unauthorized access attempt to /apple-touch-icon-precomposed.png from ::1
+[2025-04-12 21:15:33] ⚠️ Unauthorized access attempt to /apple-touch-icon.png from ::1
+[2025-04-12 21:15:46] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-12 21:47:23] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 21:47:23] 🚀 Server is listening on port 8000...
+[2025-04-12 21:47:36] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-12 23:14:54] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 23:14:54] 🚀 Server is listening on port 8000...
+[2025-04-12 23:15:02] 🗑️ טיסה 'LY101' (מזהה: 1) נמחקה מהמסד נתונים
+[2025-04-12 23:15:21] 🗑️ טיסה 'LY323' (מזהה: 3) נמחקה מהמסד נתונים
+[2025-04-12 23:15:22] 🗑️ טיסה 'BA164' (מזהה: 6) נמחקה מהמסד נתונים
+[2025-04-12 23:15:22] 🗑️ טיסה 'LY208' (מזהה: 7) נמחקה מהמסד נתונים
+[2025-04-12 23:23:13] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 23:23:13] 🚀 Server is listening on port 8000...
+[2025-04-12 23:23:59] 🗑️ טיסה 'LY419' (מזהה: 4) נמחקה מהמסד נתונים
+[2025-04-12 23:24:08] 🗑️ טיסה 'LY315' (מזהה: 2) נמחקה מהמסד נתונים
+[2025-04-12 23:26:02] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 23:26:02] 🚀 Server is listening on port 8000...
+[2025-04-12 23:26:27] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 23:26:27] 🚀 Server is listening on port 8000...
+[2025-04-12 23:29:22] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 23:29:22] 🚀 Server is listening on port 8000...
+[2025-04-12 23:32:13] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 23:32:13] 🚀 Server is listening on port 8000...
+[2025-04-12 23:40:42] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-12 23:40:42] 🚀 Server is listening on port 8000...
+[2025-04-13 00:00:53] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:00:53] 🚀 Server is listening on port 8000...
+[2025-04-13 00:02:22] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:02:22] 🚀 Server is listening on port 8000...
+[2025-04-13 00:11:19] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:11:19] 🚀 Server is listening on port 8000...
+[2025-04-13 00:12:03] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:12:03] 🚀 Server is listening on port 8000...
+[2025-04-13 00:12:11] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:12:11] 🚀 Server is listening on port 8000...
+[2025-04-13 00:12:22] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:12:22] 🚀 Server is listening on port 8000...
+[2025-04-13 00:29:17] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:29:17] 🚀 Server is listening on port 8000...
+[2025-04-13 00:29:53] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 00:29:53] 🚀 Server is listening on port 8000...
+[2025-04-13 02:12:06] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 02:12:06] 🚀 Server is listening on port 8000...
+[2025-04-13 02:12:26] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 02:12:26] 🚀 Server is listening on port 8000...
+[2025-04-13 02:19:44] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 02:19:44] 🚀 Server is listening on port 8000...
+[2025-04-13 02:28:01] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 02:28:01] 🚀 Server is listening on port 8000...
+[2025-04-13 02:34:12] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 02:34:12] 🚀 Server is listening on port 8000...
+[2025-04-13 02:35:04] 🗑️ טיסה 'LY102' (מזהה: 5) נמחקה מהמסד נתונים
+[2025-04-13 02:36:16] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 02:36:16] 🚀 Server is listening on port 8000...
+[2025-04-13 02:36:29] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-13 09:19:06] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:19:06] 🚀 Server is listening on port 8000...
+[2025-04-13 09:19:46] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:19:46] 🚀 Server is listening on port 8000...
+[2025-04-13 09:33:07] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:33:07] 🚀 Server is listening on port 8000...
+[2025-04-13 09:43:56] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:43:56] 🚀 Server is listening on port 8000...
+[2025-04-13 09:48:11] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:48:11] 🚀 Server is listening on port 8000...
+[2025-04-13 09:48:30] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:48:30] 🚀 Server is listening on port 8000...
+[2025-04-13 09:48:43] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:48:43] 🚀 Server is listening on port 8000...
+[2025-04-13 09:52:46] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 09:52:46] 🚀 Server is listening on port 8000...
+[2025-04-13 10:23:43] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 10:23:43] 🚀 Server is listening on port 8000...
+[2025-04-13 10:41:29] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-13 10:46:12] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 10:46:12] 🚀 Server is listening on port 8000...
+[2025-04-13 10:46:33] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-13 10:46:45] 📊 API Flight data sent | Flight ID: 9
+[2025-04-13 10:46:45] ❌ HTTP Server Error: This operation cannot be performed after the response has been submitted.
+[2025-04-13 10:47:05] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 10:47:05] 🚀 Server is listening on port 8000...
+[2025-04-13 10:47:09] 📊 API Flight data sent | Flight ID: 9
+[2025-04-13 10:47:09] ❌ HTTP Server Error: This operation cannot be performed after the response has been submitted.
+[2025-04-13 10:49:28] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 10:49:28] 🚀 Server is listening on port 8000...
+[2025-04-13 10:49:31] 📊 API Flight data sent | Flight ID: 9
+[2025-04-13 10:49:38] 🗑️ טיסה 'AM570' (מזהה: 9) נמחקה מהמסד נתונים
+[2025-04-13 10:59:25] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 10:59:25] 🚀 Server is listening on port 8000...
+[2025-04-13 10:59:39] 📊 API Flight data sent | Flight ID: 8
+[2025-04-13 10:59:43] 📊 API Flight data sent | Flight ID: 8
+[2025-04-13 10:59:44] 🗑️ טיסה 'LY081' (מזהה: 8) נמחקה מהמסד נתונים
+[2025-04-13 11:02:15] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 11:02:15] 🚀 Server is listening on port 8000...
+[2025-04-13 11:07:27] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 11:07:27] 🚀 Server is listening on port 8000...
+[2025-04-13 15:13:05] 📊 API Flight data sent | Flight ID: 41
+[2025-04-13 15:13:15] 📊 API Flight data sent | Flight ID: 41
+[2025-04-13 15:13:16] 🗑️ טיסה 'EL500' (מזהה: 41) נמחקה מהמסד נתונים
+[2025-04-13 18:32:36] 📊 API Flight data sent | Flight ID: 42
+[2025-04-13 18:33:21] 📊 API Flight data sent | Flight ID: 42
+[2025-04-13 18:33:53] 📊 API Flight data sent | Flight ID: 42
+[2025-04-13 18:34:07] 📊 API Flight data sent | Flight ID: 43
+[2025-04-13 18:34:09] 📊 API Flight data sent | Flight ID: 43
+[2025-04-13 18:34:11] 📊 API Flight data sent | Flight ID: 43
+[2025-04-13 18:34:30] 🗑️ טיסה 'EL310' (מזהה: 43) נמחקה מהמסד נתונים
+[2025-04-13 18:41:11] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 18:41:11] 🚀 Server is listening on port 8000...
+[2025-04-13 18:41:27] ❌ Error sending response: Unable to write data to the transport connection: Broken pipe.
+[2025-04-13 18:42:03] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 18:42:03] 🚀 Server is listening on port 8000...
+[2025-04-13 18:46:35] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 18:46:35] 🚀 Server is listening on port 8000...
+[2025-04-13 18:46:51] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-13 18:48:26] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 18:48:26] 🚀 Server is listening on port 8000...
+[2025-04-13 18:48:35] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 18:48:35] 🚀 Server is listening on port 8000...
+[2025-04-13 18:48:47] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-13 18:50:17] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 18:50:17] 🚀 Server is listening on port 8000...
+[2025-04-13 19:01:38] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:01:38] 🚀 Server is listening on port 8000...
+[2025-04-13 19:08:11] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:08:11] 🚀 Server is listening on port 8000...
+[2025-04-13 19:09:18] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:09:18] 🚀 Server is listening on port 8000...
+[2025-04-13 19:10:31] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:10:31] 🚀 Server is listening on port 8000...
+[2025-04-13 19:12:02] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:12:02] 🚀 Server is listening on port 8000...
+[2025-04-13 19:23:59] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:23:59] 🚀 Server is listening on port 8000...
+[2025-04-13 19:24:09] ❌ HTTP Server Error: Object reference not set to an instance of an object.
+[2025-04-13 19:25:02] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:25:02] 🚀 Server is listening on port 8000...
+[2025-04-13 19:25:08] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:25:14] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:25:45] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:29:14] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:29:14] 🚀 Server is listening on port 8000...
+[2025-04-13 19:29:20] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:29:26] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:29:34] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:29:39] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:29:42] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:30:28] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:30:28] 🚀 Server is listening on port 8000...
+[2025-04-13 19:33:11] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:33:11] 🚀 Server is listening on port 8000...
+[2025-04-13 19:33:19] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:33:25] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:33:27] 🗑️ API Request: Delete Flight | IP: ::1

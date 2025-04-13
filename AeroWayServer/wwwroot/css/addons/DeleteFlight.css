@@ -1,0 +1,382 @@
+/* Delete Flight Confirmation Popup Styles */
+.delete-flight-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.delete-flight-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.delete-flight-container {
+    background-color: var(--surface);
+    border-radius: var(--border-radius);
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    border: 1px solid var(--surface-light);
+}
+
+.delete-flight-popup.active .delete-flight-container {
+    transform: translateY(0);
+}
+
+.delete-flight-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.delete-flight-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.delete-flight-title span:first-child {
+    font-size: 1.5rem;
+}
+
+.delete-flight-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.delete-flight-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.delete-flight-close::before {
+    content: "×";
+}
+
+.delete-flight-body {
+    padding: 1.5rem;
+}
+
+.delete-flight-message {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.delete-flight-info {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.delete-flight-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.delete-flight-info-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.delete-flight-label {
+    font-weight: 500;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.delete-flight-value {
+    font-weight: 600;
+}
+
+.delete-flight-value-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.delete-flight-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.delete-flight-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.delete-flight-btn.cancel {
+    background-color: var(--surface-light);
+    color: var(--text);
+}
+
+.delete-flight-btn.cancel:hover {
+    background-color: var(--blue-gray);
+    color: white;
+}
+
+.delete-flight-btn.confirm {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.delete-flight-btn.confirm:hover {
+    background-color: #dc2626;
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* Loading spinner */
+.delete-flight-loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.delete-flight-loading.active {
+    display: flex;
+}
+
+.delete-flight-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(239, 68, 68, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--danger-color);
+    animation: delete-flight-spin 1s linear infinite;
+}
+
+@keyframes delete-flight-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.delete-flight-loading-text {
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+/* Status badge colors for flight info */
+.delete-flight-value-status.scheduled {
+    background-color: rgba(129, 140, 248, 0.15);
+    color: var(--scheduled-color);
+}
+
+.delete-flight-value-status.boarding {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: var(--boarding-color);
+}
+
+.delete-flight-value-status.departed {
+    background-color: rgba(34, 197, 94, 0.15);
+    color: var(--departed-color);
+}
+
+.delete-flight-value-status.arrived {
+    background-color: rgba(139, 92, 246, 0.15);
+    color: var(--arrived-color);
+}
+
+.delete-flight-value-status.delayed {
+    background-color: rgba(249, 115, 22, 0.15);
+    color: var(--delayed-color);
+}
+
+.delete-flight-value-status.cancelled {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: var(--cancelled-color);
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .delete-flight-container {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .delete-flight-info {
+    background-color: rgba(239, 68, 68, 0.05);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+[data-theme="light"] .delete-flight-info-row {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Success message */
+.delete-flight-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.delete-flight-success.active {
+    display: flex;
+}
+
+.delete-flight-success-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--success-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.delete-flight-success-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.delete-flight-success-message {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.delete-flight-done-btn {
+    background-color: var(--success-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.delete-flight-done-btn:hover {
+    background-color: #16a34a;
+    box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
+}
+
+/* Error message */
+.delete-flight-error {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.delete-flight-error.active {
+    display: flex;
+}
+
+.delete-flight-error-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--danger-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.delete-flight-error-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--danger-color);
+}
+
+.delete-flight-error-message {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.delete-flight-retry-btn {
+    background-color: var(--danger-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.delete-flight-retry-btn:hover {
+    background-color: #dc2626;
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.delete-flight-cancel-btn {
+    background-color: var(--surface-light);
+    color: var(--text);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.delete-flight-cancel-btn:hover {
+    background-color: var(--blue-gray);
+    color: white;
+}

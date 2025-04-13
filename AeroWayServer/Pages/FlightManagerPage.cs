@@ -287,7 +287,7 @@ namespace AeroWayServer.Pages
                     <div class=""popup-body"">");
             
             // Load Add Flight HTML from AddFlightPage.cs
-            popupHtml.Append(AddFlightPage.GenerateAddFlightHtml(connectionString));
+            // popupHtml.Append(AddFlightPage.GenerateAddFlightHtml(connectionString));
             
             popupHtml.Append(@"
                     </div>

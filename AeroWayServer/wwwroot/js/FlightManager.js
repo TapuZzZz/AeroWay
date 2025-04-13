@@ -15,13 +15,6 @@ function applyTheme(theme) {
     }
 }
 
-// Apply theme on page load
-document.addEventListener('DOMContentLoaded', () => {
-    applyTheme(savedTheme);
-    updateLastUpdateTime();
-    setupFlightSearch();
-});
-
 // Toggle theme function
 function toggleTheme() {
     const currentTheme = root.getAttribute('data-theme');
@@ -29,7 +22,6 @@ function toggleTheme() {
     localStorage.setItem('dashboard-theme', newTheme);
     applyTheme(newTheme);
     
-    // שידור אירוע שינוי ערכת נושא
     const themeChangeEvent = new CustomEvent('themeChange', {
         detail: { theme: newTheme }
     });
@@ -77,10 +69,8 @@ function updateLastUpdateTime() {
 
 // Safely clear highlights to prevent status display issues
 function clearHighlights() {
-    // Find highlight elements and process them carefully
     document.querySelectorAll('.highlight-search').forEach(el => {
         try {
-            // Method 1: Use textContent to replace the element
             const text = el.textContent;
             const span = document.createElement('span');
             span.textContent = text;
@@ -106,18 +96,15 @@ function updateFlightStats() {
     let delayedCount = 0;
     let cancelledCount = 0;
     
-    // Count visible rows by status (excluding the no-results message row)
+    // Count visible rows by status
     tableRows.forEach(row => {
-        // Check if row is visible and not the "no results" message
         if (row.style.display !== 'none' && !row.id?.includes('noResultsMessage')) {
             totalVisible++;
             
-            // Get status from the row
             const statusCell = row.querySelector('.status-badge');
             if (statusCell) {
                 const status = statusCell.textContent.trim().toLowerCase();
                 
-                // Increment appropriate counter
                 if (status === 'scheduled') scheduledCount++;
                 else if (status === 'boarding') boardingCount++;
                 else if (status === 'departed') departedCount++;
@@ -128,7 +115,7 @@ function updateFlightStats() {
         }
     });
     
-    // Update statistics displays - immediately after counting
+    // Update statistics displays
     document.querySelector('.flight-stats .total .stat-value').textContent = totalVisible;
     document.querySelector('.flight-stats .scheduled .stat-value').textContent = scheduledCount;
     document.querySelector('.flight-stats .boarding .stat-value').textContent = boardingCount;
@@ -142,11 +129,9 @@ function updateFlightStats() {
     const searchIsActive = searchInput && searchInput.value.trim().length > 0;
     
     if (searchIsActive && totalVisible === 0) {
-        // No results found - add red borders and backgrounds
         statBoxes.forEach(box => {
             box.classList.add('no-results-border');
         });
-        // Add red styling to search input and clear button
         if (searchInput) {
             searchInput.classList.add('no-results-border');
         }
@@ -154,11 +139,9 @@ function updateFlightStats() {
             clearButton.classList.add('no-results-border');
         }
     } else {
-        // Results found or no search active - remove red styling
         statBoxes.forEach(box => {
             box.classList.remove('no-results-border');
         });
-        // Remove red styling from search input and clear button
         if (searchInput) {
             searchInput.classList.remove('no-results-border');
         }
@@ -170,34 +153,25 @@ function updateFlightStats() {
 
 // Safe method to highlight text that won't affect HTML structure
 function highlightTextSafely(element, searchTerm) {
-    // Store a copy of innerHTML for safer manipulation
     const originalHTML = element.innerHTML;
     
     try {
-        // Create a text node with the text content
         const text = element.textContent;
         const lowerText = text.toLowerCase();
         
-        // Check if search term exists in the text
         if (lowerText.indexOf(searchTerm.toLowerCase()) !== -1) {
-            // Create a temporary div to work with
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = originalHTML;
             
-            // Create a document fragment to hold the result
             const fragment = document.createDocumentFragment();
             
-            // Process each child node
             Array.from(tempDiv.childNodes).forEach(node => {
-                // If it's a text node, check for matches
                 if (node.nodeType === Node.TEXT_NODE) {
                     const nodeText = node.textContent;
                     const regex = new RegExp(`(${searchTerm})`, 'gi');
                     
-                    // Split the text by matches
                     const parts = nodeText.split(regex);
                     
-                    // Recreate with highlight spans
                     parts.forEach(part => {
                         if (part.toLowerCase() === searchTerm.toLowerCase()) {
                             const span = document.createElement('span');
@@ -209,41 +183,33 @@ function highlightTextSafely(element, searchTerm) {
                         }
                     });
                 } else {
-                    // For other nodes, clone them
                     fragment.appendChild(node.cloneNode(true));
                 }
             });
             
-            // Clear and append the new content
             element.innerHTML = '';
             element.appendChild(fragment);
         }
     } catch (e) {
         console.error("Error highlighting text:", e);
-        // Restore original HTML in case of error
         element.innerHTML = originalHTML;
     }
 }
 
 // Function to update error message with the latest search term
 function updateErrorMessage(searchTerm) {
-    // Get current error message if exists
     let noResultsMessage = document.getElementById('noResultsMessage');
     
-    // When no results are found, we'll show or update the error message
     if (noResultsMessage) {
-        // Update the existing message with the new search term
         const tdElement = noResultsMessage.querySelector('td');
         if (tdElement) {
             tdElement.textContent = `No flights found matching "${searchTerm}"`;
         }
     } else {
-        // Create a new message element if doesn't exist
         noResultsMessage = document.createElement('tr');
         noResultsMessage.id = 'noResultsMessage';
         noResultsMessage.innerHTML = `<td colspan="10" class="no-results">No flights found matching "${searchTerm}"</td>`;
         
-        // Append it to the table body
         const tbody = document.querySelector('.flights-table tbody');
         if (tbody) {
             tbody.appendChild(noResultsMessage);
@@ -251,16 +217,122 @@ function updateErrorMessage(searchTerm) {
     }
 }
 
-// Enhanced flight search with input validation
+// Helper function to get a unique identifier for a row without an ID
+function getRowIdentifier(row) {
+    const flightNumberCell = row.querySelector('.flight-number');
+    if (flightNumberCell) {
+        return 'row-' + flightNumberCell.textContent.trim();
+    }
+    
+    const parent = row.parentElement;
+    if (parent) {
+        return 'row-index-' + Array.from(parent.children).indexOf(row);
+    }
+    
+    return 'row-' + Math.random().toString(36).substring(2, 9);
+}
+
+// Optimized search function to perform all visual updates simultaneously
+function performSearch(searchTerm) {
+    searchTerm = searchTerm.toLowerCase();
+    
+    // First, collect all the visual changes we need to make
+    let visualChanges = {
+        clearButtonVisible: searchTerm.length > 0,
+        rowVisibility: {},
+        highlightElements: [],
+        showNoResults: false
+    };
+    
+    // Clear previous highlights safely
+    clearHighlights();
+    
+    let hasResults = false;
+    
+    // Only do full table search for non-empty search terms
+    if (searchTerm.length > 0) {
+        const tableRows = document.querySelectorAll('.flights-table tbody tr');
+        tableRows.forEach(row => {
+            // Skip the no-results message row if it exists
+            if (row.id === 'noResultsMessage') return;
+            
+            const text = row.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                visualChanges.rowVisibility[row.id || getRowIdentifier(row)] = true;
+                hasResults = true;
+                
+                // Collect elements for highlighting
+                Array.from(row.querySelectorAll('td:not(.actions)')).forEach(cell => {
+                    const cellText = cell.textContent.toLowerCase();
+                    if (cellText.includes(searchTerm)) {
+                        visualChanges.highlightElements.push({
+                            element: cell,
+                            term: searchTerm
+                        });
+                    }
+                });
+            } else {
+                visualChanges.rowVisibility[row.id || getRowIdentifier(row)] = false;
+            }
+        });
+        
+        visualChanges.showNoResults = !hasResults;
+    } else {
+        // Empty search term - show all rows
+        const tableRows = document.querySelectorAll('.flights-table tbody tr');
+        tableRows.forEach(row => {
+            if (row.id !== 'noResultsMessage') {
+                visualChanges.rowVisibility[row.id || getRowIdentifier(row)] = true;
+            }
+        });
+    }
+    
+    // Now, batch apply all visual changes in one go
+    requestAnimationFrame(() => {
+        // 1. Update clear button visibility
+        const clearButton = document.getElementById('clearSearch');
+        if (clearButton) {
+            clearButton.style.visibility = visualChanges.clearButtonVisible ? 'visible' : 'hidden';
+            clearButton.style.opacity = visualChanges.clearButtonVisible ? '1' : '0';
+        }
+        
+        // 2. Update row visibility
+        const tableRows = document.querySelectorAll('.flights-table tbody tr');
+        tableRows.forEach(row => {
+            if (row.id === 'noResultsMessage') return;
+            
+            const identifier = row.id || getRowIdentifier(row);
+            if (identifier in visualChanges.rowVisibility) {
+                row.style.display = visualChanges.rowVisibility[identifier] ? '' : 'none';
+            }
+        });
+        
+        // 3. Apply highlights
+        visualChanges.highlightElements.forEach(item => {
+            highlightTextSafely(item.element, item.term);
+        });
+        
+        // 4. Show/hide no results message
+        const noResultsMessage = document.getElementById('noResultsMessage');
+        if (visualChanges.showNoResults) {
+            if (!noResultsMessage) {
+                updateErrorMessage(document.getElementById('flightSearchInput').value);
+            }
+        } else if (noResultsMessage) {
+            noResultsMessage.remove();
+        }
+        
+        // 5. Update flight statistics based on filtered results
+        updateFlightStats();
+    });
+}
+
+// Improved flight search with optimized updates
 function setupFlightSearch() {
     const searchInput = document.getElementById('flightSearchInput');
     const clearButton = document.getElementById('clearSearch');
-    const tableRows = document.querySelectorAll('.flights-table tbody tr');
     
-    if (searchInput && clearButton && tableRows) {
-        // Flag to optimize performance by tracking if the last state was "no results"
-        let lastSearchHadNoResults = false;
-        
+    if (searchInput && clearButton) {
         // Add input validation to restrict input to English letters, numbers and symbols
         searchInput.addEventListener('input', function(e) {
             // Get current value
@@ -283,85 +355,15 @@ function setupFlightSearch() {
                 item.classList.remove('active-filter');
             });
             
-            // Proceed with search function for every character change
+            // Clear any existing no-results messages
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            if (noResultsMessage) {
+                noResultsMessage.remove();
+            }
+            
+            // Perform optimized search
             performSearch(this.value);
         });
-        
-        // Extract search logic to separate function for reuse
-        function performSearch(searchTerm) {
-            searchTerm = searchTerm.toLowerCase();
-            
-            // Show/hide clear button based on search input
-            if (searchTerm.length > 0) {
-                clearButton.style.visibility = 'visible';
-                clearButton.style.opacity = '1';
-            } else {
-                clearButton.style.visibility = 'hidden';
-                clearButton.style.opacity = '0';
-            }
-            
-            // Clear previous highlights safely
-            clearHighlights();
-            
-            let hasResults = false;
-            
-            // Only do full table search for non-empty search terms
-            if (searchTerm.length > 0) {
-                tableRows.forEach(row => {
-                    // Skip the no-results message row if it exists
-                    if (row.id === 'noResultsMessage') return;
-                    
-                    const text = row.textContent.toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        row.style.display = '';
-                        hasResults = true;
-                        
-                        // Highlight matching text using the safer method
-                        // Only process standard data cells, not action cells
-                        Array.from(row.querySelectorAll('td:not(.actions)')).forEach(cell => {
-                            // Check if the cell contains text (not just buttons)
-                            const cellText = cell.textContent.toLowerCase();
-                            if (cellText.includes(searchTerm)) {
-                                // Use the safer highlighting method
-                                highlightTextSafely(cell, searchTerm);
-                            }
-                        });
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-                
-                // Real-time update of error message on each keystroke
-                if (!hasResults) {
-                    updateErrorMessage(searchInput.value);
-                    lastSearchHadNoResults = true;
-                } else if (lastSearchHadNoResults) {
-                    // Remove error message if previously had no results
-                    const noResultsMessage = document.getElementById('noResultsMessage');
-                    if (noResultsMessage) {
-                        noResultsMessage.remove();
-                    }
-                    lastSearchHadNoResults = false;
-                }
-            } else {
-                // Empty search term - show all rows
-                tableRows.forEach(row => {
-                    if (row.id !== 'noResultsMessage') {
-                        row.style.display = '';
-                    }
-                });
-                
-                // Remove error message for empty search
-                const noResultsMessage = document.getElementById('noResultsMessage');
-                if (noResultsMessage) {
-                    noResultsMessage.remove();
-                }
-                lastSearchHadNoResults = false;
-            }
-            
-            // Update flight statistics based on filtered results - do this on every keystroke
-            updateFlightStats();
-        }
         
         // Clear search button
         clearButton.addEventListener('click', function(e) {
@@ -371,58 +373,37 @@ function setupFlightSearch() {
             // Use the safe method to clear highlights
             clearHighlights();
             
-            // Reset row display
-            tableRows.forEach(row => {
-                if (row.id !== 'noResultsMessage') {
-                    row.style.display = '';
-                }
-            });
-            
-            // Remove no results message
-            const noResultsMessage = document.getElementById('noResultsMessage');
-            if (noResultsMessage) {
-                noResultsMessage.remove();
-            }
-            
-            // Hide clear button
-            clearButton.style.visibility = 'hidden';
-            clearButton.style.opacity = '0';
+            // Perform optimized empty search
+            performSearch('');
             
             // Reset input focus
             searchInput.focus();
-            
-            // Update statistics to show original counts
-            updateFlightStats();
-            
-            // Reset the last search flag
-            lastSearchHadNoResults = false;
         });
     }
 }
 
-// פונקציה להוספת סינון בלחיצה על קוביות הסטטוס
+// Improved status filtering with proper message management
 function setupStatusFiltering() {
-    // מצא את כל קוביות הסטטוס
     const statItems = document.querySelectorAll('.stat-item');
     const tableRows = document.querySelectorAll('.flights-table tbody tr');
     const searchInput = document.getElementById('flightSearchInput');
     
-    // עבור על כל קוביות הסטטוס והוסף להן אירוע לחיצה
+    // Track the currently active filter
+    let activeFilter = null;
+    
     statItems.forEach(statItem => {
-        statItem.style.cursor = 'pointer'; // שינוי סמן העכבר לסמן לחיצה
+        statItem.style.cursor = 'pointer';
         
         statItem.addEventListener('click', function() {
-            // בטל את החיפוש הנוכחי אם קיים
+            // Clear current search if exists
             if (searchInput && searchInput.value) {
                 searchInput.value = '';
-                // הסר הדגשות
                 clearHighlights();
-                // הסר הודעת שגיאה אם קיימת
-                const noResultsMessage = document.getElementById('noResultsMessage');
-                if (noResultsMessage) {
-                    noResultsMessage.remove();
-                }
-                // הסתר כפתור ניקוי חיפוש
+                
+                // Remove error message if exists
+                removeNoResultsMessage();
+                
+                // Hide clear search button
                 const clearButton = document.getElementById('clearSearch');
                 if (clearButton) {
                     clearButton.style.visibility = 'hidden';
@@ -430,7 +411,7 @@ function setupStatusFiltering() {
                 }
             }
             
-            // בדוק איזה סטטוס נבחר
+            // Determine which status was selected
             let selectedStatus = '';
             if (this.classList.contains('total')) {
                 selectedStatus = 'total';
@@ -448,24 +429,35 @@ function setupStatusFiltering() {
                 selectedStatus = 'cancelled';
             }
             
-            // הסר הדגשה מכל הקוביות
+            // If clicking the same filter again, treat it as clearing the filter
+            if (activeFilter === selectedStatus && selectedStatus !== 'total') {
+                selectedStatus = 'total';
+                activeFilter = null;
+            } else {
+                activeFilter = selectedStatus;
+            }
+            
+            // Remove highlight from all items
             statItems.forEach(item => {
                 item.classList.remove('active-filter');
             });
             
-            // סנן את הטבלה לפי הסטטוס שנבחר
+            // Filter the table by selected status
             let hasResults = false;
             
+            // Always remove any existing no-results message first
+            removeNoResultsMessage();
+            
             tableRows.forEach(row => {
-                // דלג על שורת הודעת שגיאה אם קיימת
+                // Skip error message row if exists
                 if (row.id === 'noResultsMessage') return;
                 
                 if (selectedStatus === 'total') {
-                    // הצג את כל השורות
+                    // Show all rows
                     row.style.display = '';
                     hasResults = true;
                 } else {
-                    // בדוק אם הסטטוס של השורה תואם את הסטטוס שנבחר
+                    // Check if row status matches selected status
                     const statusBadge = row.querySelector('.status-badge');
                     if (statusBadge && statusBadge.textContent.trim().toLowerCase() === selectedStatus) {
                         row.style.display = '';
@@ -476,32 +468,48 @@ function setupStatusFiltering() {
                 }
             });
             
-            // הוסף הדגשה לקוביה שנבחרה
+            // Add highlight to selected item (only if not 'total')
             if (selectedStatus !== 'total') {
                 this.classList.add('active-filter');
-            }
-            
-            // הצג הודעת שגיאה אם אין תוצאות
-            if (!hasResults && selectedStatus !== 'total') {
-                // יצירת הודעת שגיאה
-                const noResultsMessage = document.createElement('tr');
-                noResultsMessage.id = 'noResultsMessage';
-                noResultsMessage.innerHTML = `<td colspan="10" class="no-results">No flights found with status "${selectedStatus.charAt(0).toUpperCase() + selectedStatus.slice(1)}"</td>`;
                 
-                // הוספת ההודעה לטבלה
-                const tbody = document.querySelector('.flights-table tbody');
-                if (tbody) {
-                    tbody.appendChild(noResultsMessage);
+                // Show error message if no results and not 'total'
+                if (!hasResults) {
+                    createNoResultsMessage(selectedStatus);
                 }
             }
             
-            // עדכון סטטיסטיקות
+            // Update statistics
             updateFlightStats();
         });
     });
 }
 
-// הוספת סגנון CSS לקובייה שנבחרה
+// Helper function to remove no results message
+function removeNoResultsMessage() {
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    if (noResultsMessage) {
+        noResultsMessage.remove();
+    }
+}
+
+// Helper function to create no results message
+function createNoResultsMessage(status) {
+    const noResultsMessage = document.createElement('tr');
+    noResultsMessage.id = 'noResultsMessage';
+    
+    // Format the status text with first letter capitalized
+    const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+    
+    noResultsMessage.innerHTML = `<td colspan="10" class="no-results">No flights found with status "${formattedStatus}"</td>`;
+    
+    // Add the message to the table
+    const tbody = document.querySelector('.flights-table tbody');
+    if (tbody) {
+        tbody.appendChild(noResultsMessage);
+    }
+}
+
+// Add styles for status filter highlighting
 const styleElement = document.createElement('style');
 styleElement.textContent = `
     .stat-item {
@@ -531,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
     applyTheme(savedTheme);
     updateLastUpdateTime();
     setupFlightSearch();
-    setupStatusFiltering(); // הוספת קריאה לפונקציה החדשה
+    setupStatusFiltering();
     
     // Set initial stats
     updateFlightStats();

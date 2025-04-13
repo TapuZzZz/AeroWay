@@ -8,6 +8,8 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using AeroWayServer.utils;
 using AeroWayServer.Pages;
+using AeroWayServer.Pages.addons;
+using System.Threading.Tasks;
 
 namespace AeroWayServer
 {
@@ -159,120 +161,168 @@ namespace AeroWayServer
             {
                 while (true)
                 {
-                    var context = listener.GetContext();
-                    string path = context.Request.Url!.AbsolutePath;
-                    string method = context.Request.HttpMethod;
-                    
-                    using (var response = context.Response)
+                    try
                     {
-                        try
+                        var context = listener.GetContext();
+                        
+                        // Process the request in a separate thread to avoid blocking
+                        ThreadPool.QueueUserWorkItem(state => 
                         {
-                            // Add cache control headers to all responses
-                            response.Headers.Add("Cache-Control", "no-store, no-cache, must-revalidate");
-                            response.Headers.Add("Pragma", "no-cache");
-                            response.Headers.Add("Expires", "0");
-                            
-                            string responseString = "";
-                            bool redirect = false;
-
-                            if (path == "/")
+                            try
                             {
-                                response.StatusCode = 302;
-                                response.RedirectLocation = "/login";
-                                redirect = true;
+                                HandleHttpRequest((HttpListenerContext)state);
                             }
-                            else if (path == "/login" && method == "GET")
+                            catch (Exception ex)
                             {
-                                responseString = LoginPage.GenerateLoginHtml(null);
+                                Log($"❌ Error handling HTTP request: {ex.Message}");
                             }
-                            else if (path == "/login" && method == "POST")
-                            {
-                                // Read form data and authenticate
-                                var (username, password) = AdminLogIn.ReadLoginForm(context);
-                                bool isAuthenticated = AdminLogIn.AuthenticateUser(username, password, response, _connectionString, Log);
-                                
-                                if (isAuthenticated)
-                                {
-                                    // Redirect to dashboard on successful login
-                                    response.StatusCode = 302;
-                                    response.RedirectLocation = "/dashboard";
-                                    redirect = true;
-                                }
-                                else
-                                {
-                                    // Return to login page with error message
-                                    responseString = LoginPage.GenerateLoginHtml("Invalid username or password.<br>Please try again.");
-                                }
-                            }
-                            else if (path == "/logout" && method == "GET")
-                            {
-                                // Use AdminLogIn to handle logout
-                                AdminLogIn.Logout(response);
-                                
-                                response.StatusCode = 302;
-                                response.RedirectLocation = "/login";
-                                redirect = true;
-                            }
-                            else
-                            {
-                                // All other routes require authentication
-                                if (!AdminLogIn.IsSessionAuthenticated(context))
-                                {
-                                    // User not authenticated, redirect to login
-                                    string ipAddress = context.Request.RemoteEndPoint.Address.ToString();
-                                    Log($"⚠️ Unauthorized access attempt to {path} from {ipAddress}");
-                                    
-                                    response.StatusCode = 302;
-                                    response.RedirectLocation = "/login";
-                                    redirect = true;
-                                }
-                                else
-                                {
-                                    // User is authenticated, handle specific routes
-                                    switch (path)
-                                    {
-                                        case "/dashboard":
-                                            responseString = DashboardPage.GenerateAdminHtml(_activeSessions, _connectionString);
-                                            break;
-                                        
-                                        case "/database":
-                                            responseString = DatabasePage.GenerateDatabaseHtml(_connectionString);
-                                            break;
-                                        
-                                        case "/flightmanager":
-                                            responseString = FlightManagerPage.GenerateFlightManagerHtml(_connectionString);
-                                            break;
-                                        
-                                        default:
-                                            // Handle 404 for pages that don't exist
-                                            response.StatusCode = 404;
-                                            responseString = "<h1>404 - Not Found</h1>";
-                                            break;
-                                    }
-                                }
-                            }
-
-                            if (!redirect)
-                            {
-                                byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-                                response.ContentLength64 = buffer.Length;
-                                response.OutputStream.Write(buffer, 0, buffer.Length);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log($"❌ HTTP Server Error: {ex.Message}");
-                            response.StatusCode = 500;
-                            byte[] errorBuffer = Encoding.UTF8.GetBytes($"<h1>500 - Internal Server Error</h1><p>{ex.Message}</p>");
-                            response.ContentLength64 = errorBuffer.Length;
-                            response.OutputStream.Write(errorBuffer, 0, errorBuffer.Length);
-                        }
+                        }, context);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log($"❌ Error accepting HTTP request: {ex.Message}");
                     }
                 }
             });
 
             httpThread.IsBackground = true;
             httpThread.Start();
+        }
+        
+        private void HandleHttpRequest(HttpListenerContext context)
+        {
+            string path = context.Request.Url!.AbsolutePath;
+            string method = context.Request.HttpMethod;
+            
+            string responseString = "";
+            bool redirect = false;
+            bool apiRequest = false;
+            
+            try
+            {
+                using (var response = context.Response)
+                {
+                    // Add cache control headers to all responses
+                    response.Headers.Add("Cache-Control", "no-store, no-cache, must-revalidate");
+                    response.Headers.Add("Pragma", "no-cache");
+                    response.Headers.Add("Expires", "0");
+                    
+                    // Handle API endpoints first
+                    if (path == "/api/deleteFlight")
+                    {
+                        apiRequest = true;
+                        DeleteFlightPage.HandleDeleteFlightRequest(context, _connectionString);
+                        Log($"🗑️ API Request: Delete Flight | IP: {context.Request.RemoteEndPoint.Address}");
+                        return; // The DeleteFlightPage handles the response
+                    }
+                    else if (path == "/")
+                    {
+                        response.StatusCode = 302;
+                        response.RedirectLocation = "/login";
+                        redirect = true;
+                    }
+                    else if (path == "/login" && method == "GET")
+                    {
+                        responseString = LoginPage.GenerateLoginHtml(null);
+                    }
+                    else if (path == "/login" && method == "POST")
+                    {
+                        // Read form data and authenticate
+                        var (username, password) = AdminLogIn.ReadLoginForm(context);
+                        bool isAuthenticated = AdminLogIn.AuthenticateUser(username, password, response, _connectionString, Log);
+                        
+                        if (isAuthenticated)
+                        {
+                            // Redirect to dashboard on successful login
+                            response.StatusCode = 302;
+                            response.RedirectLocation = "/dashboard";
+                            redirect = true;
+                        }
+                        else
+                        {
+                            // Return to login page with error message
+                            responseString = LoginPage.GenerateLoginHtml("Invalid username or password.<br>Please try again.");
+                        }
+                    }
+                    else if (path == "/logout" && method == "GET")
+                    {
+                        // Use AdminLogIn to handle logout
+                        AdminLogIn.Logout(response);
+                        
+                        response.StatusCode = 302;
+                        response.RedirectLocation = "/login";
+                        redirect = true;
+                    }
+                    else
+                    {
+                        // All other routes require authentication
+                        if (!AdminLogIn.IsSessionAuthenticated(context))
+                        {
+                            // User not authenticated, redirect to login
+                            string ipAddress = context.Request.RemoteEndPoint.Address.ToString();
+                            Log($"⚠️ Unauthorized access attempt to {path} from {ipAddress}");
+                            
+                            response.StatusCode = 302;
+                            response.RedirectLocation = "/login";
+                            redirect = true;
+                        }
+                        else
+                        {
+                            // User is authenticated, handle specific routes
+                            switch (path)
+                            {
+                                case "/dashboard":
+                                    responseString = DashboardPage.GenerateAdminHtml(_activeSessions, _connectionString);
+                                    break;
+                                
+                                case "/database":
+                                    responseString = DatabasePage.GenerateDatabaseHtml(_connectionString);
+                                    break;
+                                
+                                case "/flightmanager":
+                                    responseString = FlightManagerPage.GenerateFlightManagerHtml(_connectionString);
+                                    break;
+                                
+                                default:
+                                    // Handle 404 for pages that don't exist
+                                    response.StatusCode = 404;
+                                    responseString = "<h1>404 - Not Found</h1>";
+                                    break;
+                            }
+                        }
+                    }
+
+                    // Only write response for non-API, non-redirect requests
+                    if (!redirect && !apiRequest)
+                    {
+                        byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                        response.ContentLength64 = buffer.Length;
+                        response.OutputStream.Write(buffer, 0, buffer.Length);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"❌ HTTP Server Error: {ex.Message} | Stack Trace: {ex.StackTrace}");
+                
+                try
+                {
+                    if (!context.Response.OutputStream.CanWrite)
+                    {
+                        return; // Response already sent or closed
+                    }
+                    
+                    context.Response.StatusCode = 500;
+                    byte[] errorBuffer = Encoding.UTF8.GetBytes($"<h1>500 - Internal Server Error</h1><p>{ex.Message}</p>");
+                    context.Response.ContentLength64 = errorBuffer.Length;
+                    context.Response.OutputStream.Write(errorBuffer, 0, errorBuffer.Length);
+                    context.Response.Close();
+                }
+                catch (Exception innerEx)
+                {
+                    Log($"❌ Failed to send error response: {innerEx.Message}");
+                }
+            }
         }
 
         private void DecryptAESKey(string encryptedKeyIV, string privateKey, out string key, out string iv)
