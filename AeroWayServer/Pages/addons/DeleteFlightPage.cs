@@ -19,6 +19,9 @@ namespace AeroWayServer.Pages.addons
             context.Response.Headers.Add("Pragma", "no-cache");
             context.Response.Headers.Add("Expires", "0");
             
+            // Get the client's IP address (fixed to properly show the actual IP)
+            string clientIp = context.Request.RemoteEndPoint.Address.ToString();
+            
             try
             {
                 // Verify it's a POST request
@@ -31,6 +34,7 @@ namespace AeroWayServer.Pages.addons
                 // Check if user is authenticated
                 if (!AdminLogIn.IsSessionAuthenticated(context))
                 {
+                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] 🚫 Unauthorized delete flight attempt from IP: {clientIp}");
                     SendErrorResponse(context.Response, "Unauthorized access", 401);
                     return;
                 }
@@ -42,15 +46,8 @@ namespace AeroWayServer.Pages.addons
                     requestBody = reader.ReadToEnd();
                 }
                 
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] DELETE API Raw Request: {requestBody}");
-                
                 // Parse form data from URL-encoded format
                 var formData = ParseFormData(requestBody);
-                
-                foreach (var kvp in formData)
-                {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Form Data: {kvp.Key} = {kvp.Value}");
-                }
                 
                 // Check if flightId is provided
                 if (!formData.ContainsKey("flightId") || string.IsNullOrEmpty(formData["flightId"]))
@@ -66,26 +63,42 @@ namespace AeroWayServer.Pages.addons
                     return;
                 }
                 
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Attempting to delete flight with ID: {flightId}");
+                // Check if deletion reason is provided
+                if (!formData.ContainsKey("reason") || string.IsNullOrEmpty(formData["reason"]))
+                {
+                    SendErrorResponse(context.Response, "Deletion reason is required", 400);
+                    return;
+                }
+                
+                // Get deletion reason
+                string deletionReason = formData["reason"];
+                
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] 🗑️ API Request: Delete Flight | IP: {clientIp}");
+                
+                // Get flight details for logging
+                var flightDetails = GetFlightBasicInfo(flightId, connectionString);
+                string flightInfo = flightDetails != null 
+                    ? $"Flight {flightDetails.FlightNumber} ({flightDetails.Origin} → {flightDetails.Destination}) deleted by {clientIp}. Reason: {deletionReason}" 
+                    : $"Flight ID {flightId} (not found) deletion attempted by {clientIp}";
                 
                 // Delete the flight from database
                 bool success = DeleteFlightFromDatabase(flightId, connectionString);
                 
                 if (success)
                 {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Successfully deleted flight with ID: {flightId}");
+                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ✅ {flightInfo}");
                     SendSuccessResponse(context.Response);
                 }
                 else
                 {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Failed to delete flight with ID: {flightId}");
+                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ❌ Failed to delete flight ID {flightId} | IP: {clientIp}");
                     SendErrorResponse(context.Response, "Failed to delete flight", 500);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Error handling delete flight request: {ex.Message}");
-                SendErrorResponse(context.Response, "Internal server error: " + ex.Message, 500);
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ❌ Error handling delete flight request from {clientIp}: {ex.Message}");
+                SendErrorResponse(context.Response, "Internal server error", 500);
             }
         }
         
@@ -130,6 +143,58 @@ namespace AeroWayServer.Pages.addons
             return result;
         }
         
+        // Get basic flight info for logging
+        private static FlightBasicInfo? GetFlightBasicInfo(int flightId, string connectionString)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    
+                    string query = @"
+                        SELECT 
+                            FlightNumber, 
+                            Origin, 
+                            Destination
+                        FROM Flights 
+                        WHERE ID = @FlightId";
+                    
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@FlightId", flightId);
+                        
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new FlightBasicInfo
+                                {
+                                    FlightNumber = reader.GetString("FlightNumber"),
+                                    Origin = reader.GetString("Origin"),
+                                    Destination = reader.GetString("Destination")
+                                };
+                            }
+                        }
+                    }
+                }
+                
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        
+        // Simple class to hold basic flight info
+        private class FlightBasicInfo
+        {
+            public required string FlightNumber { get; set; }
+            public required string Origin { get; set; }
+            public required string Destination { get; set; }
+        }
+        
         // Delete flight from database
         private static bool DeleteFlightFromDatabase(int flightId, string connectionString)
         {
@@ -148,7 +213,6 @@ namespace AeroWayServer.Pages.addons
                         
                         if (count == 0)
                         {
-                            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Flight with ID {flightId} not found in database");
                             return false; // Flight doesn't exist
                         }
                     }
@@ -158,8 +222,7 @@ namespace AeroWayServer.Pages.addons
                     {
                         try
                         {
-                            // First, delete any related records (for example, delete bookings related to this flight)
-                            // Delete bookings (if the Bookings table exists and has a reference)
+                            // First, delete any related records
                             try
                             {
                                 using (MySqlCommand deleteBookingsCmd = new MySqlCommand("DELETE FROM Bookings WHERE FlightId = @FlightId", connection, transaction))
@@ -167,18 +230,29 @@ namespace AeroWayServer.Pages.addons
                                     deleteBookingsCmd.Parameters.AddWithValue("@FlightId", flightId);
                                     deleteBookingsCmd.ExecuteNonQuery();
                                 }
-                                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Deleted bookings for flight ID {flightId}");
                             }
                             catch (MySqlException ex)
                             {
-                                if (ex.Message.Contains("doesn't exist"))
+                                if (!ex.Message.Contains("doesn't exist"))
                                 {
-                                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] No Bookings table exists, continuing with flight deletion");
-                                    // Table doesn't exist, which is fine, continue with flight deletion
+                                    throw;
                                 }
-                                else
+                            }
+                            
+                            // Delete any crew assignments if that table exists
+                            try
+                            {
+                                using (MySqlCommand deleteCrewCmd = new MySqlCommand("DELETE FROM CrewAssignments WHERE FlightId = @FlightId", connection, transaction))
                                 {
-                                    throw; // Re-throw other MySQL errors
+                                    deleteCrewCmd.Parameters.AddWithValue("@FlightId", flightId);
+                                    deleteCrewCmd.ExecuteNonQuery();
+                                }
+                            }
+                            catch (MySqlException ex)
+                            {
+                                if (!ex.Message.Contains("doesn't exist"))
+                                {
+                                    throw;
                                 }
                             }
                             
@@ -201,18 +275,16 @@ namespace AeroWayServer.Pages.addons
                                 }
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Transaction error: {ex.Message}");
                             transaction.Rollback();
                             throw;
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Error deleting flight from database: {ex.Message}");
                 return false;
             }
         }

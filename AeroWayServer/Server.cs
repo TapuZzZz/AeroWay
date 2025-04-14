@@ -165,12 +165,18 @@ namespace AeroWayServer
                     {
                         var context = listener.GetContext();
                         
-                        // Process the request in a separate thread to avoid blocking
                         ThreadPool.QueueUserWorkItem(state => 
                         {
                             try
                             {
-                                HandleHttpRequest((HttpListenerContext)state);
+                                if (state != null)
+                                {
+                                    HandleHttpRequest((HttpListenerContext)state);
+                                }
+                                else
+                                {
+                                    Log("❌ Error: Null context received in HTTP request handler");
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -184,7 +190,7 @@ namespace AeroWayServer
                     }
                 }
             });
-
+    
             httpThread.IsBackground = true;
             httpThread.Start();
         }

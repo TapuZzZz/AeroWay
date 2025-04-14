@@ -1,4 +1,4 @@
-/* Delete Flight Confirmation Popup Styles */
+/* Simplified Delete Flight Confirmation Popup Styles */
 .delete-flight-popup {
     position: fixed;
     top: 0;
@@ -13,6 +13,8 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
 }
 
 .delete-flight-popup.active {
@@ -22,27 +24,32 @@
 
 .delete-flight-container {
     background-color: var(--surface);
-    border-radius: var(--border-radius);
-    width: 450px;
-    max-width: 90%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
+    border-radius: 12px;
+    width: 480px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
     transform: translateY(20px);
-    transition: transform 0.3s ease;
-    border: 1px solid var(--surface-light);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+    opacity: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .delete-flight-popup.active .delete-flight-container {
     transform: translateY(0);
+    opacity: 1;
 }
 
 .delete-flight-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
-    background-color: var(--danger-color);
+    padding: 1.2rem 1.5rem;
+    background-color: #b91c1c;
     color: white;
+    position: relative;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .delete-flight-title {
@@ -51,60 +58,64 @@
     gap: 0.75rem;
     font-weight: 600;
     font-size: 1.1rem;
+    letter-spacing: 0.2px;
 }
 
 .delete-flight-title span:first-child {
-    font-size: 1.5rem;
-}
-
-.delete-flight-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-}
-
-.delete-flight-close:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.delete-flight-close::before {
-    content: "×";
+    font-size: 1.3rem;
+    opacity: 0.9;
 }
 
 .delete-flight-body {
     padding: 1.5rem;
+    position: relative;
 }
 
 .delete-flight-message {
     margin-bottom: 1.5rem;
-    text-align: center;
-    line-height: 1.6;
+    line-height: 1.5;
+}
+
+.delete-flight-message p:first-child {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--danger-color);
+}
+
+.delete-flight-message p:last-child {
+    font-size: 0.9rem;
+    opacity: 0.8;
 }
 
 .delete-flight-info {
-    background-color: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: var(--border-radius);
-    padding: 1rem;
+    background-color: rgba(239, 68, 68, 0.04);
+    border: 1px solid rgba(239, 68, 68, 0.12);
+    border-radius: 8px;
+    padding: 1.2rem;
     margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.delete-flight-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: var(--danger-color);
+    opacity: 0.7;
+    border-radius: 8px 0 0 8px;
 }
 
 .delete-flight-info-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .delete-flight-info-row:last-child {
@@ -116,57 +127,204 @@
 .delete-flight-label {
     font-weight: 500;
     color: var(--text);
-    opacity: 0.8;
+    opacity: 0.85;
+    font-size: 0.875rem;
+    position: relative;
+    padding-left: 0.6rem;
+}
+
+.delete-flight-label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 3px;
+    background-color: var(--danger-color);
+    border-radius: 50%;
+    opacity: 0.7;
 }
 
 .delete-flight-value {
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 0.9rem;
+    max-width: 55%;
+    text-align: right;
+    word-break: break-word;
 }
 
 .delete-flight-value-status {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Controls for Deletion Reason */
+.delete-flight-form {
+    margin-bottom: 1.5rem;
+}
+
+.delete-flight-form-group {
+    margin-bottom: 1.2rem;
+}
+
+.delete-flight-form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.delete-flight-select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    font-size: 0.9rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e2e8f0' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.delete-flight-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.delete-flight-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.delete-flight-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
 .delete-flight-actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    padding-top: 0.5rem;
 }
 
 .delete-flight-btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--border-radius);
-    font-weight: 600;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     border: none;
     font-size: 0.9rem;
+    letter-spacing: 0.2px;
 }
 
 .delete-flight-btn.cancel {
-    background-color: var(--surface-light);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--text);
 }
 
 .delete-flight-btn.cancel:hover {
-    background-color: var(--blue-gray);
-    color: white;
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+}
+
+.delete-flight-btn.cancel:active {
+    transform: translateY(1px);
 }
 
 .delete-flight-btn.confirm {
     background-color: var(--danger-color);
     color: white;
+    box-shadow: 0 3px 10px rgba(239, 68, 68, 0.2);
 }
 
 .delete-flight-btn.confirm:hover {
-    background-color: #dc2626;
-    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+.delete-flight-btn.confirm:active {
+    transform: translateY(1px);
+}
+
+.delete-flight-btn.confirm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Confirmation checkbox */
+.delete-flight-confirmation {
+    background-color: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.delete-flight-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+}
+
+.delete-flight-checkbox-input {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(239, 68, 68, 0.5);
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.delete-flight-checkbox-input:checked {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.delete-flight-checkbox-input:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.delete-flight-checkbox-label {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    cursor: pointer;
 }
 
 /* Loading spinner */
@@ -175,77 +333,67 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
     padding: 2rem;
 }
 
-.delete-flight-loading.active {
-    display: flex;
-}
-
 .delete-flight-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(239, 68, 68, 0.3);
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(239, 68, 68, 0.1);
     border-radius: 50%;
     border-top-color: var(--danger-color);
-    animation: delete-flight-spin 1s linear infinite;
+    animation: delete-flight-spin 1.2s ease infinite;
 }
 
 @keyframes delete-flight-spin {
-    to {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .delete-flight-loading-text {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text);
+    font-weight: 500;
+    text-align: center;
+    opacity: 0.9;
 }
 
 /* Status badge colors for flight info */
 .delete-flight-value-status.scheduled {
-    background-color: rgba(129, 140, 248, 0.15);
+    background: rgba(129, 140, 248, 0.1);
     color: var(--scheduled-color);
+    border: 1px solid rgba(129, 140, 248, 0.2);
 }
 
 .delete-flight-value-status.boarding {
-    background-color: rgba(245, 158, 11, 0.15);
+    background: rgba(245, 158, 11, 0.1);
     color: var(--boarding-color);
+    border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 .delete-flight-value-status.departed {
-    background-color: rgba(34, 197, 94, 0.15);
+    background: rgba(34, 197, 94, 0.1);
     color: var(--departed-color);
+    border: 1px solid rgba(34, 197, 94, 0.2);
 }
 
 .delete-flight-value-status.arrived {
-    background-color: rgba(139, 92, 246, 0.15);
+    background: rgba(139, 92, 246, 0.1);
     color: var(--arrived-color);
+    border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .delete-flight-value-status.delayed {
-    background-color: rgba(249, 115, 22, 0.15);
+    background: rgba(249, 115, 22, 0.1);
     color: var(--delayed-color);
+    border: 1px solid rgba(249, 115, 22, 0.2);
 }
 
 .delete-flight-value-status.cancelled {
-    background-color: rgba(239, 68, 68, 0.15);
+    background: rgba(239, 68, 68, 0.1);
     color: var(--cancelled-color);
-}
-
-/* Light theme adjustments */
-[data-theme="light"] .delete-flight-container {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-[data-theme="light"] .delete-flight-info {
-    background-color: rgba(239, 68, 68, 0.05);
-    border-color: rgba(239, 68, 68, 0.2);
-}
-
-[data-theme="light"] .delete-flight-info-row {
-    border-bottom-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* Success message */
@@ -254,13 +402,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
     padding: 2rem;
     text-align: center;
-}
-
-.delete-flight-success.active {
-    display: flex;
 }
 
 .delete-flight-success-icon {
@@ -271,14 +415,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: white;
+    box-shadow: 0 6px 15px rgba(34, 197, 94, 0.2);
 }
 
 .delete-flight-success-text {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text);
+    color: var(--success-color);
 }
 
 .delete-flight-success-message {
@@ -286,23 +431,30 @@
     color: var(--text);
     opacity: 0.8;
     margin-bottom: 1rem;
+    max-width: 85%;
+    line-height: 1.5;
 }
 
 .delete-flight-done-btn {
     background-color: var(--success-color);
     color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--border-radius);
-    font-weight: 600;
+    padding: 0.7rem 1.8rem;
+    border-radius: 8px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     border: none;
     font-size: 0.9rem;
+    box-shadow: 0 3px 10px rgba(34, 197, 94, 0.2);
 }
 
 .delete-flight-done-btn:hover {
-    background-color: #16a34a;
-    box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+}
+
+.delete-flight-done-btn:active {
+    transform: translateY(1px);
 }
 
 /* Error message */
@@ -311,13 +463,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
     padding: 2rem;
     text-align: center;
-}
-
-.delete-flight-error.active {
-    display: flex;
 }
 
 .delete-flight-error-icon {
@@ -328,12 +476,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: white;
+    box-shadow: 0 6px 15px rgba(239, 68, 68, 0.2);
 }
 
 .delete-flight-error-text {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--danger-color);
 }
@@ -342,33 +491,41 @@
     font-size: 0.9rem;
     color: var(--text);
     opacity: 0.8;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 85%;
+    line-height: 1.5;
 }
 
 .delete-flight-retry-btn {
     background-color: var(--danger-color);
     color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--border-radius);
-    font-weight: 600;
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     border: none;
     font-size: 0.9rem;
+    box-shadow: 0 3px 10px rgba(239, 68, 68, 0.2);
     margin-right: 0.5rem;
 }
 
 .delete-flight-retry-btn:hover {
-    background-color: #dc2626;
-    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+.delete-flight-retry-btn:active {
+    transform: translateY(1px);
 }
 
 .delete-flight-cancel-btn {
-    background-color: var(--surface-light);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--text);
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--border-radius);
-    font-weight: 600;
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     border: none;
@@ -377,6 +534,138 @@
 }
 
 .delete-flight-cancel-btn:hover {
-    background-color: var(--blue-gray);
-    color: white;
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
 }
+
+.delete-flight-cancel-btn:active {
+    transform: translateY(1px);
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .delete-flight-container {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .delete-flight-info {
+    background-color: rgba(239, 68, 68, 0.04);
+    border-color: rgba(239, 68, 68, 0.1);
+}
+
+[data-theme="light"] .delete-flight-info-row {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .delete-flight-btn.cancel {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .delete-flight-select,
+[data-theme="light"] .delete-flight-input {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #1e293b;
+}
+
+[data-theme="light"] .delete-flight-confirmation {
+    background-color: rgba(239, 68, 68, 0.05);
+    border-color: rgba(239, 68, 68, 0.1);
+}
+
+[data-theme="light"] .delete-flight-checkbox-input {
+    background-color: white;
+}
+
+[data-theme="light"] .delete-flight-btn.cancel:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 640px) {
+    .delete-flight-container {
+        width: 90%;
+        max-height: 85vh;
+    }
+    
+    .delete-flight-body {
+        padding: 1rem;
+    }
+    
+    .delete-flight-info {
+        padding: 1rem;
+    }
+    
+    .delete-flight-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+    
+    .delete-flight-value {
+        max-width: 100%;
+        text-align: left;
+        padding-left: 0.6rem;
+    }
+    
+    .delete-flight-actions {
+        flex-direction: column;
+    }
+    
+    .delete-flight-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .delete-flight-btn.cancel {
+        order: 2;
+    }
+    
+    .delete-flight-btn.confirm {
+        order: 1;
+        margin-bottom: 0.75rem;
+    }
+    
+    .delete-flight-error-message,
+    .delete-flight-success-message {
+        max-width: 100%;
+    }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .delete-flight-container {
+        width: 80%;
+        max-width: 550px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    .delete-flight-btn,
+    .delete-flight-checkbox-input,
+    .delete-flight-select,
+    .delete-flight-input {
+        cursor: default;
+    }
+    
+    .delete-flight-btn:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Fix for safari issue with sticky header */
+@supports (-webkit-touch-callout: none) {
+    .delete-flight-header {
+        position: -webkit-sticky;
+    }
+}
+
+/* Animation for error validation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+

@@ -1705,3 +1705,36 @@
 [2025-04-13 19:33:19] 🗑️ API Request: Delete Flight | IP: ::1
 [2025-04-13 19:33:25] 🗑️ API Request: Delete Flight | IP: ::1
 [2025-04-13 19:33:27] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:39:57] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:40:47] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:41:28] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-13 19:41:28] 🚀 Server is listening on port 8000...
+[2025-04-13 19:41:37] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-13 19:41:44] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 21:17:44] ⚠️ Unauthorized access attempt to /flightmanager from ::1
+[2025-04-14 21:30:00] 🔐 User 'AeroWay2025' authenticated successfully as admin
+[2025-04-14 21:40:03] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-14 21:40:03] 🚀 Server is listening on port 8000...
+[2025-04-14 22:16:27] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-14 22:16:27] 🚀 Server is listening on port 8000...
+[2025-04-14 22:17:26] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:30:39] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-14 22:30:39] 🚀 Server is listening on port 8000...
+[2025-04-14 22:35:41] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-14 22:35:41] 🚀 Server is listening on port 8000...
+[2025-04-14 22:36:03] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:36:10] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:36:15] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:37:04] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:40:40] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-14 22:40:40] 🚀 Server is listening on port 8000...
+[2025-04-14 22:41:07] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:41:25] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:41:52] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-14 22:41:52] 🚀 Server is listening on port 8000...
+[2025-04-14 22:42:03] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:43:30] 🌐 HTTP Server is running on http://localhost:8080
+[2025-04-14 22:43:30] 🚀 Server is listening on port 8000...
+[2025-04-14 22:43:48] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:44:02] 🗑️ API Request: Delete Flight | IP: ::1
+[2025-04-14 22:47:43] 🗑️ API Request: Delete Flight | IP: ::1

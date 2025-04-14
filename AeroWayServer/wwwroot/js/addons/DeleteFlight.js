@@ -1,4 +1,4 @@
-// DeleteFlight.js - Handles flight deletion functionality
+// DeleteFlight.js - Enhanced with animation and required deletion reason
 document.addEventListener('DOMContentLoaded', function() {
     setupDeleteFlightButtons();
 });
@@ -25,14 +25,24 @@ function setupDeleteFlightButtons() {
                 return;
             }
             
+            // Store a reference to the row for animation later
+            this.dataset.rowReference = row.id || 'row-' + Math.random().toString(36).substring(2, 9);
+            if (!row.id) {
+                row.id = this.dataset.rowReference;
+            }
+            
+            // Extract all relevant flight data
             const flightDetails = {
                 flightId: flightId,
                 flightNumber: row.querySelector('.flight-number').textContent.trim(),
                 origin: row.cells[1].textContent.trim(),
                 destination: row.cells[2].textContent.trim(),
                 departureTime: row.cells[3].textContent.trim(),
+                arrivalTime: row.cells[4].textContent.trim(),
+                gate: row.cells[5].textContent.trim() || 'Not Assigned',
                 status: row.querySelector('.status-badge').textContent.trim(),
-                statusClass: row.querySelector('.status-badge').classList[1] || ''
+                statusClass: row.querySelector('.status-badge').classList[1] || '',
+                rowReference: this.dataset.rowReference
             };
             
             showDeleteConfirmation(flightDetails);
@@ -40,26 +50,28 @@ function setupDeleteFlightButtons() {
     });
 }
 
-// Show the delete confirmation popup with flight details
+// Show the delete confirmation popup
 function showDeleteConfirmation(flightDetails) {
-    // Create modal if it doesn't exist yet
-    let deleteModal = document.getElementById('deleteFlightPopup');
-    
-    if (!deleteModal) {
-        deleteModal = createDeleteFlightModal();
-        document.body.appendChild(deleteModal);
+    // Remove any existing modal
+    const existingModal = document.getElementById('deleteFlightPopup');
+    if (existingModal) {
+        document.body.removeChild(existingModal);
     }
     
-    // Update the modal with flight details
-    updateDeleteModalContent(deleteModal, flightDetails);
+    // Create modal
+    const modal = createDeleteFlightModal();
+    document.body.appendChild(modal);
     
-    // Display the modal
+    // Update the modal with flight details
+    updateDeleteModalContent(modal, flightDetails);
+    
+    // Display the modal with animation
     setTimeout(() => {
-        deleteModal.classList.add('active');
+        modal.classList.add('active');
     }, 10);
     
     // Set up event listeners for the modal buttons
-    setupDeleteModalEvents(deleteModal, flightDetails);
+    setupDeleteModalEvents(modal, flightDetails);
 }
 
 // Create the delete confirmation modal HTML structure
@@ -75,17 +87,20 @@ function createDeleteFlightModal() {
                     <span>🗑️</span>
                     <span>Delete Flight</span>
                 </div>
-                <button class="delete-flight-close"></button>
             </div>
             
             <div class="delete-flight-body">
-                <div class="delete-flight-confirmation">
+                <div class="delete-flight-confirmation-view">
                     <div class="delete-flight-message">
                         <p>Are you sure you want to delete this flight?</p>
-                        <p>This action cannot be undone.</p>
+                        <p>This action cannot be undone and will permanently remove the flight from the system.</p>
                     </div>
                     
                     <div class="delete-flight-info">
+                        <div class="delete-flight-info-row">
+                            <span class="delete-flight-label">Database ID:</span>
+                            <span class="delete-flight-value flight-db-id"></span>
+                        </div>
                         <div class="delete-flight-info-row">
                             <span class="delete-flight-label">Flight Number:</span>
                             <span class="delete-flight-value flight-number"></span>
@@ -99,25 +114,80 @@ function createDeleteFlightModal() {
                             <span class="delete-flight-value flight-departure"></span>
                         </div>
                         <div class="delete-flight-info-row">
+                            <span class="delete-flight-label">Arrival:</span>
+                            <span class="delete-flight-value flight-arrival"></span>
+                        </div>
+                        <div class="delete-flight-info-row">
+                            <span class="delete-flight-label">Gate:</span>
+                            <span class="delete-flight-value flight-gate"></span>
+                        </div>
+                        <div class="delete-flight-info-row">
                             <span class="delete-flight-label">Status:</span>
                             <span class="delete-flight-value flight-status"></span>
                         </div>
                     </div>
                     
+                    <div class="delete-flight-form">
+                        <div class="delete-flight-form-group">
+                            <label class="delete-flight-form-label" for="deletionReason">
+                                Deletion Reason: <span style="color: var(--danger-color);">*</span>
+                            </label>
+                            <select class="delete-flight-select" id="deletionReason" required>
+                                <option value="" selected disabled>Select reason...</option>
+                                <option value="canceled">Flight Canceled</option>
+                                <option value="duplicate">Duplicate Entry</option>
+                                <option value="date-change">Date/Time Change</option>
+                                <option value="routing">Routing Change</option>
+                                <option value="technical">Technical Issues</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="delete-flight-error-text" id="reasonError" style="display: none; color: var(--danger-color); font-size: 0.8rem; margin-top: 0.4rem;">
+                                Please select a deletion reason
+                            </div>
+                        </div>
+                        
+                        <div class="delete-flight-form-group" id="otherReasonGroup" style="display: none;">
+                            <label class="delete-flight-form-label" for="otherReason">
+                                Specify Reason: <span style="color: var(--danger-color);">*</span>
+                            </label>
+                            <input type="text" class="delete-flight-input" id="otherReason" placeholder="Please provide details...">
+                            <div class="delete-flight-error-text" id="otherReasonError" style="display: none; color: var(--danger-color); font-size: 0.8rem; margin-top: 0.4rem;">
+                                Please provide a specific reason
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="delete-flight-confirmation">
+                        <div class="delete-flight-checkbox">
+                            <input type="checkbox" class="delete-flight-checkbox-input" id="confirmDeleteCheckbox">
+                            <label class="delete-flight-checkbox-label" for="confirmDeleteCheckbox">
+                                I confirm that I want to delete this flight from the flight board
+                            </label>
+                        </div>
+                    </div>
+                    
                     <div class="delete-flight-actions">
                         <button class="delete-flight-btn cancel">Cancel</button>
-                        <button class="delete-flight-btn confirm">Delete Flight</button>
+                        <button class="delete-flight-btn confirm" disabled>Delete Flight</button>
                     </div>
                 </div>
                 
                 <div class="delete-flight-loading">
                     <div class="delete-flight-spinner"></div>
-                    <div class="delete-flight-loading-text">Deleting flight...</div>
+                    <div class="delete-flight-loading-text">Deleting flight from system...</div>
+                </div>
+                
+                <div class="delete-flight-animation">
+                    <div class="delete-flight-animation-wrapper">
+                        <div class="delete-flight-plane">✈️</div>
+                        <div class="delete-flight-trash">🗑️</div>
+                        <div class="delete-flight-animation-text">Flight is being removed...</div>
+                    </div>
                 </div>
                 
                 <div class="delete-flight-success">
                     <div class="delete-flight-success-icon">✓</div>
-                    <div class="delete-flight-success-text">Flight Deleted Successfully</div>
+                    <div class="delete-flight-success-text">Flight Deleted</div>
                     <div class="delete-flight-success-message">
                         The flight has been permanently removed from the system.
                     </div>
@@ -126,7 +196,7 @@ function createDeleteFlightModal() {
                 
                 <div class="delete-flight-error">
                     <div class="delete-flight-error-icon">!</div>
-                    <div class="delete-flight-error-text">Error Deleting Flight</div>
+                    <div class="delete-flight-error-text">Error</div>
                     <div class="delete-flight-error-message"></div>
                     <div>
                         <button class="delete-flight-retry-btn">Retry</button>
@@ -137,26 +207,108 @@ function createDeleteFlightModal() {
         </div>
     `;
     
+    // Add animation styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+        .delete-flight-animation {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            text-align: center;
+            height: 240px;
+        }
+        
+        .delete-flight-animation-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .delete-flight-plane {
+            font-size: 2.5rem;
+            position: absolute;
+            top: 20px;
+            left: 0;
+            z-index: 1;
+            animation: flyToTrash 2s ease-in forwards;
+        }
+        
+        .delete-flight-trash {
+            font-size: 3rem;
+            position: absolute;
+            bottom: 20px;
+            right: 0;
+            animation: trashEffect 2s 1.5s ease forwards;
+        }
+        
+        .delete-flight-animation-text {
+            position: absolute;
+            bottom: 0;
+            color: var(--text);
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeInText 0.5s 0.5s forwards;
+        }
+        
+        @keyframes flyToTrash {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            50% { transform: translate(50px, 50px) rotate(45deg); opacity: 1; }
+            100% { transform: translate(100px, 100px) rotate(90deg); opacity: 0; }
+        }
+        
+        @keyframes trashEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeInText {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        .fadeOutRow {
+            animation: fadeOutRow 1s forwards;
+        }
+        
+        @keyframes fadeOutRow {
+            0% { opacity: 1; background-color: rgba(239, 68, 68, 0.1); }
+            100% { opacity: 0; background-color: rgba(239, 68, 68, 0.1); height: 0; padding: 0; border: 0; }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+    `;
+    document.head.appendChild(styleElement);
+    
     return modal;
 }
 
 // Update the modal content with the specific flight details
 function updateDeleteModalContent(modal, flightDetails) {
-    // Reset modal state
-    modal.querySelector('.delete-flight-confirmation').style.display = 'block';
-    modal.querySelector('.delete-flight-loading').classList.remove('active');
-    modal.querySelector('.delete-flight-success').classList.remove('active');
-    modal.querySelector('.delete-flight-error').classList.remove('active');
-    
-    // Update flight details
+    // Update flight details - now showing Database ID first
+    modal.querySelector('.flight-db-id').textContent = flightDetails.flightId;
     modal.querySelector('.flight-number').textContent = flightDetails.flightNumber;
-    modal.querySelector('.flight-route').textContent = `${flightDetails.origin} → ${flightDetails.destination}`;
+    modal.querySelector('.flight-route').innerHTML = `
+        <span>${flightDetails.origin}</span>
+        <span style="margin: 0 4px; opacity: 0.7;">→</span>
+        <span>${flightDetails.destination}</span>
+    `;
     modal.querySelector('.flight-departure').textContent = flightDetails.departureTime;
+    modal.querySelector('.flight-arrival').textContent = flightDetails.arrivalTime;
+    modal.querySelector('.flight-gate').textContent = flightDetails.gate || 'Not Assigned';
     
     // Update status with badge
     const statusElem = modal.querySelector('.flight-status');
-    statusElem.innerHTML = '';
-    
     const statusBadge = document.createElement('span');
     statusBadge.className = `delete-flight-value-status ${flightDetails.statusClass}`;
     statusBadge.textContent = flightDetails.status;
@@ -164,123 +316,217 @@ function updateDeleteModalContent(modal, flightDetails) {
     
     // Store the flight ID as a data attribute for the confirm button
     modal.querySelector('.delete-flight-btn.confirm').dataset.flightId = flightDetails.flightId;
+    modal.querySelector('.delete-flight-btn.confirm').dataset.rowReference = flightDetails.rowReference;
+    
+    // Add warning for flights that have already departed or arrived
+    if(['departed', 'arrived'].includes(flightDetails.status.toLowerCase())) {
+        const warningMessage = document.createElement('div');
+        warningMessage.className = 'delete-flight-warning';
+        warningMessage.style.backgroundColor = 'rgba(245, 158, 11, 0.05)';
+        warningMessage.style.borderLeft = '2px solid #f59e0b';
+        warningMessage.style.padding = '0.8rem 1rem';
+        warningMessage.style.marginBottom = '1.5rem';
+        warningMessage.style.borderRadius = '4px';
+        warningMessage.style.fontSize = '0.85rem';
+        warningMessage.style.color = '#f59e0b';
+        warningMessage.style.fontWeight = '500';
+        
+        warningMessage.innerHTML = `
+            <div style="margin-bottom: 0.3rem; font-weight: 600;">Note: ${flightDetails.status} Flight</div>
+            <div style="opacity: 0.9;">This flight has already ${flightDetails.status.toLowerCase()}. Deleting it may affect reporting data.</div>
+        `;
+        
+        // Insert warning after the standard message
+        const messageContainer = modal.querySelector('.delete-flight-message');
+        messageContainer.parentNode.insertBefore(warningMessage, messageContainer.nextSibling);
+    }
 }
 
-// Set up event listeners for the modal buttons
+// Set up event listeners for the modal buttons and form elements
 function setupDeleteModalEvents(modal, flightDetails) {
-    // Close button
-    const closeBtn = modal.querySelector('.delete-flight-close');
-    closeBtn.addEventListener('click', () => closeDeleteModal(modal), { once: true });
+    // Deletion reason dropdown change event
+    const deletionReasonSelect = modal.querySelector('#deletionReason');
+    const reasonError = modal.querySelector('#reasonError');
+    const otherReasonGroup = modal.querySelector('#otherReasonGroup');
+    const otherReasonInput = modal.querySelector('#otherReason');
+    const otherReasonError = modal.querySelector('#otherReasonError');
     
-    // Cancel button
+    deletionReasonSelect.addEventListener('change', function() {
+        // Reset error message
+        reasonError.style.display = 'none';
+        deletionReasonSelect.style.borderColor = '';
+        
+        if (this.value === 'other') {
+            otherReasonGroup.style.display = 'block';
+            otherReasonInput.required = true;
+        } else {
+            otherReasonGroup.style.display = 'none';
+            otherReasonInput.required = false;
+            otherReasonError.style.display = 'none';
+            otherReasonInput.style.borderColor = '';
+        }
+    });
+    
+    otherReasonInput.addEventListener('input', function() {
+        if (this.value.trim()) {
+            otherReasonError.style.display = 'none';
+            this.style.borderColor = '';
+        }
+    });
+    
+    // Confirmation checkbox change event - this enables/disables the delete button
+    const confirmCheckbox = modal.querySelector('#confirmDeleteCheckbox');
+    const confirmBtn = modal.querySelector('.delete-flight-btn.confirm');
+    
+    confirmCheckbox.addEventListener('change', function() {
+        confirmBtn.disabled = !this.checked;
+    });
+    
+    // Cancel button - closes the modal
     const cancelBtn = modal.querySelector('.delete-flight-btn.cancel');
-    cancelBtn.addEventListener('click', () => closeDeleteModal(modal), { once: true });
+    cancelBtn.addEventListener('click', () => {
+        closeDeleteModal(modal);
+    });
+    
+    // Escape key to close modal
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeDeleteModal(modal);
+        }
+    });
     
     // Confirm delete button
-    const confirmBtn = modal.querySelector('.delete-flight-btn.confirm');
     confirmBtn.addEventListener('click', () => {
-        // Show loading state
-        modal.querySelector('.delete-flight-confirmation').style.display = 'none';
-        modal.querySelector('.delete-flight-loading').classList.add('active');
+        // Validate form - required deletion reason
+        let isValid = true;
         
-        // Call the delete API
-        deleteFlight(flightDetails.flightId, modal);
-    }, { once: true });
+        if (!deletionReasonSelect.value) {
+            isValid = false;
+            reasonError.style.display = 'block';
+            deletionReasonSelect.style.borderColor = 'var(--danger-color)';
+            deletionReasonSelect.style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+                deletionReasonSelect.style.animation = '';
+            }, 500);
+        }
+        
+        if (deletionReasonSelect.value === 'other' && !otherReasonInput.value.trim()) {
+            isValid = false;
+            otherReasonError.style.display = 'block';
+            otherReasonInput.style.borderColor = 'var(--danger-color)';
+            otherReasonInput.style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+                otherReasonInput.style.animation = '';
+            }, 500);
+        }
+        
+        if (!isValid) {
+            return;
+        }
+        
+        // Show animation state
+        modal.querySelector('.delete-flight-confirmation-view').style.display = 'none';
+        modal.querySelector('.delete-flight-animation').style.display = 'flex';
+        
+        // Animate the row in the table if it exists
+        const rowId = confirmBtn.dataset.rowReference;
+        const row = document.getElementById(rowId);
+        if (row) {
+            row.classList.add('fadeOutRow');
+        }
+        
+        // After animation completes, call the delete API
+        setTimeout(() => {
+            modal.querySelector('.delete-flight-animation').style.display = 'none';
+            modal.querySelector('.delete-flight-loading').style.display = 'flex';
+            
+            // Call the delete API
+            deleteFlight(flightDetails.flightId, modal);
+        }, 3000);
+    });
     
     // Success done button
     const doneBtn = modal.querySelector('.delete-flight-done-btn');
     doneBtn.addEventListener('click', () => {
         closeDeleteModal(modal);
+        
         // Refresh the page to show updated flight list
         window.location.reload();
-    }, { once: true });
+    });
     
     // Error retry button
     const retryBtn = modal.querySelector('.delete-flight-retry-btn');
     retryBtn.addEventListener('click', () => {
         // Reset to confirmation view
-        modal.querySelector('.delete-flight-error').classList.remove('active');
-        modal.querySelector('.delete-flight-confirmation').style.display = 'block';
-        
-        // Re-add event listener to confirm button
-        const confirmBtn = modal.querySelector('.delete-flight-btn.confirm');
-        confirmBtn.addEventListener('click', () => {
-            modal.querySelector('.delete-flight-confirmation').style.display = 'none';
-            modal.querySelector('.delete-flight-loading').classList.add('active');
-            deleteFlight(flightDetails.flightId, modal);
-        }, { once: true });
-    }, { once: true });
+        modal.querySelector('.delete-flight-error').style.display = 'none';
+        modal.querySelector('.delete-flight-confirmation-view').style.display = 'block';
+    });
     
     // Error cancel button
     const errorCancelBtn = modal.querySelector('.delete-flight-cancel-btn');
-    errorCancelBtn.addEventListener('click', () => closeDeleteModal(modal), { once: true });
+    errorCancelBtn.addEventListener('click', () => {
+        closeDeleteModal(modal);
+    });
 }
 
-// Close the delete modal and reset it
+// Close the delete modal
 function closeDeleteModal(modal) {
     modal.classList.remove('active');
     
     // Remove the modal from DOM after animation completes
     setTimeout(() => {
-        if (modal && modal.parentNode) {
+        if (modal.parentNode) {
             modal.parentNode.removeChild(modal);
         }
     }, 300);
 }
 
-// Send delete request to the server
+// Delete flight API call
 function deleteFlight(flightId, modal) {
-    // Create URL-encoded form data
-    const formData = `flightId=${encodeURIComponent(flightId)}`;
+    // Get deletion reason
+    const deletionReasonSelect = modal.querySelector('#deletionReason');
+    let deletionReason = deletionReasonSelect.value;
     
-    // Send AJAX request to delete the flight
+    if (deletionReason === 'other') {
+        const otherReasonInput = modal.querySelector('#otherReason');
+        deletionReason = otherReasonInput.value.trim();
+    }
+    
+    // Convert to URL encoded string
+    const params = new URLSearchParams();
+    params.append('flightId', flightId);
+    params.append('reason', deletionReason);
+    
+    // Make API request
     fetch('/api/deleteFlight', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: formData
+        body: params.toString()
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Server returned status ${response.status}`);
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
+        // Hide loading
+        modal.querySelector('.delete-flight-loading').style.display = 'none';
+        
         if (data.success) {
             // Show success message
-            modal.querySelector('.delete-flight-loading').classList.remove('active');
-            modal.querySelector('.delete-flight-success').classList.add('active');
-            
-            // Remove the flight row from the table
-            const flightRow = document.querySelector(`.action-btn.delete[data-flight-id="${flightId}"]`).closest('tr');
-            if (flightRow) {
-                // Add fade-out animation
-                flightRow.style.transition = 'opacity 0.5s ease';
-                flightRow.style.opacity = '0';
-                
-                // Remove after animation
-                setTimeout(() => {
-                    if (flightRow.parentNode) {
-                        flightRow.parentNode.removeChild(flightRow);
-                        
-                        // Update flight stats
-                        if (typeof updateFlightStats === 'function') {
-                            updateFlightStats();
-                        }
-                    }
-                }, 500);
-            }
+            modal.querySelector('.delete-flight-success').style.display = 'flex';
         } else {
-            throw new Error(data.message || 'Unknown error occurred');
+            // Show error message
+            const errorMessage = modal.querySelector('.delete-flight-error-message');
+            errorMessage.textContent = data.message || 'An unknown error occurred while deleting the flight.';
+            modal.querySelector('.delete-flight-error').style.display = 'flex';
         }
     })
     .catch(error => {
+        // Hide loading
+        modal.querySelector('.delete-flight-loading').style.display = 'none';
+        
         // Show error message
-        modal.querySelector('.delete-flight-loading').classList.remove('active');
-        modal.querySelector('.delete-flight-error').classList.add('active');
-        modal.querySelector('.delete-flight-error-message').textContent = 
-            error.message || 'Failed to delete the flight. Please try again.';
+        const errorMessage = modal.querySelector('.delete-flight-error-message');
+        errorMessage.textContent = 'Network error: Please check your connection and try again.';
+        modal.querySelector('.delete-flight-error').style.display = 'flex';
     });
 }

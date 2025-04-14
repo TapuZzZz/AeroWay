@@ -1,9 +1,30 @@
 [
   {
-    "Timestamp": "2025-04-13T18:48:48.56491+03:00",
-    "CpuUsage": 11.8,
-    "MemoryUsage": 79.8,
+    "Timestamp": "2025-04-14T21:30:02.382369+03:00",
+    "CpuUsage": 25.9,
+    "MemoryUsage": 70.1,
     "ThreadCount": 19,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-04-14T21:30:09.772746+03:00",
+    "CpuUsage": 5.8,
+    "MemoryUsage": 70.9,
+    "ThreadCount": 18,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-04-14T21:30:16.419924+03:00",
+    "CpuUsage": 9.6,
+    "MemoryUsage": 70.9,
+    "ThreadCount": 18,
+    "SessionCount": 0
+  },
+  {
+    "Timestamp": "2025-04-14T21:30:22.967394+03:00",
+    "CpuUsage": 10.3,
+    "MemoryUsage": 70.9,
+    "ThreadCount": 17,
     "SessionCount": 0
   }
 ]
