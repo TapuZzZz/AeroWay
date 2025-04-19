@@ -1,4 +1,4 @@
-// DeleteFlight.js - Enhanced with animation and required deletion reason
+// DeleteFlight.js - Simplified with clean dots animation
 document.addEventListener('DOMContentLoaded', function() {
     setupDeleteFlightButtons();
 });
@@ -8,6 +8,34 @@ function setupDeleteFlightButtons() {
     const deleteButtons = document.querySelectorAll('.action-btn.delete');
     
     deleteButtons.forEach(button => {
+        // בדוק אם הטיסה במצב שניתן למחיקה
+        const row = button.closest('tr');
+        if (row) {
+            const statusBadge = row.querySelector('.status-badge');
+            if (statusBadge) {
+                const status = statusBadge.textContent.trim().toLowerCase();
+                
+                // רק טיסות במצב scheduled או delayed ניתנות למחיקה
+                if (status !== 'scheduled' && status !== 'delayed') {
+                    // הסר את אירוע הלחיצה ושנה את הסגנון של הכפתור
+                    button.removeAttribute('data-flight-id');
+                    button.style.opacity = '0.5';
+                    button.style.cursor = 'not-allowed';
+                    button.title = 'לא ניתן למחוק טיסות שאינן במצב "Scheduled" או "Delayed"';
+                    
+                    // מנע לחיצה על הכפתור
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showStatusDeleteError();
+                    });
+                    
+                    return; // סיים את הפונקציה כאן עבור טיסות שלא ניתנות למחיקה
+                }
+            }
+        }
+        
+        // המשך עם הקוד הקיים עבור טיסות שניתנות למחיקה
         button.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -47,6 +75,61 @@ function setupDeleteFlightButtons() {
             
             showDeleteConfirmation(flightDetails);
         });
+    });
+}
+
+// פונקציה חדשה להצגת שגיאה כאשר מנסים למחוק טיסה שאינה ניתנת למחיקה
+function showStatusDeleteError() {
+    // הסר חלונות קיימים אם יש
+    const existingModal = document.getElementById('statusErrorPopup');
+    if (existingModal) {
+        document.body.removeChild(existingModal);
+    }
+    
+    // יצירת חלון השגיאה
+    const modal = document.createElement('div');
+    modal.id = 'statusErrorPopup';
+    modal.className = 'delete-flight-popup';
+    
+    modal.innerHTML = `
+        <div class="delete-flight-container" style="max-width: 450px;">
+            <div class="delete-flight-header">
+                <div class="delete-flight-title">
+                    <span>⚠️</span>
+                    <span>Flight Deletion Restriction</span>
+                </div>
+            </div>
+            
+            <div class="delete-flight-body">
+                <div class="delete-flight-error" style="display: flex;">
+                    <div class="delete-flight-error-icon">!</div>
+                    <div class="delete-flight-error-text">Cannot Delete</div>
+                    <div class="delete-flight-error-message">
+                        Only flights with status "Scheduled" or "Delayed" can be deleted.<br>
+                        Flights with other statuses cannot be removed from the system.
+                    </div>
+                    <button class="delete-flight-done-btn">Got it</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // הוספת אנימציה להצגת החלון
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 10);
+    
+    // הוספת אירוע ללחצן הסגירה
+    const closeBtn = modal.querySelector('.delete-flight-done-btn');
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.parentNode.removeChild(modal);
+            }
+        }, 300);
     });
 }
 
@@ -177,12 +260,13 @@ function createDeleteFlightModal() {
                     <div class="delete-flight-loading-text">Deleting flight from system...</div>
                 </div>
                 
-                <div class="delete-flight-animation">
-                    <div class="delete-flight-animation-wrapper">
-                        <div class="delete-flight-plane">✈️</div>
-                        <div class="delete-flight-trash">🗑️</div>
-                        <div class="delete-flight-animation-text">Flight is being removed...</div>
+                <div class="delete-flight-dots-animation">
+                    <div class="delete-flight-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
+                    <div class="delete-flight-animation-text">Removing flight...</div>
                 </div>
                 
                 <div class="delete-flight-success">
@@ -210,82 +294,101 @@ function createDeleteFlightModal() {
     // Add animation styles
     const styleElement = document.createElement('style');
     styleElement.textContent = `
-        .delete-flight-animation {
+        /* Simple dots animation */
+        .delete-flight-dots-animation {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 3rem 2rem;
+            padding: 3rem 1rem;
             text-align: center;
-            height: 240px;
+            height: 200px;
         }
         
-        .delete-flight-animation-wrapper {
-            position: relative;
-            width: 180px;
-            height: 180px;
+        /* Dots animation */
+        .delete-flight-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        
+        .delete-flight-dots span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--danger-color, #ef4444);
+            opacity: 0.7;
+        }
+        
+        .delete-flight-dots span:nth-child(1) {
+            animation: dotPulse 1.4s infinite 0s;
+        }
+        
+        .delete-flight-dots span:nth-child(2) {
+            animation: dotPulse 1.4s infinite 0.2s;
+        }
+        
+        .delete-flight-dots span:nth-child(3) {
+            animation: dotPulse 1.4s infinite 0.4s;
+        }
+        
+        @keyframes dotPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+        
+        /* Text animation */
+        .delete-flight-animation-text {
+            color: var(--text);
+            font-weight: 500;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Row fade out animation */
+        .fadeOutRow {
+            animation: fadeOutSmoothly 1s forwards;
+        }
+        
+        @keyframes fadeOutSmoothly {
+            0% { opacity: 1; background-color: rgba(239, 68, 68, 0.05); }
+            50% { background-color: rgba(239, 68, 68, 0.1); }
+            100% { opacity: 0; height: 0; padding: 0; border: 0; }
+        }
+        
+        /* סגנון לכפתור מחיקה שאינו פעיל */
+        .action-btn.delete.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        /* עיצוב לכפתור מחיקה כאשר עוברים עליו עם העכבר במצב לא פעיל */
+        .action-btn.delete[disabled]:hover {
+            transform: none;
+            color: var(--blue-gray);
+        }
+        
+        /* סגנון לחלון שגיאת סטטוס */
+        #statusErrorPopup .delete-flight-container {
+            max-width: 450px;
+        }
+        
+        #statusErrorPopup .delete-flight-error {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
         }
         
-        .delete-flight-plane {
-            font-size: 2.5rem;
-            position: absolute;
-            top: 20px;
-            left: 0;
-            z-index: 1;
-            animation: flyToTrash 2s ease-in forwards;
-        }
-        
-        .delete-flight-trash {
-            font-size: 3rem;
-            position: absolute;
-            bottom: 20px;
-            right: 0;
-            animation: trashEffect 2s 1.5s ease forwards;
-        }
-        
-        .delete-flight-animation-text {
-            position: absolute;
-            bottom: 0;
-            color: var(--text);
-            font-weight: 500;
-            opacity: 0;
-            animation: fadeInText 0.5s 0.5s forwards;
-        }
-        
-        @keyframes flyToTrash {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            50% { transform: translate(50px, 50px) rotate(45deg); opacity: 1; }
-            100% { transform: translate(100px, 100px) rotate(90deg); opacity: 0; }
-        }
-        
-        @keyframes trashEffect {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes fadeInText {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        
-        .fadeOutRow {
-            animation: fadeOutRow 1s forwards;
-        }
-        
-        @keyframes fadeOutRow {
-            0% { opacity: 1; background-color: rgba(239, 68, 68, 0.1); }
-            100% { opacity: 0; background-color: rgba(239, 68, 68, 0.1); height: 0; padding: 0; border: 0; }
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
+        #statusErrorPopup .delete-flight-error-message {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
     `;
     document.head.appendChild(styleElement);
@@ -424,9 +527,9 @@ function setupDeleteModalEvents(modal, flightDetails) {
             return;
         }
         
-        // Show animation state
+        // Show animation state - just the dots animation
         modal.querySelector('.delete-flight-confirmation-view').style.display = 'none';
-        modal.querySelector('.delete-flight-animation').style.display = 'flex';
+        modal.querySelector('.delete-flight-dots-animation').style.display = 'flex';
         
         // Animate the row in the table if it exists
         const rowId = confirmBtn.dataset.rowReference;
@@ -437,12 +540,12 @@ function setupDeleteModalEvents(modal, flightDetails) {
         
         // After animation completes, call the delete API
         setTimeout(() => {
-            modal.querySelector('.delete-flight-animation').style.display = 'none';
+            modal.querySelector('.delete-flight-dots-animation').style.display = 'none';
             modal.querySelector('.delete-flight-loading').style.display = 'flex';
             
             // Call the delete API
-            deleteFlight(flightDetails.flightId, modal);
-        }, 3000);
+            deleteFlight(flightDetails.flightId, modal, flightDetails.status);
+        }, 2500);
     });
     
     // Success done button
@@ -482,7 +585,7 @@ function closeDeleteModal(modal) {
 }
 
 // Delete flight API call
-function deleteFlight(flightId, modal) {
+function deleteFlight(flightId, modal, status) {
     // Get deletion reason
     const deletionReasonSelect = modal.querySelector('#deletionReason');
     let deletionReason = deletionReasonSelect.value;
@@ -496,6 +599,7 @@ function deleteFlight(flightId, modal) {
     const params = new URLSearchParams();
     params.append('flightId', flightId);
     params.append('reason', deletionReason);
+    params.append('status', status); // שליחת הסטטוס לשרת לצורך אימות
     
     // Make API request
     fetch('/api/deleteFlight', {

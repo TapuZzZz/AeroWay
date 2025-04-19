@@ -1,0 +1,939 @@
+/* Edit Flight Popup Styles */
+.edit-flight-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.edit-flight-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.edit-flight-container {
+    background-color: var(--surface);
+    border-radius: 12px;
+    width: 600px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+    opacity: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.edit-flight-container::-webkit-scrollbar {
+    display: none;
+}
+
+.edit-flight-popup.active .edit-flight-container {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.edit-flight-header {
+    padding: 1.2rem 1.5rem;
+    background-color: #4f46e5; /* Primary color for edit mode */
+    color: white;
+    position: relative;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-flight-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.2px;
+}
+
+.edit-flight-title span:first-child {
+    font-size: 1.3rem;
+    opacity: 0.9;
+}
+
+.edit-flight-actions-header {
+    display: flex;
+    align-items: center;
+}
+
+.edit-flight-body {
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-flight-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+
+.edit-flight-form-full {
+    grid-column: span 2;
+}
+
+.edit-flight-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.edit-flight-form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.edit-flight-form-label .required {
+    color: var(--danger-color);
+    margin-left: 0.2rem;
+}
+
+.edit-flight-input,
+.edit-flight-select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-flight-input[type="number"]::-webkit-inner-spin-button, 
+.edit-flight-input[type="number"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Flight Number Special Input */
+.edit-flight-number-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.edit-flight-number-prefix {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 0.7rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background-color: rgba(99, 102, 241, 0.1);
+    border-radius: 8px 0 0 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: monospace;
+}
+
+.edit-flight-number-input input {
+    padding-left: 3rem;
+    font-family: monospace;
+    letter-spacing: 2px;
+}
+
+/* Custom Select Styling */
+.custom-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e2e8f0' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    padding-right: 2.5rem;
+}
+
+.custom-select option {
+    background-color: var(--surface-dark);
+    color: var(--text);
+    padding: 0.8rem;
+}
+
+/* Aircraft and destination option colors */
+.compatible-aircraft {
+    color: var(--text);
+}
+
+.incompatible-aircraft {
+    color: var(--text-secondary);
+    opacity: 0.5;
+    background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+/* Custom DateTime Picker Styling */
+.edit-flight-datetime-picker {
+    position: relative;
+    width: 100%;
+}
+
+.edit-flight-datetime-icon {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.custom-datetime {
+    color-scheme: dark;
+}
+
+.custom-datetime::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+    opacity: 0.6;
+    margin-right: 0.25rem;
+}
+
+.custom-datetime::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+.edit-flight-input:focus,
+.edit-flight-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.edit-flight-input.changed,
+.edit-flight-select.changed {
+    border-color: #6366f1; /* Use consistent color for all changed fields */
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+/* Input hint text style */
+.edit-flight-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+    margin-top: 0.2rem;
+}
+
+/* Different section colors */
+.edit-flight-form-group.flight-details .edit-flight-input.changed,
+.edit-flight-form-group.flight-details .edit-flight-select.changed {
+    border-color: #3b82f6; /* Blue */
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.edit-flight-form-group.pricing .edit-flight-input.changed,
+.edit-flight-form-group.pricing .edit-flight-select.changed {
+    border-color: #ec4899; /* Pink */
+    box-shadow: 0 0 0 1px rgba(236, 72, 153, 0.3);
+    background-color: rgba(236, 72, 153, 0.05);
+}
+
+.edit-flight-form-group.seating .edit-flight-input.changed,
+.edit-flight-form-group.seating .edit-flight-select.changed {
+    border-color: #8b5cf6; /* Purple */
+    box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.3);
+    background-color: rgba(139, 92, 246, 0.05);
+}
+
+.edit-flight-error {
+    display: none;
+    color: var(--danger-color);
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+/* Read-only and disabled inputs */
+.edit-flight-input[readonly],
+.edit-flight-input:disabled,
+.edit-flight-select:disabled {
+    opacity: 0.7;
+    background-color: rgba(255, 255, 255, 0.03);
+    cursor: not-allowed;
+}
+
+/* Section Headers */
+.edit-flight-section-header {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.edit-flight-section-header span:first-child {
+    opacity: 0.8;
+}
+
+/* Flight Details Section Header */
+.edit-flight-section-header.flight-details {
+    border-bottom-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Pricing Section Header */
+.edit-flight-section-header.pricing {
+    border-bottom-color: rgba(236, 72, 153, 0.3);
+}
+
+/* Seating Section Header */
+.edit-flight-section-header.seating {
+    border-bottom-color: rgba(139, 92, 246, 0.3);
+}
+
+/* Status Badge in Edit Form */
+.edit-flight-status-current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-width: 2px;
+    border-style: solid;
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.edit-flight-status-current.scheduled {
+    background: rgba(129, 140, 248, 0.1);
+    color: var(--scheduled-color);
+    border-color: var(--scheduled-color);
+}
+
+.edit-flight-status-current.boarding {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--boarding-color);
+    border-color: var(--boarding-color);
+}
+
+.edit-flight-status-current.departed {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--departed-color);
+    border-color: var(--departed-color);
+}
+
+.edit-flight-status-current.arrived {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--arrived-color);
+    border-color: var(--arrived-color);
+}
+
+.edit-flight-status-current.delayed {
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--delayed-color);
+    border-color: var(--delayed-color);
+}
+
+.edit-flight-status-current.cancelled {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--cancelled-color);
+    border-color: var(--cancelled-color);
+}
+
+/* Status-only display for non-editable status */
+.edit-flight-status-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.edit-flight-status-display-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.edit-flight-status-display-label .required {
+    color: var(--danger-color);
+    margin-left: 0.2rem;
+}
+
+/* Action buttons */
+.edit-flight-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    grid-column: span 2;
+}
+
+.edit-flight-btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.2px;
+}
+
+.edit-flight-btn.cancel {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text);
+}
+
+.edit-flight-btn.cancel:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+}
+
+.edit-flight-btn.cancel:active {
+    transform: translateY(1px);
+}
+
+.edit-flight-btn.save {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.2);
+}
+
+.edit-flight-btn.save:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.edit-flight-btn.save:active {
+    transform: translateY(1px);
+}
+
+.edit-flight-btn.save:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Divider line */
+.edit-flight-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 1.5rem 0;
+    grid-column: span 2;
+}
+
+/* Price Grid */
+.edit-flight-price-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    grid-column: span 2;
+}
+
+.edit-flight-price-grid .edit-flight-form-group {
+    margin: 0;
+}
+
+/* Price display with currency symbol */
+.edit-flight-currency-input {
+    position: relative;
+}
+
+.edit-flight-currency-input::before {
+    content: "$";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text);
+    opacity: 0.8;
+    z-index: 1;
+}
+
+.edit-flight-currency-input input {
+    padding-left: 25px;
+}
+
+/* Seats Grid */
+.edit-flight-seats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    grid-column: span 2;
+}
+
+.edit-flight-seats-grid .edit-flight-form-group {
+    margin: 0;
+}
+
+/* Changes summary section */
+.edit-flight-changes {
+    background-color: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-top: 1.5rem;
+    grid-column: span 2;
+}
+
+.edit-flight-changes-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.edit-flight-changes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.edit-flight-change-item {
+    display: flex;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    align-items: center;
+}
+
+.edit-flight-change-item:last-child {
+    border-bottom: none;
+}
+
+.edit-flight-change-field {
+    font-weight: 500;
+    width: 30%;
+}
+
+.edit-flight-change-from {
+    width: 28%;
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+.edit-flight-change-to {
+    width: 28%;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.edit-flight-change-actions {
+    width: 14%;
+    text-align: right;
+}
+
+.edit-flight-reset-change {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    padding: 0.25rem 0.45rem;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-flight-reset-change:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
+}
+
+.edit-flight-reset-change:active {
+    transform: scale(0.95);
+}
+
+/* Loading spinner */
+.edit-flight-loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.edit-flight-spinner {
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(99, 102, 241, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: edit-flight-spin 1.2s ease infinite;
+}
+
+@keyframes edit-flight-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.edit-flight-loading-text {
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+    text-align: center;
+    opacity: 0.9;
+}
+
+/* Success message */
+.edit-flight-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.edit-flight-success-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--success-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    box-shadow: 0 6px 15px rgba(34, 197, 94, 0.2);
+}
+
+.edit-flight-success-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--success-color);
+}
+
+.edit-flight-success-message {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    max-width: 85%;
+    line-height: 1.5;
+}
+
+.edit-flight-done-btn {
+    background-color: var(--success-color);
+    color: white;
+    padding: 0.7rem 1.8rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+    box-shadow: 0 3px 10px rgba(34, 197, 94, 0.2);
+}
+
+.edit-flight-done-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+}
+
+.edit-flight-done-btn:active {
+    transform: translateY(1px);
+}
+
+/* Error message */
+.edit-flight-error-panel {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.edit-flight-error-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--danger-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    box-shadow: 0 6px 15px rgba(239, 68, 68, 0.2);
+}
+
+.edit-flight-error-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--danger-color);
+}
+
+.edit-flight-error-message {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+    max-width: 85%;
+    line-height: 1.5;
+}
+
+.edit-flight-retry-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.2);
+    margin-right: 0.5rem;
+}
+
+.edit-flight-retry-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.edit-flight-retry-btn:active {
+    transform: translateY(1px);
+}
+
+.edit-flight-error-cancel-btn {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.edit-flight-error-cancel-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+}
+
+.edit-flight-error-cancel-btn:active {
+    transform: translateY(1px);
+}
+
+/* Animation for validation errors */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+.edit-flight-input.error,
+.edit-flight-select.error {
+    border-color: var(--danger-color);
+    animation: shake 0.5s ease;
+}
+
+/* Pulse effect for error highlighting */
+@keyframes pulse-error {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.pulse-error {
+    animation: pulse-error 1.5s infinite;
+    border-color: rgba(239, 68, 68, 0.8) !important;
+}
+
+/* Highlight effect for warnings */
+@keyframes highlight-warning {
+    0% { background-color: rgba(245, 158, 11, 0.3); }
+    100% { background-color: rgba(245, 158, 11, 0.1); }
+}
+
+.warning-highlight {
+    animation: highlight-warning 0.5s ease;
+}
+
+/* Tooltip for validation errors */
+.edit-flight-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.edit-flight-tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--danger-color);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.75rem;
+}
+
+.edit-flight-tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--danger-color) transparent transparent transparent;
+}
+
+.edit-flight-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Status warning for specific statuses */
+.edit-flight-status-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-left: 3px solid var(--warning-color);
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    grid-column: span 2;
+}
+
+.edit-flight-status-warning-title {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--warning-color);
+}
+
+.edit-flight-status-warning-message {
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+/* Route validation warning */
+.edit-flight-status-warning.route-warning {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-left: 3px solid var(--danger-color);
+    border-radius: 4px 8px 8px 4px;
+}
+
+.edit-flight-status-warning.route-warning .edit-flight-status-warning-title {
+    color: var(--danger-color);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+    .edit-flight-container {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .edit-flight-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .edit-flight-form-full,
+    .edit-flight-section-header,
+    .edit-flight-divider,
+    .edit-flight-actions,
+    .edit-flight-changes,
+    .edit-flight-status-warning {
+        grid-column: span 1;
+    }
+    
+    .edit-flight-price-grid,
+    .edit-flight-seats-grid {
+        grid-template-columns: 1fr;
+        grid-column: span 1;
+    }
+    
+    .edit-flight-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .edit-flight-btn {
+        width: 100%;
+    }
+    
+    .edit-flight-change-item {
+        flex-direction: column;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.5rem;
+    }
+    
+    [data-theme="light"] .edit-flight-change-item {
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    }
+    
+    .edit-flight-change-field,
+    .edit-flight-change-from,
+    .edit-flight-change-to,
+    .edit-flight-change-actions {
+        width: 100%;
+    }
+    
+    .edit-flight-change-field {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+    }
+    
+    .edit-flight-change-from {
+        margin-bottom: 0.3rem;
+    }
+    
+    .edit-flight-change-to {
+        margin-bottom: 0.3rem;
+    }
+    
+    .edit-flight-change-actions {
+        text-align: left;
+    }
+}
+
+/* Tablet responsiveness */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .edit-flight-container {
+        width: 90%;
+    }
+}

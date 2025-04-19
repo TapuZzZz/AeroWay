@@ -218,8 +218,19 @@ namespace AeroWayServer
                     {
                         apiRequest = true;
                         DeleteFlightPage.HandleDeleteFlightRequest(context, _connectionString);
-                        Log($"🗑️ API Request: Delete Flight | IP: {context.Request.RemoteEndPoint.Address}");
-                        return; // The DeleteFlightPage handles the response
+                        return;
+                    }
+                    else if (path == "/api/getFlight")
+                    {
+                        apiRequest = true;
+                        EditFlightPage.HandleGetFlightRequest(context, _connectionString);
+                        return;
+                    }
+                    else if (path == "/api/updateFlight")
+                    {
+                        apiRequest = true;
+                        EditFlightPage.HandleUpdateFlightRequest(context, _connectionString);
+                        return;
                     }
                     else if (path == "/")
                     {

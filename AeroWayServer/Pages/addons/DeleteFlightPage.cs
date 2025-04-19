@@ -19,8 +19,11 @@ namespace AeroWayServer.Pages.addons
             context.Response.Headers.Add("Pragma", "no-cache");
             context.Response.Headers.Add("Expires", "0");
             
-            // Get the client's IP address (fixed to properly show the actual IP)
-            string clientIp = context.Request.RemoteEndPoint.Address.ToString();
+            // Get the client's IP address - use enhanced method to get real IP
+            string clientIp = GetRealIpAddress(context);
+            
+            // Get the logged-in username
+            string username = AdminLogIn.GetUsernameFromCookie(context.Request);
             
             try
             {
@@ -73,13 +76,27 @@ namespace AeroWayServer.Pages.addons
                 // Get deletion reason
                 string deletionReason = formData["reason"];
                 
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] 🗑️ API Request: Delete Flight | IP: {clientIp}");
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] 🗑️ API Request: Delete Flight | IP: {clientIp} | User: {username}");
                 
-                // Get flight details for logging
+                // בדיקה אם הטיסה במצב שמאפשר מחיקה (מצב Scheduled או Delayed בלבד)
                 var flightDetails = GetFlightBasicInfo(flightId, connectionString);
-                string flightInfo = flightDetails != null 
-                    ? $"Flight {flightDetails.FlightNumber} ({flightDetails.Origin} → {flightDetails.Destination}) deleted by {clientIp}. Reason: {deletionReason}" 
-                    : $"Flight ID {flightId} (not found) deletion attempted by {clientIp}";
+                
+                if (flightDetails == null)
+                {
+                    SendErrorResponse(context.Response, "Flight not found", 404);
+                    return;
+                }
+                
+                // בדיקת סטטוס הטיסה - מותר למחוק רק טיסות במצב Scheduled או Delayed
+                if (flightDetails.Status.ToLower() != "scheduled" && flightDetails.Status.ToLower() != "delayed")
+                {
+                    string errorMessage = $"Cannot delete flights with status '{flightDetails.Status}'. Only 'Scheduled' or 'Delayed' flights can be deleted.";
+                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ❌ Attempt to delete flight with invalid status | User: {username} | IP: {clientIp} | Flight: {flightDetails.FlightNumber} | Status: {flightDetails.Status}");
+                    SendErrorResponse(context.Response, errorMessage, 403);
+                    return;
+                }
+                
+                string flightInfo = $"Flight {flightDetails.FlightNumber} ({flightDetails.Origin} → {flightDetails.Destination}) deleted by {username} (IP: {clientIp}). Reason: {deletionReason}";
                 
                 // Delete the flight from database
                 bool success = DeleteFlightFromDatabase(flightId, connectionString);
@@ -91,15 +108,73 @@ namespace AeroWayServer.Pages.addons
                 }
                 else
                 {
-                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ❌ Failed to delete flight ID {flightId} | IP: {clientIp}");
+                    Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ❌ Failed to delete flight ID {flightId} | User: {username} | IP: {clientIp}");
                     SendErrorResponse(context.Response, "Failed to delete flight", 500);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ❌ Error handling delete flight request from {clientIp}: {ex.Message}");
+                Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ❌ Error handling delete flight request from {username} ({clientIp}): {ex.Message}");
                 SendErrorResponse(context.Response, "Internal server error", 500);
             }
+        }
+        
+        // Get real IP address, handling X-Forwarded-For and proxy scenarios
+        private static string GetRealIpAddress(HttpListenerContext context)
+        {
+            // Check if the request has X-Forwarded-For header (commonly used by proxies)
+            string? forwardedFor = context.Request.Headers["X-Forwarded-For"];
+            
+            if (!string.IsNullOrEmpty(forwardedFor))
+            {
+                // X-Forwarded-For can contain multiple IPs separated by commas
+                // The leftmost IP is typically the original client
+                string[] addresses = forwardedFor.Split(',');
+                if (addresses.Length > 0)
+                {
+                    return addresses[0].Trim();
+                }
+            }
+            
+            // Check other common headers
+            string? realIp = context.Request.Headers["X-Real-IP"];
+            if (!string.IsNullOrEmpty(realIp))
+            {
+                return realIp;
+            }
+            
+            // Get the remote endpoint's address
+            string remoteIp = context.Request.RemoteEndPoint.Address.ToString();
+            
+            // If it's localhost (::1 or 127.0.0.1), get the actual machine IP
+            if (remoteIp == "::1" || remoteIp == "127.0.0.1")
+            {
+                try
+                {
+                    // Get the host name
+                    string hostName = System.Net.Dns.GetHostName();
+                    
+                    // Get host addresses
+                    System.Net.IPAddress[] addresses = System.Net.Dns.GetHostAddresses(hostName);
+                    
+                    // Find IPv4 address that's not loopback
+                    foreach (System.Net.IPAddress address in addresses)
+                    {
+                        if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork &&
+                            !System.Net.IPAddress.IsLoopback(address))
+                        {
+                            return address.ToString();
+                        }
+                    }
+                }
+                catch
+                {
+                    // Fall back to the remote endpoint if there's an error
+                    return remoteIp;
+                }
+            }
+            
+            return remoteIp;
         }
         
         // Parse form data from URL-encoded format
@@ -143,7 +218,7 @@ namespace AeroWayServer.Pages.addons
             return result;
         }
         
-        // Get basic flight info for logging
+        // Get basic flight info for logging and status check
         private static FlightBasicInfo? GetFlightBasicInfo(int flightId, string connectionString)
         {
             try
@@ -156,7 +231,8 @@ namespace AeroWayServer.Pages.addons
                         SELECT 
                             FlightNumber, 
                             Origin, 
-                            Destination
+                            Destination,
+                            Status
                         FROM Flights 
                         WHERE ID = @FlightId";
                     
@@ -172,7 +248,8 @@ namespace AeroWayServer.Pages.addons
                                 {
                                     FlightNumber = reader.GetString("FlightNumber"),
                                     Origin = reader.GetString("Origin"),
-                                    Destination = reader.GetString("Destination")
+                                    Destination = reader.GetString("Destination"),
+                                    Status = reader.GetString("Status")
                                 };
                             }
                         }
@@ -193,6 +270,7 @@ namespace AeroWayServer.Pages.addons
             public required string FlightNumber { get; set; }
             public required string Origin { get; set; }
             public required string Destination { get; set; }
+            public required string Status { get; set; }
         }
         
         // Delete flight from database
@@ -204,8 +282,11 @@ namespace AeroWayServer.Pages.addons
                 {
                     connection.Open();
                     
-                    // First, check if the flight exists
-                    using (MySqlCommand checkCmd = new MySqlCommand("SELECT COUNT(*) FROM Flights WHERE ID = @FlightId", connection))
+                    // First, check if the flight exists and has valid status
+                    using (MySqlCommand checkCmd = new MySqlCommand(
+                        @"SELECT COUNT(*) FROM Flights 
+                          WHERE ID = @FlightId 
+                          AND Status IN ('Scheduled', 'Delayed')", connection))
                     {
                         checkCmd.Parameters.AddWithValue("@FlightId", flightId);
                         
@@ -213,7 +294,7 @@ namespace AeroWayServer.Pages.addons
                         
                         if (count == 0)
                         {
-                            return false; // Flight doesn't exist
+                            return false; // Flight doesn't exist or has invalid status
                         }
                     }
                     

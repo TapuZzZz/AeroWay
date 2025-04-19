@@ -69,10 +69,19 @@
 .delete-flight-body {
     padding: 1.5rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 220px; /* Ensure minimum height for content */
+}
+
+.delete-flight-confirmation-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .delete-flight-message {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     line-height: 1.5;
 }
 
@@ -93,7 +102,7 @@
     border: 1px solid rgba(239, 68, 68, 0.12);
     border-radius: 8px;
     padding: 1.2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     position: relative;
 }
 
@@ -167,11 +176,15 @@
 
 /* Form Controls for Deletion Reason */
 .delete-flight-form {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .delete-flight-form-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.delete-flight-form-group:last-child {
+    margin-bottom: 0;
 }
 
 .delete-flight-form-label {
@@ -221,11 +234,46 @@
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
+/* Confirmation section - balanced spacing */
+.delete-flight-confirmation {
+    background-color: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: auto; /* Push actions to bottom */
+    margin-top: 0.5rem;
+}
+
+.delete-flight-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.delete-flight-checkbox-input {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    -webkit-appearance: checkbox;
+    -moz-appearance: checkbox;
+    appearance: checkbox;
+    cursor: pointer;
+}
+
+.delete-flight-checkbox-label {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+/* Action buttons with balanced spacing */
 .delete-flight-actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    padding-top: 0.5rem;
+    margin-top: 1.25rem; /* Consistent spacing from checkbox */
+    padding-bottom: 0.5rem; /* Add padding at bottom */
 }
 
 .delete-flight-btn {
@@ -276,57 +324,6 @@
     box-shadow: none;
 }
 
-/* Confirmation checkbox */
-.delete-flight-confirmation {
-    background-color: rgba(239, 68, 68, 0.05);
-    border: 1px solid rgba(239, 68, 68, 0.15);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.delete-flight-checkbox {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.7rem;
-}
-
-.delete-flight-checkbox-input {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-    appearance: none;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(239, 68, 68, 0.5);
-    border-radius: 4px;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.delete-flight-checkbox-input:checked {
-    background-color: var(--danger-color);
-    border-color: var(--danger-color);
-}
-
-.delete-flight-checkbox-input:checked::after {
-    content: '✓';
-    position: absolute;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.delete-flight-checkbox-label {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    cursor: pointer;
-}
-
 /* Loading spinner */
 .delete-flight-loading {
     display: none;
@@ -357,6 +354,72 @@
     font-weight: 500;
     text-align: center;
     opacity: 0.9;
+}
+
+/* Simple dots animation */
+.delete-flight-dots-animation {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+    height: 200px;
+}
+
+/* Dots animation */
+.delete-flight-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.delete-flight-dots span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--danger-color, #ef4444);
+    opacity: 0.7;
+}
+
+.delete-flight-dots span:nth-child(1) {
+    animation: dotPulse 1.4s infinite 0s;
+}
+
+.delete-flight-dots span:nth-child(2) {
+    animation: dotPulse 1.4s infinite 0.2s;
+}
+
+.delete-flight-dots span:nth-child(3) {
+    animation: dotPulse 1.4s infinite 0.4s;
+}
+
+@keyframes dotPulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
+
+/* Text animation */
+.delete-flight-animation-text {
+    color: var(--text);
+    font-weight: 500;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Row fade out animation */
+.fadeOutRow {
+    animation: fadeOutSmoothly 1s forwards;
+}
+
+@keyframes fadeOutSmoothly {
+    0% { opacity: 1; background-color: rgba(239, 68, 68, 0.05); }
+    50% { background-color: rgba(239, 68, 68, 0.1); }
+    100% { opacity: 0; height: 0; padding: 0; border: 0; }
 }
 
 /* Status badge colors for flight info */
@@ -631,6 +694,16 @@
     .delete-flight-success-message {
         max-width: 100%;
     }
+    
+    .delete-flight-dots-animation {
+        padding: 2rem 1rem;
+        height: 180px;
+    }
+    
+    .delete-flight-dots span {
+        width: 10px;
+        height: 10px;
+    }
 }
 
 /* Tablet responsiveness */
@@ -669,3 +742,80 @@
     40%, 80% { transform: translateX(5px); }
 }
 
+/* סגנון לכפתור מחיקה שאינו פעיל */
+.action-btn.delete.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* עיצוב לכפתור מחיקה כאשר עוברים עליו עם העכבר במצב לא פעיל */
+.action-btn.delete[disabled]:hover {
+    transform: none;
+    color: var(--blue-gray);
+}
+
+/* סגנון לחלון שגיאת סטטוס */
+#statusErrorPopup .delete-flight-container {
+    max-width: 450px;
+}
+
+#statusErrorPopup .delete-flight-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#statusErrorPopup .delete-flight-error-message {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* תיקון המראה של טיסות שלא ניתן למחוק בטבלה */
+.flights-table tr.non-deletable:hover td {
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* טולטיפ מותאם אישית להצגת מידע כאשר עוברים על כפתור לא פעיל */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

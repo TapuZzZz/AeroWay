@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AeroWayServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+190a4379690e7808454d642e6583a4320edc4910")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a70d187dbb72b50bb7b7cf1ad5c151198c949fbb")]
 [assembly: System.Reflection.AssemblyProductAttribute("AeroWayServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AeroWayServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
