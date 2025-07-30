@@ -1,0 +1,314 @@
+.fleet-section {
+    background-color: var(--bg-secondary);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.fleet-item {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--bg-primary);
+    box-shadow: 0 10px 20px var(--shadow-color);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid var(--border-color);
+    height: 100%;
+    position: relative;
+    transform-origin: center bottom;
+    display: flex;
+    flex-direction: column;
+}
+
+.fleet-item:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 20px 40px var(--shadow-color);
+    border-color: var(--accent);
+    border-width: 2px;
+}
+
+.fleet-image {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+}
+
+.fleet-image.loading::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 1.5s infinite;
+    z-index: 1;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.fleet-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+}
+
+.fleet-item:hover .fleet-image img {
+    transform: scale(1.1);
+}
+
+.fleet-content {
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.fleet-item:hover .fleet-content {
+    transform: translateY(-5px);
+}
+
+.fleet-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.fleet-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent);
+    transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fleet-item:hover .fleet-title {
+    color: var(--accent);
+}
+
+.fleet-item:hover .fleet-title::after {
+    width: 50px;
+}
+
+[data-theme="dark"] .fleet-item:hover .fleet-title {
+    color: var(--dark-quaternary);
+}
+
+[data-theme="dark"] .fleet-title::after {
+    background-color: var(--dark-quaternary);
+}
+
+.fleet-category {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background-color: rgba(46, 92, 215, 0.1);
+    color: var(--accent);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.fleet-item:hover .fleet-category {
+    background-color: rgba(46, 92, 215, 0.2);
+    border-color: rgba(46, 92, 215, 0.3);
+}
+
+[data-theme="dark"] .fleet-category {
+    background-color: rgba(124, 77, 255, 0.1);
+    color: var(--dark-quaternary);
+}
+
+[data-theme="dark"] .fleet-item:hover .fleet-category {
+    background-color: rgba(124, 77, 255, 0.2);
+    border-color: rgba(124, 77, 255, 0.3);
+}
+
+.fleet-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+.fleet-item:hover .fleet-specs {
+    border-color: var(--accent);
+}
+
+[data-theme="dark"] .fleet-item:hover .fleet-specs {
+    border-color: var(--dark-quaternary);
+}
+
+.fleet-spec {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.fleet-item:hover .fleet-spec {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.spec-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.fleet-item:hover .spec-label {
+    color: var(--text-primary);
+}
+
+.spec-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.3s ease;
+}
+
+.fleet-item:hover .spec-value {
+    transform: scale(1.05);
+}
+
+.spec-value i {
+    color: var(--accent);
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.fleet-item:hover .spec-value i {
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .spec-value i {
+    color: var(--dark-quaternary);
+}
+
+.fleet-description {
+    display: none;
+}
+
+.fleet-button {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .fleet-section {
+        padding: 80px 0;
+    }
+    
+    .fleet-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .fleet-grid {
+        gap: 1.5rem;
+    }
+    
+    .fleet-image {
+        height: 220px;
+    }
+    
+    .fleet-title {
+        font-size: 1.35rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .fleet-section {
+        padding: 60px 0;
+    }
+    
+    .fleet-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+    
+    .fleet-image {
+        height: 200px;
+    }
+    
+    .fleet-content {
+        padding: 1.25rem;
+    }
+    
+    .fleet-specs {
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .fleet-section {
+        padding: 40px 0;
+    }
+    
+    .fleet-grid {
+        gap: 1rem;
+    }
+    
+    .fleet-image {
+        height: 180px;
+    }
+    
+    .fleet-title {
+        font-size: 1.25rem;
+    }
+    
+    .fleet-category {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+    }
+    
+    .fleet-spec {
+        padding: 0.6rem;
+    }
+    
+    .spec-label {
+        font-size: 0.7rem;
+    }
+    
+    .spec-value {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .fleet-content {
+        padding: 1rem;
+    }
+    
+    .fleet-specs {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}

@@ -1,0 +1,738 @@
+@{
+    ViewData["Title"] = "Resend Verification Email";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .resend-container {
+            height: 100vh;
+            width: 100vw;
+            margin-top: -70px;
+            padding-top: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+            padding: 1rem;
+        }
+
+        [data-theme="dark"] .resend-container {
+            background: var(--bg-secondary);
+        }
+
+        .resend-container::before,
+        .resend-container::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.03;
+        }
+
+        .resend-container::before {
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            top: -150px;
+            right: -150px;
+        }
+
+        .resend-container::after {
+            width: 200px;
+            height: 200px;
+            background: var(--primary-medium);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .resend-box {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px var(--shadow-color);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: calc(100vh - 140px);
+            text-align: center;
+            position: relative;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            z-index: 1;
+        }
+
+        .resend-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--primary-medium));
+        }
+
+        [data-theme="dark"] .resend-box::before {
+            background: linear-gradient(90deg, var(--dark-quaternary), var(--dark-tertiary));
+        }
+
+        .resend-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .email-resend-icon {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-secondary);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        [data-theme="dark"] .email-resend-icon {
+            background: var(--dark-secondary);
+            border-color: var(--dark-quaternary);
+            color: var(--dark-quaternary);
+            box-shadow: 0 4px 20px rgba(124, 77, 255, 0.15);
+        }
+
+        .refresh-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--bg-primary);
+        }
+
+        [data-theme="dark"] .refresh-icon {
+            background: var(--dark-primary);
+            color: var(--dark-quaternary);
+            border-color: var(--dark-secondary);
+        }
+
+        .refresh-icon i {
+            animation: rotate 2s linear infinite;
+        }
+
+        @@keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .resend-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .resend-message {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .resend-form {
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .form-control {
+            background: var(--dark-secondary);
+            border-color: var(--dark-tertiary);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            border-color: var(--dark-quaternary);
+            box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            padding: 0.875rem 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.25rem;
+            display: none;
+            animation: fadeInDown 0.4s ease-out;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .success-message i {
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+
+        @@keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 0.875rem 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.25rem;
+            display: none;
+            animation: fadeInDown 0.4s ease-out;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .error-message i {
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .info-message {
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+            padding: 0.875rem 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.25rem;
+            display: none;
+            animation: fadeInDown 0.4s ease-out;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] .info-message {
+            background: rgba(124, 77, 255, 0.08);
+            border-color: rgba(124, 77, 255, 0.2);
+            color: var(--dark-quaternary);
+        }
+
+        .info-message i {
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-resend {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        [data-theme="dark"] .btn-resend {
+            background: var(--dark-quaternary);
+        }
+
+        .btn-resend:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        [data-theme="dark"] .btn-resend:hover {
+            box-shadow: 0 10px 20px rgba(124, 77, 255, 0.3);
+        }
+
+        .btn-resend:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-resend:disabled:hover {
+            box-shadow: none;
+        }
+
+        .btn-resend.loading {
+            color: transparent;
+        }
+
+        .btn-resend.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid white;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @@keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .resend-links {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .resend-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            margin: 0 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] .resend-links a {
+            color: var(--dark-quaternary);
+        }
+
+        .resend-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        [data-theme="dark"] .resend-links a::after {
+            background: var(--dark-quaternary);
+        }
+
+        .resend-links a:hover::after {
+            width: 100%;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: var(--border-radius);
+            padding: 0.875rem;
+            margin-top: 1.25rem;
+            text-align: left;
+        }
+
+        [data-theme="dark"] .info-box {
+            background: rgba(124, 77, 255, 0.05);
+            border-color: rgba(124, 77, 255, 0.2);
+        }
+
+        .info-box i {
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+
+        [data-theme="dark"] .info-box i {
+            color: var(--dark-quaternary);
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        @@media (max-width: 480px) {
+            .resend-container {
+                padding: 0.5rem;
+                padding-top: 80px;
+            }
+
+            .resend-box {
+                padding: 1.5rem;
+                max-height: calc(100vh - 100px);
+                border-radius: 0.75rem;
+            }
+
+            .resend-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+
+            .email-resend-icon {
+                font-size: 1.75rem;
+            }
+
+            .refresh-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 0.625rem;
+            }
+
+            .resend-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .resend-message {
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .form-control {
+                padding: 0.625rem 0.875rem;
+                font-size: 0.95rem;
+            }
+
+            .btn-resend {
+                padding: 0.875rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .resend-links {
+                margin-top: 1.25rem;
+                padding-top: 1.25rem;
+            }
+
+            .resend-links a {
+                font-size: 0.875rem;
+            }
+
+            .info-box {
+                padding: 0.75rem;
+                margin-top: 1rem;
+            }
+
+            .info-box p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @@media (max-height: 600px) {
+            .resend-container {
+                padding-top: 60px;
+            }
+
+            .resend-box {
+                max-height: calc(100vh - 80px);
+                padding: 1.5rem;
+            }
+
+            .resend-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1rem;
+            }
+
+            .email-resend-icon {
+                font-size: 1.5rem;
+            }
+
+            .refresh-icon {
+                width: 18px;
+                height: 18px;
+                font-size: 0.6rem;
+            }
+
+            .resend-title {
+                font-size: 1.4rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .resend-message {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+
+            .resend-form {
+                margin-top: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .info-box {
+                margin-top: 1rem;
+                padding: 0.75rem;
+            }
+
+            .resend-links {
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+        }
+
+        @@media (min-width: 481px) and (max-width: 768px) {
+            .resend-container {
+                padding: 1rem;
+            }
+
+            .resend-box {
+                padding: 2rem;
+                max-height: calc(100vh - 120px);
+            }
+        }
+    </style>
+}
+
+<div class="resend-container">
+    <div class="resend-box">
+        <div class="resend-icon">
+            <div class="email-resend-icon">
+                <i class="fas fa-envelope"></i>
+                <div class="refresh-icon">
+                    <i class="fas fa-sync"></i>
+                </div>
+            </div>
+        </div>
+        
+        <h1 class="resend-title">Resend Verification Email</h1>
+        <p class="resend-message">
+            Enter your email address and we'll send you a new verification link to activate your AeroWay account.
+        </p>
+
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            <span id="successText">Verification email sent successfully! Please check your inbox.</span>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText">An error occurred. Please try again.</span>
+        </div>
+
+        <div class="info-message" id="infoMessage">
+            <i class="fas fa-info-circle"></i>
+            <span id="infoText">This email is already verified.</span>
+        </div>
+
+        <form class="resend-form" id="resendForm" onsubmit="return handleSubmit(event);">
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" 
+                       class="form-control" 
+                       id="email" 
+                       name="email" 
+                       placeholder="Enter your registered email" 
+                       required
+                       autocomplete="email">
+            </div>
+
+            <button type="submit" class="btn-resend" id="resendButton">
+                Send Verification Email
+            </button>
+
+            <div class="info-box">
+                <p>
+                    <i class="fas fa-info-circle"></i>
+                    After clicking the button, please check your email inbox. The verification link will expire after 24 hours.
+                </p>
+            </div>
+        </form>
+
+        <div class="resend-links">
+            <a href="/Account/Login">Back to Login</a>
+            <span style="color: var(--text-secondary);">•</span>
+            <a href="/Account/Register">Create New Account</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const button = document.getElementById('resendButton');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const infoMessage = document.getElementById('infoMessage');
+            const successText = document.getElementById('successText');
+            const errorText = document.getElementById('errorText');
+            const infoText = document.getElementById('infoText');
+            
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            infoMessage.style.display = 'none';
+            
+            button.classList.add('loading');
+            button.disabled = true;
+            
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+            
+            fetch('/EmailVerification/ResendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token
+                },
+                body: 'email=' + encodeURIComponent(email)
+            })
+            .then(response => response.json())
+            .then(data => {
+                button.classList.remove('loading');
+                button.disabled = false;
+                
+                if (data.success) {
+                    successText.textContent = data.message || 'Verification email sent successfully! Please check your inbox.';
+                    successMessage.style.display = 'block';
+                    
+                    document.getElementById('resendForm').reset();
+                    
+                    setTimeout(() => {
+                        window.location.href = '/Account/Login';
+                    }, 3000);
+                } else {
+                    if (data.message && data.message.toLowerCase().includes('already verified')) {
+                        infoText.textContent = 'This email is already verified. You can login to your account.';
+                        infoMessage.style.display = 'block';
+                        
+                        document.getElementById('resendForm').reset();
+                        
+                        setTimeout(() => {
+                            window.location.href = '/Account/Login';
+                        }, 2500);
+                    } else if (data.message && data.message.toLowerCase().includes('not found')) {
+                        errorText.textContent = 'This email is not registered. Please check the email address or register first.';
+                        errorMessage.style.display = 'block';
+                    } else if (data.message && data.message.toLowerCase().includes('too many')) {
+                        errorText.textContent = 'Too many requests. Please wait a few minutes before trying again.';
+                        errorMessage.style.display = 'block';
+                    } else {
+                        errorText.textContent = data.message || 'An error occurred. Please try again.';
+                        errorMessage.style.display = 'block';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                
+                button.classList.remove('loading');
+                button.disabled = false;
+                
+                errorText.textContent = 'An error occurred. Please check your connection and try again.';
+                errorMessage.style.display = 'block';
+            });
+            
+            return false;
+        }
+
+        function autoHideMessages() {
+            setTimeout(() => {
+                const messages = document.querySelectorAll('.success-message, .error-message, .info-message');
+                messages.forEach(msg => {
+                    if (msg.style.display === 'block') {
+                        msg.style.opacity = '0';
+                        msg.style.transition = 'opacity 0.3s ease-out';
+                        setTimeout(() => {
+                            msg.style.display = 'none';
+                            msg.style.opacity = '1';
+                        }, 300);
+                    }
+                });
+            }, 5000);
+        }
+
+        const observer = new MutationObserver(() => {
+            autoHideMessages();
+        });
+
+        const config = { attributes: true, childList: false, subtree: false };
+        
+        const successMsg = document.getElementById('successMessage');
+        const errorMsg = document.getElementById('errorMessage');
+        const infoMsg = document.getElementById('infoMessage');
+        
+        if (successMsg) observer.observe(successMsg, config);
+        if (errorMsg) observer.observe(errorMsg, config);
+        if (infoMsg) observer.observe(infoMsg, config);
+    </script>
+}
+
+@Html.AntiForgeryToken()

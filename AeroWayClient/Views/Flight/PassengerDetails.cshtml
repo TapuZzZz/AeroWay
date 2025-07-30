@@ -1,0 +1,663 @@
+@model AeroWayClient.Models.PassengerDetailsViewModel
+@using AeroWayClient.Services
+@{
+    ViewData["Title"] = "Passenger Details";
+    
+    // Get user information from session first
+    var userEmail = Context.Session.GetString("UserEmail") ?? "";
+    var userPhone = Context.Session.GetString("UserPhone") ?? "";
+    var userId = Context.Session.GetString("UserId");
+    
+    // Store original session values for JavaScript
+    var sessionEmail = userEmail;
+    var sessionPhone = userPhone;
+    
+    // Try to get additional user profile data if logged in
+    if (!string.IsNullOrEmpty(userId) && int.TryParse(userId, out int userIdInt))
+    {
+        try
+        {
+            // Initialize UserProfileService
+            var userProfileService = new UserProfileService();
+            var profileResponse = userProfileService.GetUserProfile(userIdInt);
+            
+            if (profileResponse.Success && profileResponse.Profile != null)
+            {
+                // Use profile data if session data is empty, otherwise keep session data for display
+                userEmail = string.IsNullOrEmpty(userEmail) ? profileResponse.Profile.Email : userEmail;
+                userPhone = string.IsNullOrEmpty(userPhone) ? profileResponse.Profile.Phone : userPhone;
+                
+                // Store profile data for JavaScript comparison
+                ViewBag.ProfileEmail = profileResponse.Profile.Email ?? "";
+                ViewBag.ProfilePhone = profileResponse.Profile.Phone ?? "";
+                ViewBag.ProfileFirstName = profileResponse.Profile.FirstName ?? "";
+                ViewBag.ProfileLastName = profileResponse.Profile.LastName ?? "";
+            }
+            else
+            {
+                // No profile data available, use session data
+                ViewBag.ProfileEmail = sessionEmail;
+                ViewBag.ProfilePhone = sessionPhone;
+                ViewBag.ProfileFirstName = "";
+                ViewBag.ProfileLastName = "";
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log error but continue with session data
+            System.Diagnostics.Debug.WriteLine($"Error getting user profile: {ex.Message}");
+            // Set fallback values
+            ViewBag.ProfileEmail = sessionEmail;
+            ViewBag.ProfilePhone = sessionPhone;
+            ViewBag.ProfileFirstName = "";
+            ViewBag.ProfileLastName = "";
+        }
+    }
+    else
+    {
+        // No user logged in, use empty profile data
+        ViewBag.ProfileEmail = "";
+        ViewBag.ProfilePhone = "";
+        ViewBag.ProfileFirstName = "";
+        ViewBag.ProfileLastName = "";
+    }
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Flight/passenger-details.css" />
+}
+
+<div class="passenger-container">
+    <div class="passenger-main">
+        <!-- Flight Summary -->
+        <div class="flight-summary">
+            <h2 class="summary-header">
+                <i class="fas fa-plane"></i>
+                Your Selected Flights
+            </h2>
+            
+            <!-- Outbound Flight -->
+            @if (TempData["SelectedOutboundFlight"] != null)
+            {
+                var outboundFlightJson = TempData["SelectedOutboundFlight"]?.ToString();
+                if (!string.IsNullOrEmpty(outboundFlightJson))
+                {
+                    var outboundFlight = System.Text.Json.JsonSerializer.Deserialize<AeroWayClient.Services.FlightSearchService.FlightInfo>(outboundFlightJson);
+                    if (outboundFlight != null)
+                    {
+                        <div class="flight-leg">
+                            <div class="flight-route">
+                                <span class="route-city">@outboundFlight.OriginCity (@outboundFlight.OriginCode)</span>
+                                <i class="fas fa-arrow-right route-arrow"></i>
+                                <span class="route-city">@outboundFlight.DestinationCity (@outboundFlight.DestinationCode)</span>
+                            </div>
+                            <div class="flight-details">
+                                <div class="detail">
+                                    <span class="detail-label">Flight</span>
+                                    <span class="detail-value">@outboundFlight.FlightNumber</span>
+                                </div>
+                                <div class="detail">
+                                    <span class="detail-label">Departure</span>
+                                    <span class="detail-value">@outboundFlight.DepartureTime.ToString("HH:mm")</span>
+                                </div>
+                                <div class="detail">
+                                    <span class="detail-label">Arrival</span>
+                                    <span class="detail-value">@outboundFlight.ArrivalTime.ToString("HH:mm")</span>
+                                </div>
+                                <div class="detail">
+                                    <span class="detail-label">Duration</span>
+                                    <span class="detail-value">@outboundFlight.Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                TempData.Keep("SelectedOutboundFlight");
+            }
+            
+            <!-- Return Flight - Only if exists -->
+            @if (TempData["SelectedReturnFlight"] != null)
+            {
+                var returnFlightJson = TempData["SelectedReturnFlight"]?.ToString();
+                if (!string.IsNullOrEmpty(returnFlightJson))
+                {
+                    var returnFlight = System.Text.Json.JsonSerializer.Deserialize<AeroWayClient.Services.FlightSearchService.FlightInfo>(returnFlightJson);
+                    if (returnFlight != null)
+                    {
+                        <div class="flight-leg">
+                            <div class="flight-route">
+                                <span class="route-city">@returnFlight.OriginCity (@returnFlight.OriginCode)</span>
+                                <i class="fas fa-arrow-right route-arrow"></i>
+                                <span class="route-city">@returnFlight.DestinationCity (@returnFlight.DestinationCode)</span>
+                            </div>
+                            <div class="flight-details">
+                                <div class="detail">
+                                    <span class="detail-label">Flight</span>
+                                    <span class="detail-value">@returnFlight.FlightNumber</span>
+                                </div>
+                                <div class="detail">
+                                    <span class="detail-label">Departure</span>
+                                    <span class="detail-value">@returnFlight.DepartureTime.ToString("HH:mm")</span>
+                                </div>
+                                <div class="detail">
+                                    <span class="detail-label">Arrival</span>
+                                    <span class="detail-value">@returnFlight.ArrivalTime.ToString("HH:mm")</span>
+                                </div>
+                                <div class="detail">
+                                    <span class="detail-label">Duration</span>
+                                    <span class="detail-value">@returnFlight.Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                TempData.Keep("SelectedReturnFlight");
+            }
+        </div>
+        
+        <form asp-action="ConfirmBooking" method="post" id="passenger-form">
+            @Html.AntiForgeryToken()
+            
+            <!-- Passenger Forms -->
+            <div class="passenger-forms">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Passenger Information
+                </h2>
+                
+                @for (int i = 0; i < Model.Passengers.Count; i++)
+                {
+                    <div class="passenger-card">
+                        <div class="passenger-header">
+                            <h3 class="passenger-number">
+                                <i class="fas fa-user"></i>
+                                Passenger @(i + 1)
+                            </h3>
+                            <span class="passenger-badge @(Model.Passengers[i].PassengerType.ToLower())">
+                                @Model.Passengers[i].PassengerType
+                            </span>
+                        </div>
+                        
+                        <input type="hidden" asp-for="Passengers[i].PassengerType" />
+                        <input type="hidden" asp-for="Passengers[i].PassengerNumber" />
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Passengers[i].FirstName">
+                                    <i class="fas fa-user"></i>
+                                    First Name <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="Passengers[i].FirstName" class="form-control" placeholder="Enter first name" data-passenger-type="@Model.Passengers[i].PassengerType" />
+                                    <i class="fas fa-check input-icon" style="display: none;"></i>
+                                </div>
+                                <span asp-validation-for="Passengers[i].FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Passengers[i].LastName">
+                                    <i class="fas fa-user"></i>
+                                    Last Name <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="Passengers[i].LastName" class="form-control" placeholder="Enter last name" data-passenger-type="@Model.Passengers[i].PassengerType" />
+                                    <i class="fas fa-check input-icon" style="display: none;"></i>
+                                </div>
+                                <span asp-validation-for="Passengers[i].LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Passengers[i].DateOfBirth">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Date of Birth <span class="required">*</span>
+                                </label>
+                                <div class="date-picker-container">
+                                    <div class="date-input-display" data-passenger-index="@i" data-passenger-type="@Model.Passengers[i].PassengerType">
+                                        <span class="date-display-text">Select date of birth</span>
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="date-calendar" id="calendar-@i">
+                                        <div class="calendar-header">
+                                            <div class="calendar-nav">
+                                                <select class="month-select">
+                                                    <option value="0">January</option>
+                                                    <option value="1">February</option>
+                                                    <option value="2">March</option>
+                                                    <option value="3">April</option>
+                                                    <option value="4">May</option>
+                                                    <option value="5">June</option>
+                                                    <option value="6">July</option>
+                                                    <option value="7">August</option>
+                                                    <option value="8">September</option>
+                                                    <option value="9">October</option>
+                                                    <option value="10">November</option>
+                                                    <option value="11">December</option>
+                                                </select>
+                                                <select class="year-select"></select>
+                                            </div>
+                                        </div>
+                                        <div class="calendar-grid">
+                                            <div class="calendar-weekdays">
+                                                <div class="calendar-weekday">Sun</div>
+                                                <div class="calendar-weekday">Mon</div>
+                                                <div class="calendar-weekday">Tue</div>
+                                                <div class="calendar-weekday">Wed</div>
+                                                <div class="calendar-weekday">Thu</div>
+                                                <div class="calendar-weekday">Fri</div>
+                                                <div class="calendar-weekday">Sat</div>
+                                            </div>
+                                            <div class="calendar-days"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input asp-for="Passengers[i].DateOfBirth" type="hidden" class="date-hidden-input" />
+                                <span asp-validation-for="Passengers[i].DateOfBirth" class="text-danger"></span>
+                                <div class="age-validation-container"></div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Passengers[i].Gender">
+                                    <i class="fas fa-venus-mars"></i>
+                                    Gender <span class="required">*</span>
+                                </label>
+                                <div class="custom-select">
+                                    <div class="select-button">
+                                        <span>Select gender</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="select-dropdown">
+                                        <div class="select-option" data-value="Male">
+                                            <div class="gender-option">
+                                                <i class="fas fa-mars gender-icon male-icon"></i>
+                                                <span>Male</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="Female">
+                                            <div class="gender-option">
+                                                <i class="fas fa-venus gender-icon female-icon"></i>
+                                                <span>Female</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <select asp-for="Passengers[i].Gender" style="display: none;">
+                                        <option value="">Select gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <span asp-validation-for="Passengers[i].Gender" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Passengers[i].PassportNumber">
+                                    <i class="fas fa-passport"></i>
+                                    Passport Number <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="Passengers[i].PassportNumber" class="form-control passport-input" placeholder="12345678" maxlength="8" />
+                                    <i class="fas fa-check input-icon" style="display: none;"></i>
+                                </div>
+                                <span asp-validation-for="Passengers[i].PassportNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Passengers[i].Nationality">
+                                    <i class="fas fa-flag"></i>
+                                    Nationality <span class="required">*</span>
+                                </label>
+                                <div class="custom-select">
+                                    <div class="select-button">
+                                        <span>Select nationality</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="select-dropdown">
+                                        <div class="select-option" data-value="US">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇺🇸</span>
+                                                <span>United States</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="GB">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇬🇧</span>
+                                                <span>United Kingdom</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="CA">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇨🇦</span>
+                                                <span>Canada</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="IL">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇮🇱</span>
+                                                <span>Israel</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="DE">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇩🇪</span>
+                                                <span>Germany</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="FR">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇫🇷</span>
+                                                <span>France</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="AU">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇦🇺</span>
+                                                <span>Australia</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="JP">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇯🇵</span>
+                                                <span>Japan</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="IT">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇮🇹</span>
+                                                <span>Italy</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-option" data-value="ES">
+                                            <div class="nationality-option">
+                                                <span class="country-flag">🇪🇸</span>
+                                                <span>Spain</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <select asp-for="Passengers[i].Nationality" style="display: none;">
+                                        <option value="">Select nationality</option>
+                                        <option value="US">United States</option>
+                                        <option value="GB">United Kingdom</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="IL">Israel</option>
+                                        <option value="DE">Germany</option>
+                                        <option value="FR">France</option>
+                                        <option value="AU">Australia</option>
+                                        <option value="JP">Japan</option>
+                                        <option value="IT">Italy</option>
+                                        <option value="ES">Spain</option>
+                                    </select>
+                                </div>
+                                <span asp-validation-for="Passengers[i].Nationality" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+                <!-- Contact Information and Terms Section -->
+                <div class="contact-info-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-envelope"></i>
+                        Contact Information
+                    </h2>
+                    
+                    <div class="contact-card">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="ContactEmail">
+                                    <i class="fas fa-envelope"></i>
+                                    Contact Email <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="ContactEmail" class="form-control" type="email" placeholder="your@email.com" value="@userEmail" required />
+                                    <i class="fas fa-check input-icon" style="display: none;"></i>
+                                </div>
+                                <span asp-validation-for="ContactEmail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ContactPhone">
+                                    <i class="fas fa-phone"></i>
+                                    Contact Phone <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="ContactPhone" class="form-control" type="tel" placeholder="+1234567890" value="@userPhone" required />
+                                    <i class="fas fa-check input-icon" style="display: none;"></i>
+                                </div>
+                                <span asp-validation-for="ContactPhone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Terms and Conditions -->
+                        <div class="terms-section">
+                            <div class="checkbox-group">
+                                <input asp-for="AcceptTerms" type="checkbox" id="terms" />
+                                <div class="terms-text">
+                                    <div class="terms-main">
+                                        I have read and agree to the following:
+                                    </div>
+                                    <div class="terms-links">
+                                        <a href="#" class="terms-link" target="_blank">Terms and Conditions</a>
+                                        <span>•</span>
+                                        <a href="#" class="terms-link" target="_blank">Privacy Policy</a>
+                                        <span>•</span>
+                                        <a href="#" class="terms-link" target="_blank">Fare Rules</a>
+                                    </div>
+                                    <div class="terms-note">
+                                        I understand that changes and cancellations are subject to airline policies.
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="AcceptTerms" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <input type="hidden" asp-for="Adults" />
+            <input type="hidden" asp-for="Children" />
+            <input type="hidden" asp-for="Infants" />
+            <input type="hidden" asp-for="TripType" />
+            
+            @{
+                // Calculate total price with taxes for form submission
+                decimal flightSubtotal = 0;
+                var passengerTotal = Model.Adults + Model.Children;
+                
+                // Calculate outbound price
+                if (TempData["SelectedOutboundFlight"] != null)
+                {
+                    var outboundFlightJson = TempData["SelectedOutboundFlight"]?.ToString();
+                    if (!string.IsNullOrEmpty(outboundFlightJson))
+                    {
+                        var outboundFlight = System.Text.Json.JsonSerializer.Deserialize<AeroWayClient.Services.FlightSearchService.FlightInfo>(outboundFlightJson);
+                        if (outboundFlight != null)
+                        {
+                            flightSubtotal += outboundFlight.Price * passengerTotal;
+                        }
+                    }
+                    TempData.Keep("SelectedOutboundFlight");
+                }
+                
+                // Calculate return price if exists
+                if (TempData["SelectedReturnFlight"] != null)
+                {
+                    var returnFlightJson = TempData["SelectedReturnFlight"]?.ToString();
+                    if (!string.IsNullOrEmpty(returnFlightJson))
+                    {
+                        var returnFlight = System.Text.Json.JsonSerializer.Deserialize<AeroWayClient.Services.FlightSearchService.FlightInfo>(returnFlightJson);
+                        if (returnFlight != null)
+                        {
+                            flightSubtotal += returnFlight.Price * passengerTotal;
+                        }
+                    }
+                    TempData.Keep("SelectedReturnFlight");
+                }
+                
+                // Calculate final total with taxes
+                var taxes = flightSubtotal * 0.18m;
+                var finalTotal = flightSubtotal + taxes;
+            }
+            
+            <!-- Hidden field to pass the correct total price (including taxes) to the server -->
+            <input type="hidden" name="TotalPrice" value="@finalTotal" />
+            
+            <!-- Pass user profile data to JavaScript -->
+            @if (!string.IsNullOrEmpty(userId))
+            {
+                <input type="hidden" id="currentUserId" value="@userId" />
+                <input type="hidden" id="profileEmail" value="@ViewBag.ProfileEmail" />
+                <input type="hidden" id="profilePhone" value="@ViewBag.ProfilePhone" />
+                <input type="hidden" id="sessionEmail" value="@userEmail" />
+                <input type="hidden" id="sessionPhone" value="@userPhone" />
+            }
+        </form>
+    </div>
+    
+    <!-- Booking Summary Sidebar -->
+    <div class="booking-summary">
+        <h3 class="summary-title">
+            <i class="fas fa-clipboard-list"></i>
+            Booking Summary
+        </h3>
+        
+        <div class="trip-summary">
+            <h4>Trip Details</h4>
+            <p><strong>Trip Type:</strong> @(Model.TripType == "roundtrip" ? "Round Trip" : "One Way")</p>
+            @if (TempData["SearchParams"] != null)
+            {
+                var searchParamsJson = TempData["SearchParams"]?.ToString();
+                if (!string.IsNullOrEmpty(searchParamsJson))
+                {
+                    var searchParams = System.Text.Json.JsonSerializer.Deserialize<AeroWayClient.Models.FlightSearchViewModel>(searchParamsJson);
+                    if (searchParams != null)
+                    {
+                        <p><strong>From:</strong> @searchParams.From</p>
+                        <p><strong>To:</strong> @searchParams.To</p>
+                        <p><strong>Departure:</strong> @searchParams.DepartureDate.ToString("MMM dd, yyyy")</p>
+                        @if (searchParams.ReturnDate.HasValue && Model.TripType == "roundtrip")
+                        {
+                            <p><strong>Return:</strong> @searchParams.ReturnDate.Value.ToString("MMM dd, yyyy")</p>
+                        }
+                    }
+                }
+                TempData.Keep("SearchParams");
+            }
+        </div>
+        
+        @if (TempData["SelectedOutboundFlight"] != null)
+        {
+            <div class="price-breakdown">
+                <h4 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">Price Breakdown</h4>
+                
+                @{
+                    decimal subtotal = 0;
+                    var outboundPrice = 0m;
+                    var returnPrice = 0m;
+                    var passengerTotalPrice = Model.Adults + Model.Children;
+                    
+                    // Calculate outbound price
+                    var outboundFlightJsonPrice = TempData["SelectedOutboundFlight"]?.ToString();
+                    if (!string.IsNullOrEmpty(outboundFlightJsonPrice))
+                    {
+                        var outboundFlightPrice = System.Text.Json.JsonSerializer.Deserialize<AeroWayClient.Services.FlightSearchService.FlightInfo>(outboundFlightJsonPrice);
+                        if (outboundFlightPrice != null)
+                        {
+                            outboundPrice = outboundFlightPrice.Price * passengerTotalPrice;
+                            <div class="info-item">
+                                <span>Outbound (@outboundFlightPrice.FlightNumber)</span>
+                                <strong>$@outboundPrice.ToString("N0")</strong>
+                            </div>
+                            <div class="info-item detail-item">
+                                <span style="margin-left: 1rem; font-size: 0.8rem; color: var(--text-secondary);">@passengerTotalPrice passengers × $@outboundFlightPrice.Price.ToString("N0")</span>
+                                <span></span>
+                            </div>
+                        }
+                    }
+                    TempData.Keep("SelectedOutboundFlight");
+                    
+                    // Calculate return price if exists
+                    if (TempData["SelectedReturnFlight"] != null)
+                    {
+                        var returnFlightJsonPrice = TempData["SelectedReturnFlight"]?.ToString();
+                        if (!string.IsNullOrEmpty(returnFlightJsonPrice))
+                        {
+                            var returnFlightPrice = System.Text.Json.JsonSerializer.Deserialize<AeroWayClient.Services.FlightSearchService.FlightInfo>(returnFlightJsonPrice);
+                            if (returnFlightPrice != null)
+                            {
+                                returnPrice = returnFlightPrice.Price * passengerTotalPrice;
+                                <div class="info-item">
+                                    <span>Return (@returnFlightPrice.FlightNumber)</span>
+                                    <strong>$@returnPrice.ToString("N0")</strong>
+                                </div>
+                                <div class="info-item detail-item">
+                                    <span style="margin-left: 1rem; font-size: 0.8rem; color: var(--text-secondary);">@passengerTotalPrice passengers × $@returnFlightPrice.Price.ToString("N0")</span>
+                                    <span></span>
+                                </div>
+                            }
+                        }
+                        TempData.Keep("SelectedReturnFlight");
+                    }
+                    
+                    subtotal = outboundPrice + returnPrice;
+                    var taxes = subtotal * 0.18m;
+                    var total = subtotal + taxes;
+                }
+                
+                <div class="info-item" style="border-top: 1px dashed var(--border-color); padding-top: 0.75rem; margin-top: 0.75rem;">
+                    <span>Flight Subtotal</span>
+                    <strong>$@subtotal.ToString("N0")</strong>
+                </div>
+                <div class="info-item">
+                    <span>Taxes & Fees (18%)</span>
+                    <strong>$@taxes.ToString("N0")</strong>
+                </div>
+                <div class="info-item" style="border-top: 2px solid var(--border-color); padding-top: 1rem; margin-top: 1rem; font-size: 1.125rem; color: var(--text-primary);">
+                    <span><strong>Total Amount</strong></span>
+                    <strong style="color: var(--accent);">$@total.ToString("N0")</strong>
+                </div>
+            </div>
+        }
+        
+        <div class="booking-info">
+            <div class="info-item">
+                <span>Passengers:</span>
+                <strong>@(Model.Adults + Model.Children + Model.Infants)</strong>
+            </div>
+            @if (Model.Adults > 0)
+            {
+                <div class="info-item">
+                    <span>Adults:</span>
+                    <span>@Model.Adults</span>
+                </div>
+            }
+            @if (Model.Children > 0)
+            {
+                <div class="info-item">
+                    <span>Children:</span>
+                    <span>@Model.Children</span>
+                </div>
+            }
+            @if (Model.Infants > 0)
+            {
+                <div class="info-item">
+                    <span>Infants:</span>
+                    <span>@Model.Infants</span>
+                </div>
+            }
+        </div>
+        
+        <button type="submit" class="complete-button" form="passenger-form">
+            <i class="fas fa-lock"></i>
+            Complete Booking
+        </button>
+        
+        <div class="security-info">
+            <i class="fas fa-shield-alt"></i>
+            <span>Your information is secure and encrypted</span>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Flight/passenger-details.js"></script>
+}

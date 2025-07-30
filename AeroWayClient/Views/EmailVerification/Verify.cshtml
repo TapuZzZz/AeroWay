@@ -1,0 +1,766 @@
+@model AeroWayClient.Models.EmailVerificationViewModel
+@{
+    ViewData["Title"] = "Verify Your Email";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .verification-container {
+            height: 100vh;
+            width: 100vw;
+            margin-top: -70px;
+            padding-top: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+            padding: 1rem;
+        }
+
+        [data-theme="dark"] .verification-container {
+            background: var(--bg-secondary);
+        }
+
+        .verification-container::before,
+        .verification-container::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.03;
+        }
+
+        .verification-container::before {
+            width: 400px;
+            height: 400px;
+            background: var(--accent);
+            top: -200px;
+            left: -200px;
+        }
+
+        .verification-container::after {
+            width: 300px;
+            height: 300px;
+            background: var(--primary-medium);
+            bottom: -150px;
+            right: -150px;
+        }
+
+        .verification-box {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px var(--shadow-color);
+            padding: 2rem;
+            max-width: 520px;
+            width: 100%;
+            max-height: calc(100vh - 140px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .verification-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--primary-medium));
+        }
+
+        [data-theme="dark"] .verification-box::before {
+            background: linear-gradient(90deg, var(--dark-quaternary), var(--dark-tertiary));
+        }
+
+        .verification-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .email-icon {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-secondary);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        [data-theme="dark"] .email-icon {
+            background: var(--dark-secondary);
+            border-color: var(--dark-quaternary);
+            color: var(--dark-quaternary);
+            box-shadow: 0 4px 20px rgba(124, 77, 255, 0.15);
+        }
+
+        @@keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.2);
+                transform: scale(1);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(59, 130, 246, 0);
+                transform: scale(1.02);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+                transform: scale(1);
+            }
+        }
+
+        [data-theme="dark"] .email-icon {
+            animation: pulseDark 2s infinite;
+        }
+
+        @@keyframes pulseDark {
+            0% {
+                box-shadow: 0 0 0 0 rgba(124, 77, 255, 0.2);
+                transform: scale(1);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(124, 77, 255, 0);
+                transform: scale(1.02);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(124, 77, 255, 0);
+                transform: scale(1);
+            }
+        }
+
+        .verification-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .verification-message {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .verification-status {
+            margin: 1.5rem 0;
+            min-height: 40px;
+        }
+
+        .status-pending {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 500;
+            background: rgba(59, 130, 246, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        [data-theme="dark"] .status-pending {
+            color: var(--dark-quaternary);
+            background: rgba(124, 77, 255, 0.05);
+            border-color: rgba(124, 77, 255, 0.1);
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        [data-theme="dark"] .spinner {
+            border-color: var(--dark-tertiary);
+            border-top-color: var(--dark-quaternary);
+        }
+
+        @@keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .success-icon-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .success-circle {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-secondary);
+            border: 3px solid #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+            animation: successScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        [data-theme="dark"] .success-circle {
+            background: var(--dark-secondary);
+        }
+
+        @@keyframes successScale {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-checkmark {
+            width: 35px;
+            height: 35px;
+            stroke-width: 3;
+            stroke: #10b981;
+            stroke-miterlimit: 10;
+        }
+
+        .success-checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+            fill: none;
+            stroke: #10b981;
+            stroke-width: 3;
+        }
+
+        .success-checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @@keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .error-icon-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            animation: errorBounce 0.5s ease-out;
+        }
+
+        @@keyframes errorBounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .error-circle {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-secondary);
+            border: 3px solid #ef4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .error-circle {
+            background: var(--dark-secondary);
+        }
+
+        .error-x {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            z-index: 1;
+        }
+
+        .error-x::before,
+        .error-x::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 24px;
+            background: #ef4444;
+            border-radius: 2px;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .error-x::before {
+            transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
+            animation: growIn 0.3s 0.3s ease-out forwards;
+        }
+
+        .error-x::after {
+            transform: translate(-50%, -50%) rotate(-45deg) scaleY(0);
+            animation: growInReverse 0.3s 0.5s ease-out forwards;
+        }
+
+        @@keyframes growIn {
+            to {
+                transform: translate(-50%, -50%) rotate(45deg) scaleY(1);
+            }
+        }
+
+        @@keyframes growInReverse {
+            to {
+                transform: translate(-50%, -50%) rotate(-45deg) scaleY(1);
+            }
+        }
+
+        .verify-btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+        }
+
+        [data-theme="dark"] .verify-btn-primary {
+            background: var(--dark-quaternary);
+        }
+
+        .verify-btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .verify-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .verify-btn-primary:hover::before {
+            left: 100%;
+        }
+
+        [data-theme="dark"] .verify-btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(124, 77, 255, 0.3);
+        }
+
+        .verify-btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.75rem;
+            transition: all 0.3s ease;
+            min-width: 160px;
+        }
+
+        [data-theme="dark"] .verify-btn-secondary {
+            background: var(--dark-secondary);
+            color: var(--text-secondary);
+            border-color: var(--dark-tertiary);
+        }
+
+        .verify-btn-secondary:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .verify-btn-secondary:hover {
+            background: var(--dark-primary);
+            border-color: var(--dark-quaternary);
+        }
+
+        .button-group {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #success-state .verification-title {
+            color: var(--text-primary);
+        }
+
+        #error-state .verification-title {
+            color: var(--text-primary);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @@media (max-width: 480px) {
+            .verification-container {
+                padding: 0.5rem;
+                padding-top: 80px;
+            }
+
+            .verification-box {
+                padding: 1.5rem;
+                max-height: calc(100vh - 100px);
+                border-radius: 0.75rem;
+            }
+
+            .verification-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+
+            .email-icon {
+                font-size: 1.75rem;
+            }
+
+            .verification-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .verification-message {
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .status-pending {
+                padding: 0.875rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .verify-btn-primary,
+            .verify-btn-secondary {
+                width: 100%;
+                padding: 0.875rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .button-group {
+                width: 100%;
+                margin-top: 1.25rem;
+            }
+
+            .success-icon-container,
+            .error-icon-container {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+
+            .success-checkmark {
+                width: 30px;
+                height: 30px;
+            }
+
+            .error-x {
+                width: 25px;
+                height: 25px;
+            }
+
+            .error-x::before,
+            .error-x::after {
+                width: 3px;
+                height: 20px;
+            }
+        }
+
+        @@media (max-height: 600px) {
+            .verification-container {
+                padding-top: 60px;
+            }
+
+            .verification-box {
+                max-height: calc(100vh - 80px);
+                padding: 1.5rem;
+            }
+
+            .verification-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1rem;
+            }
+
+            .email-icon {
+                font-size: 1.5rem;
+            }
+
+            .verification-title {
+                font-size: 1.4rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .verification-message {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+
+            .verification-status {
+                margin: 1rem 0;
+            }
+
+            .success-icon-container,
+            .error-icon-container {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1rem;
+            }
+
+            .success-checkmark {
+                width: 25px;
+                height: 25px;
+            }
+
+            .error-x {
+                width: 20px;
+                height: 20px;
+            }
+
+            .error-x::before,
+            .error-x::after {
+                width: 3px;
+                height: 16px;
+            }
+        }
+
+        @@media (min-width: 481px) and (max-width: 768px) {
+            .verification-container {
+                padding: 1rem;
+            }
+
+            .verification-box {
+                padding: 2rem;
+                max-height: calc(100vh - 120px);
+            }
+        }
+    </style>
+}
+
+<div class="verification-container">
+    <div class="verification-box">
+        <div id="verifying-state">
+            <div class="verification-icon">
+                <div class="email-icon">
+                    <i class="fas fa-envelope-open"></i>
+                </div>
+            </div>
+            
+            <h1 class="verification-title">Verifying Your Email</h1>
+            <p class="verification-message">
+                We're confirming your email address. This will only take a moment...
+            </p>
+            
+            <div class="verification-status">
+                <div class="status-pending">
+                    <div class="spinner"></div>
+                    <span>Processing verification...</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-state" class="hidden">
+            <div class="success-icon-container">
+                <div class="success-circle">
+                    <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="success-checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="success-checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <h1 class="verification-title">Email Verified!</h1>
+            <p class="verification-message">
+                Your email has been successfully verified. You can now log in to your AeroWay account.
+            </p>
+            
+            <div class="button-group">
+                <a href="/Account/Login" class="verify-btn-primary">
+                    <i class="fas fa-sign-in-alt" style="margin-right: 0.5rem;"></i> Continue to Login
+                </a>
+            </div>
+        </div>
+
+        <div id="error-state" class="hidden">
+            <div class="error-icon-container">
+                <div class="error-circle">
+                    <div class="error-x"></div>
+                </div>
+            </div>
+            
+            <h1 class="verification-title">Verification Failed</h1>
+            <p class="verification-message" id="error-message">
+                The verification link is invalid or has expired. Please request a new verification email.
+            </p>
+            
+            <div class="button-group">
+                <a href="/EmailVerification/Resend" class="verify-btn-primary">
+                    <i class="fas fa-redo" style="margin-right: 0.5rem;"></i> Request New Link
+                </a>
+                <a href="/Account/Register" class="verify-btn-secondary">
+                    <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Back to Register
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            
+            if (!token) {
+                showError('Invalid verification link. Please make sure you clicked the correct link from your email.');
+                return;
+            }
+            
+            setTimeout(() => {
+                verifyEmail(token);
+            }, 1000);
+        });
+        
+        function verifyEmail(token) {
+            fetch('/EmailVerification/ProcessVerification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: 'token=' + encodeURIComponent(token)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess();
+                    
+                    if (data.redirectUrl) {
+                        setTimeout(() => {
+                            window.location.href = data.redirectUrl;
+                        }, 3000);
+                    }
+                } else {
+                    showError(data.message || 'Verification failed. The link may have expired or already been used.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('An error occurred while verifying your email. Please try again.');
+            });
+        }
+        
+        function showSuccess() {
+            const verifyingState = document.getElementById('verifying-state');
+            verifyingState.style.opacity = '0';
+            
+            setTimeout(() => {
+                verifyingState.classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                
+                const successState = document.getElementById('success-state');
+                successState.classList.remove('hidden');
+                setTimeout(() => {
+                    successState.style.opacity = '1';
+                }, 50);
+            }, 300);
+        }
+        
+        function showError(message) {
+            const verifyingState = document.getElementById('verifying-state');
+            verifyingState.style.opacity = '0';
+            
+            setTimeout(() => {
+                verifyingState.classList.add('hidden');
+                document.getElementById('success-state').classList.add('hidden');
+                
+                if (message) {
+                    document.getElementById('error-message').textContent = message;
+                }
+                
+                const errorState = document.getElementById('error-state');
+                errorState.classList.remove('hidden');
+                setTimeout(() => {
+                    errorState.style.opacity = '1';
+                }, 50);
+            }, 300);
+        }
+    </script>
+}
+
+@Html.AntiForgeryToken()

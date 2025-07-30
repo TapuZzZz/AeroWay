@@ -1,0 +1,302 @@
+@model AeroWayClient.Models.FlightResultsViewModel
+@{
+    ViewData["Title"] = "Select Your Flight";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Flight/SearchResults.css" asp-append-version="true" />
+}
+
+<div class="search-results-page">
+    <div class="search-summary">
+    <div class="summary-container">
+        <div class="summary-header">
+            <div class="route-info">
+                <h1>
+                    @Model.SearchParams.From 
+                    <i class="fas fa-plane route-arrow"></i> 
+                    @Model.SearchParams.To
+                </h1>
+            </div>
+        </div>
+        <div class="trip-details">
+            <span><i class="fas fa-calendar"></i> @Model.SearchParams.TripType.Replace("trip", " Trip")</span>
+            <span>
+                <i class="fas fa-calendar-alt"></i> 
+                @Model.SearchParams.DepartureDate.ToString("MMM dd, yyyy")
+                @if (Model.SearchParams.TripType == "roundtrip" && Model.SearchParams.ReturnDate.HasValue)
+                {
+                    <text> - @Model.SearchParams.ReturnDate.Value.ToString("MMM dd, yyyy")</text>
+                }
+            </span>
+            <span><i class="fas fa-user-friends"></i> @Model.GetSearchSummary()</span>
+        </div>
+    </div>
+</div>
+
+<div class="results-container">
+    <div class="results-main">
+        <form asp-action="SelectFlightsPost" asp-controller="Flight" method="post" id="flightSelectionForm">
+            @Html.AntiForgeryToken()
+            
+            <div class="filters-bar">
+                <div class="filter-pills">
+                    <div class="filter-pill" data-filter="morning">
+                        <i class="fas fa-sun"></i> Morning
+                    </div>
+                    <div class="filter-pill" data-filter="afternoon">
+                        <i class="fas fa-cloud-sun"></i> Afternoon
+                    </div>
+                    <div class="filter-pill" data-filter="evening">
+                        <i class="fas fa-moon"></i> Evening
+                    </div>
+                    <div class="filter-pill" data-filter="night">
+                        <i class="fas fa-star"></i> Night
+                    </div>
+                </div>
+                <div class="sort-dropdown">
+                    <span style="color: var(--text-secondary); font-size: 0.875rem;">Sort by:</span>
+                    <select id="sortSelect" style="display: none;">
+                        <option value="price">Lowest Price</option>
+                        <option value="duration">Shortest Duration</option>
+                        <option value="departure">Earliest Departure</option>
+                    </select>
+                    <div class="custom-select">
+                        <div class="custom-select-trigger">
+                            <span>Lowest Price</span>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option selected" data-value="price">Lowest Price</div>
+                            <div class="custom-option" data-value="duration">Shortest Duration</div>
+                            <div class="custom-option" data-value="departure">Earliest Departure</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flight-section">
+                <h2 class="section-title">
+                    <i class="fas fa-plane-departure"></i> 
+                    Outbound Flight
+                    <span style="font-size: 1rem; color: var(--text-secondary); font-weight: 400;">
+                        (@Model.SearchParams.DepartureDate.ToString("MMMM dd, yyyy"))
+                    </span>
+                </h2>
+                
+                <div class="no-filter-results outbound-filter" style="display: none;">
+                    <div class="no-results">
+                        <i class="fas fa-filter"></i>
+                        <h3>No flights found for selected time filters</h3>
+                        <p>Try adjusting your time preferences or clear the filter to see all available flights.</p>
+                    </div>
+                </div>
+
+                @if (Model.OutboundFlights.Count == 0)
+                {
+                    <div class="no-results outbound-no-flights">
+                        <i class="fas fa-plane-slash"></i>
+                        <h3>No flights available</h3>
+                        <p>We couldn't find any flights for the selected date. Try adjusting your search criteria.</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var flight in Model.OutboundFlights)
+                    {
+                        <div class="flight-card" data-flight-id="@flight.FlightId" data-price="@flight.Price" data-departure="@flight.DepartureTime.ToString("HH:mm")" data-duration="@flight.Duration">
+                            <input type="radio" name="outboundFlightId" value="@flight.FlightId" id="outbound-@flight.FlightId" />
+
+                            <div class="flight-content">
+                                <div class="flight-info">
+                                    <div class="airline-info">
+                                        <div class="airline-logo">AW</div>
+                                        <div>
+                                            <div class="airline-name">AeroWay</div>
+                                            <div class="flight-number">@flight.FlightNumber</div>
+                                        </div>
+                                        <span class="badge direct">Direct</span>
+                                    </div>
+                                    <div class="flight-timing">
+                                        <div class="time-block">
+                                            <div class="time">@flight.DepartureTime.ToString("HH:mm")</div>
+                                            <div class="airport">@flight.OriginCode</div>
+                                        </div>
+                                        <div class="flight-duration">
+                                            <div class="duration-line"></div>
+                                            <div class="duration-time">@flight.Duration</div>
+                                        </div>
+                                        <div class="time-block">
+                                            <div class="time">@flight.ArrivalTime.ToString("HH:mm")</div>
+                                            <div class="airport">@flight.DestinationCode</div>
+                                        </div>
+                                    </div>
+                                    <div class="flight-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-utensils"></i>
+                                            Meal included
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-wifi"></i>
+                                            Free Wi-Fi
+                                        </div>
+                                        <div class="detail-item @(flight.AvailableSeats < 5 ? "seats-low" : "seats-available")">
+                                            <i class="fas fa-chair"></i>
+                                            @if (flight.AvailableSeats < 5)
+                                            {
+                                                <text>Only @flight.AvailableSeats seats left!</text>
+                                            }
+                                            else
+                                            {
+                                                <text>@flight.AvailableSeats seats available</text>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flight-price">
+                                    <div class="price-label">Price per person</div>
+                                    <div class="price-amount">$@flight.Price.ToString("N0")</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            
+            @if (Model.SearchParams.TripType == "roundtrip")
+            {
+                <div class="flight-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-plane-arrival"></i> 
+                        Return Flight
+                        <span style="font-size: 1rem; color: var(--text-secondary); font-weight: 400;">
+                            (@Model.SearchParams.ReturnDate?.ToString("MMMM dd, yyyy"))
+                        </span>
+                    </h2>
+                    
+                    <div class="no-filter-results return-filter" style="display: none;">
+                        <div class="no-results">
+                            <i class="fas fa-filter"></i>
+                            <h3>No return flights found for selected time filters</h3>
+                            <p>Try adjusting your time preferences or clear the filter to see all available flights.</p>
+                        </div>
+                    </div>
+
+                    @if (Model.ReturnFlights == null || Model.ReturnFlights.Count == 0)
+                    {
+                        <div class="no-results return-no-flights">
+                            <i class="fas fa-plane-slash"></i>
+                            <h3>No return flights available</h3>
+                            <p>We couldn't find any return flights for the selected date.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var flight in Model.ReturnFlights)
+                        {
+                            <div class="flight-card" data-flight-id="@flight.FlightId" data-price="@flight.Price" data-departure="@flight.DepartureTime.ToString("HH:mm")" data-duration="@flight.Duration">
+                                <input type="radio" name="returnFlightId" value="@flight.FlightId" id="return-@flight.FlightId" />
+
+                                <div class="flight-content">
+                                    <div class="flight-info">
+                                        <div class="airline-info">
+                                            <div class="airline-logo">AW</div>
+                                            <div>
+                                                <div class="airline-name">AeroWay</div>
+                                                <div class="flight-number">@flight.FlightNumber</div>
+                                            </div>
+                                            <span class="badge direct">Direct</span>
+                                        </div>
+                                        <div class="flight-timing">
+                                            <div class="time-block">
+                                                <div class="time">@flight.DepartureTime.ToString("HH:mm")</div>
+                                                <div class="airport">@flight.OriginCode</div>
+                                            </div>
+                                            <div class="flight-duration">
+                                                <div class="duration-line"></div>
+                                                <div class="duration-time">@flight.Duration</div>
+                                            </div>
+                                            <div class="time-block">
+                                                <div class="time">@flight.ArrivalTime.ToString("HH:mm")</div>
+                                                <div class="airport">@flight.DestinationCode</div>
+                                            </div>
+                                        </div>
+                                        <div class="flight-details">
+                                            <div class="detail-item">
+                                                <i class="fas fa-utensils"></i>
+                                                Meal included
+                                            </div>
+                                            <div class="detail-item">
+                                                <i class="fas fa-wifi"></i>
+                                                Free Wi-Fi
+                                            </div>
+                                            <div class="detail-item @(flight.AvailableSeats < 5 ? "seats-low" : "seats-available")">
+                                                <i class="fas fa-chair"></i>
+                                                @if (flight.AvailableSeats < 5)
+                                                {
+                                                    <text>Only @flight.AvailableSeats seats left!</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>@flight.AvailableSeats seats available</text>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flight-price">
+                                        <div class="price-label">Price per person</div>
+                                        <div class="price-amount">$@flight.Price.ToString("N0")</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            
+            <button type="submit" id="hiddenSubmitBtn" style="display: none;"></button>
+        </form>
+    </div>
+    
+    <div class="price-summary">
+        <h3 class="summary-title">Price Summary</h3>
+        
+        <div class="price-item">
+            <span>Outbound flight (@(Model.SearchParams.Adults + Model.SearchParams.Children) passengers)</span>
+            <span id="outboundPrice">--</span>
+        </div>
+        @if (Model.SearchParams.TripType == "roundtrip")
+        {
+            <div class="price-item">
+                <span>Return flight (@(Model.SearchParams.Adults + Model.SearchParams.Children) passengers)</span>
+                <span id="returnPrice">--</span>
+            </div>
+        }
+        <div class="price-item">
+            <span>Taxes & fees</span>
+            <span id="taxesPrice">--</span>
+        </div>
+        
+        <div class="price-item total">
+            <span>Total</span>
+            <span id="totalPrice">--</span>
+        </div>
+        
+        <div class="continue-section">
+            <button type="button" class="btn-continue" id="continueBtn" disabled>
+                Continue to Passenger Details <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.searchParams = {
+            adults: @Model.SearchParams.Adults,
+            children: @Model.SearchParams.Children,
+            infants: @Model.SearchParams.Infants,
+            tripType: '@Model.SearchParams.TripType'
+        };
+    </script>
+    <script src="~/js/Flight/SearchResults.js" asp-append-version="true"></script>
+}

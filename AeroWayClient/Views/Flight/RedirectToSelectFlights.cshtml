@@ -1,0 +1,126 @@
+// Location: Views/Flight/RedirectToSelectFlights.cshtml
+
+@{
+    ViewData["Title"] = "Processing...";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <style>
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-primary);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .processing-container {
+            text-align: center;
+            color: var(--text-primary);
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .custom-spinner {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        [data-theme="dark"] .custom-spinner {
+            border-color: var(--dark-tertiary);
+            border-top-color: var(--dark-quaternary);
+        }
+
+        @@keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .processing-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .processing-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+
+        .security-info {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .security-icon {
+            color: #10b981;
+        }
+
+        body.processing {
+            overflow: hidden;
+        }
+    </style>
+}
+
+<div class="processing-overlay">
+    <div class="processing-container">
+        <div class="custom-spinner"></div>
+        <h3 class="processing-title">Welcome back!</h3>
+        <p class="processing-subtitle">Preparing your selected flights...</p>
+        
+        <div class="security-info">
+            <i class="fas fa-shield-alt security-icon"></i>
+            <span>Secure processing in progress</span>
+        </div>
+    </div>
+</div>
+
+<form id="autoSubmitForm" asp-action="SelectFlightsPost" asp-controller="Flight" method="post" style="display: none;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="outboundFlightId" value="@ViewBag.OutboundFlightId" />
+    @if (ViewBag.ReturnFlightId != null)
+    {
+        <input type="hidden" name="returnFlightId" value="@ViewBag.ReturnFlightId" />
+    }
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('processing');
+            
+            setTimeout(function() {
+                if (document.getElementById('autoSubmitForm')) {
+                    document.getElementById('autoSubmitForm').submit();
+                }
+            }, 1500);
+        });
+        
+        window.addEventListener('beforeunload', function() {
+            document.body.classList.remove('processing');
+        });
+    </script>
+}

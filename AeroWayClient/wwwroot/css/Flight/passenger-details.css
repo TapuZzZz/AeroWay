@@ -1,0 +1,1485 @@
+/* Flight Summary Section */
+.flight-summary {
+    background: var(--bg-primary);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+.summary-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.summary-header i {
+    color: var(--accent);
+}
+
+.flight-leg {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+}
+
+.flight-leg:last-child {
+    margin-bottom: 0;
+}
+
+.flight-route {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.route-city {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.route-arrow {
+    color: var(--accent);
+}
+
+.flight-details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.detail-value {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* GLOBAL SCROLLBAR REMOVAL */
+* {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+/* Main Content Area - Add isolation */
+main {
+    position: relative;
+    z-index: 1;
+    isolation: isolate; /* Create new stacking context */
+}
+
+/* Main Container */
+.passenger-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+    overflow: visible; /* Allow dropdowns to overflow */
+}
+
+/* Passenger Forms - Allow overflow for dropdowns */
+.passenger-forms {
+    background: var(--bg-primary);
+    border-radius: 16px; /* Match passenger cards */
+    padding: 2rem;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border: 2px solid var(--border-color);
+    position: relative;
+    z-index: 2;
+    transition: border-color var(--motion-transition), box-shadow var(--motion-transition);
+    overflow: visible; /* Allow dropdowns to show outside */
+}
+
+.passenger-forms:hover {
+    border-color: rgba(46, 92, 215, 0.2);
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+[data-theme="dark"] .passenger-forms:hover {
+    border-color: rgba(124, 77, 255, 0.2);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title i {
+    color: var(--accent);
+}
+
+.passenger-card {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 16px; /* More rounded corners */
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all var(--motion-transition);
+    position: relative;
+    overflow: visible; /* Allow dropdowns to show outside */
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/* Passenger card hover effects with consistent shadow */
+.passenger-card:hover {
+    box-shadow: 0 8px 25px var(--shadow-color);
+    transform: translateY(-3px);
+    border-color: var(--accent); /* Change border color on hover */
+}
+
+/* Dark mode hover */
+[data-theme="dark"] .passenger-card:hover {
+    border-color: var(--dark-quaternary);
+}
+
+/* Premium Input Styling - Input wrapper */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 48px; /* Reduced from 56px */
+}
+
+.passenger-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem; /* Reduced from 1.5rem */
+}
+
+.passenger-number {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.passenger-number i {
+    color: var(--accent);
+}
+
+.passenger-badge {
+    background: var(--accent);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    box-shadow: 0 2px 4px rgba(46, 92, 215, 0.2);
+}
+
+.passenger-badge.child {
+    background: #f59e0b;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+}
+
+.passenger-badge.infant {
+    background: #ec4899;
+    box-shadow: 0 2px 4px rgba(236, 72, 153, 0.2);
+}
+
+/* Keep colors consistent in dark mode */
+[data-theme="dark"] .passenger-badge {
+    background: var(--accent);
+    box-shadow: 0 2px 4px rgba(124, 77, 255, 0.2);
+}
+
+[data-theme="dark"] .passenger-badge.child {
+    background: #f59e0b;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+}
+
+[data-theme="dark"] .passenger-badge.infant {
+    background: #ec4899;
+    box-shadow: 0 2px 4px rgba(236, 72, 153, 0.2);
+}
+
+/* Enhanced Form Styling - REDUCED SPACING */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem; /* Reduced from 1.5rem */
+}
+
+.form-row:last-child {
+    margin-bottom: 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem; /* Reduced from 0.5rem */
+    position: relative;
+    margin-bottom: 0;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.25rem; /* Reduced from 0.5rem */
+    height: 18px; /* Reduced from 20px */
+}
+
+.required {
+    color: #ef4444;
+}
+
+/* Premium Input Styling - Consistent heights */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 48px; /* Reduced from 56px */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+    width: 100%;
+    height: 48px; /* Reduced from 56px */
+    padding: 0.75rem 1rem; /* Reduced from 0.875rem */
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.95rem; /* Slightly smaller */
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.01em;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(46, 92, 215, 0.1);
+    background: rgba(46, 92, 215, 0.02);
+    transform: translateY(-1px);
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="tel"]:hover,
+input[type="date"]:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Contact field states */
+.contact-valid {
+    border-color: #10b981 !important;
+}
+
+.contact-warning {
+    border-color: #f59e0b !important;
+}
+
+.contact-error {
+    border-color: #ef4444 !important;
+}
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] input[type="date"] {
+    background: var(--dark-secondary);
+    border-color: var(--dark-tertiary);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] input[type="text"]:focus,
+[data-theme="dark"] input[type="email"]:focus,
+[data-theme="dark"] input[type="tel"]:focus,
+[data-theme="dark"] input[type="date"]:focus {
+    border-color: var(--dark-quaternary);
+    box-shadow: 0 0 0 4px rgba(124, 77, 255, 0.1);
+    background: rgba(124, 77, 255, 0.05);
+}
+
+/* Input Icons - Enhanced for Dark Mode visibility */
+.input-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+.input-icon.contact-valid {
+    color: #10b981 !important;
+}
+
+.input-icon.contact-warning {
+    color: #f59e0b !important;
+}
+
+.input-icon.contact-error {
+    color: #ef4444 !important;
+}
+
+/* Dark Mode Icon Overrides */
+[data-theme="dark"] .input-icon.contact-valid {
+    color: #34d399 !important;
+}
+
+[data-theme="dark"] .input-icon.contact-warning {
+    color: #fbbf24 !important;
+}
+
+[data-theme="dark"] .input-icon.contact-error {
+    color: #f87171 !important;
+}
+
+.form-group:focus-within .input-icon {
+    color: var(--accent);
+}
+
+/* Custom Select Premium Styling - Override Layout styles with CONSISTENT BACKGROUND */
+.passenger-forms .custom-select {
+    position: relative;
+    height: 48px !important; /* Force our height */
+}
+
+.passenger-forms .select-button {
+    width: 100% !important;
+    height: 48px !important; /* Force our height */
+    padding: 0.75rem 1rem !important; /* Force our padding */
+    border: 2px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    background: var(--bg-primary) !important; /* SAME AS TEXT INPUTS */
+    color: var(--text-primary) !important;
+    font-size: 0.95rem !important; /* Force our font size */
+    font-weight: 500 !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-family: 'Inter', sans-serif !important;
+    letter-spacing: 0.01em !important;
+    box-sizing: border-box !important;
+}
+
+.passenger-forms .select-button:hover {
+    border-color: var(--accent) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.passenger-forms .select-button.open {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 4px rgba(46, 92, 215, 0.1) !important;
+    background: rgba(46, 92, 215, 0.02) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Select validation states - Light Mode */
+.custom-select.select-valid .select-button {
+    border-color: #10b981 !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+}
+
+.custom-select.select-valid .select-button i {
+    color: #10b981 !important;
+}
+
+.custom-select.select-valid .select-button:hover {
+    border-color: #10b981 !important;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.4) !important;
+}
+
+.custom-select.select-valid .select-button.open {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2) !important;
+    background: rgba(16, 185, 129, 0.05) !important;
+}
+
+/* Dark Mode Select validation states - Enhanced visibility */
+[data-theme="dark"] .custom-select.select-valid .select-button {
+    border-color: #34d399 !important;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-theme="dark"] .custom-select.select-valid .select-button i {
+    color: #34d399 !important;
+}
+
+[data-theme="dark"] .custom-select.select-valid .select-button:hover {
+    border-color: #34d399 !important;
+    box-shadow: 0 2px 16px rgba(16, 185, 129, 0.5) !important;
+}
+
+[data-theme="dark"] .custom-select.select-valid .select-button.open {
+    border-color: #34d399 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.3) !important;
+    background: rgba(16, 185, 129, 0.1) !important;
+}
+
+/* DARK MODE SELECT BUTTON - SAME BACKGROUND AS TEXT INPUTS */
+[data-theme="dark"] .passenger-forms .select-button {
+    background: var(--dark-secondary) !important; /* SAME AS TEXT INPUTS */
+    border-color: var(--dark-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .passenger-forms .select-button:hover,
+[data-theme="dark"] .passenger-forms .select-button.open {
+    border-color: var(--dark-quaternary) !important;
+    box-shadow: 0 0 0 4px rgba(124, 77, 255, 0.1) !important;
+    background: rgba(124, 77, 255, 0.05) !important;
+}
+
+.select-button i {
+    transition: all 0.3s ease;
+    color: var(--accent);
+    font-size: 0.875rem;
+}
+
+.select-button.open i {
+    transform: rotate(180deg);
+}
+
+.select-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 10000 !important;
+    display: none;
+    animation: dropdownFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.select-dropdown::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+
+.select-dropdown.show {
+    display: block;
+}
+
+[data-theme="dark"] .select-dropdown {
+    background: var(--dark-secondary);
+    border-color: var(--dark-tertiary);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Enhanced Select Options */
+.select-option {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.select-option:last-child {
+    border-bottom: none;
+}
+
+.select-option::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.select-option:hover {
+    background: rgba(46, 92, 215, 0.08);
+    padding-left: 1.25rem;
+    transform: translateX(2px);
+}
+
+.select-option:hover::before {
+    opacity: 1;
+}
+
+[data-theme="dark"] .select-option::before {
+    background: var(--dark-quaternary);
+}
+
+[data-theme="dark"] .select-option {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .select-option:hover {
+    background: rgba(124, 77, 255, 0.1);
+}
+
+.select-option.selected {
+    background: rgba(46, 92, 215, 0.15);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+[data-theme="dark"] .select-option.selected {
+    background: rgba(124, 77, 255, 0.2);
+    color: var(--dark-quaternary);
+}
+
+/* Custom select with validation indicator - Both Light and Dark Mode */
+.custom-select.validated .select-button {
+    border-color: #10b981 !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+}
+
+.custom-select.validated .select-button i {
+    color: #10b981 !important;
+}
+
+/* Dark Mode validated select */
+[data-theme="dark"] .custom-select.validated .select-button {
+    border-color: #34d399 !important;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-theme="dark"] .custom-select.validated .select-button i {
+    color: #34d399 !important;
+}
+
+/* Gender Icons */
+.gender-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.gender-icon {
+    font-size: 1rem;
+    min-width: 20px;
+}
+
+.male-icon {
+    color: #3b82f6;
+}
+
+.female-icon {
+    color: #ec4899;
+}
+
+/* Nationality Icons */
+.nationality-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.country-flag {
+    font-size: 1.2rem;
+    min-width: 24px;
+}
+
+/* Custom Date Picker Calendar - Consistent heights and BACKGROUND */
+.date-picker-container {
+    position: relative;
+    height: 48px; /* Reduced from 56px */
+}
+
+.date-input-display {
+    width: 100%;
+    height: 48px; /* Reduced from 56px */
+    padding: 0.75rem 1rem; /* Reduced from 0.875rem */
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary); /* SAME AS TEXT INPUTS */
+    color: var(--text-primary);
+    font-size: 0.95rem; /* Slightly smaller */
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+
+.date-display-text {
+    flex: 1;
+}
+
+.date-input-display:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.date-input-display.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(46, 92, 215, 0.1);
+    background: rgba(46, 92, 215, 0.02);
+}
+
+/* Valid date overrides active */
+.date-input-display.valid-date.active {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1) !important;
+    background: rgba(16, 185, 129, 0.02) !important;
+}
+
+/* Date validation states - Enhanced for Dark Mode visibility */
+.date-picker-container .date-input-display.valid-date {
+    border-color: #10b981 !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+}
+
+.date-picker-container .date-input-display.valid-date .fa-calendar-alt {
+    color: #10b981 !important;
+}
+
+.date-picker-container .date-input-display.valid-date:hover {
+    border-color: #10b981 !important;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.4) !important;
+}
+
+.date-picker-container .date-input-display.valid-date.active {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2) !important;
+    background: rgba(16, 185, 129, 0.05) !important;
+}
+
+/* Dark Mode Date validation states */
+[data-theme="dark"] .date-picker-container .date-input-display.valid-date {
+    border-color: #34d399 !important;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-theme="dark"] .date-picker-container .date-input-display.valid-date .fa-calendar-alt {
+    color: #34d399 !important;
+}
+
+[data-theme="dark"] .date-picker-container .date-input-display.valid-date:hover {
+    border-color: #34d399 !important;
+    box-shadow: 0 2px 16px rgba(16, 185, 129, 0.5) !important;
+}
+
+[data-theme="dark"] .date-picker-container .date-input-display.valid-date.active {
+    border-color: #34d399 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.3) !important;
+    background: rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Make sure the date display has green border when valid - Both modes */
+.date-input-display.date-selected {
+    border-color: #10b981 !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+}
+
+[data-theme="dark"] .date-input-display.date-selected {
+    border-color: #34d399 !important;
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Calendar icon green when date is selected - Enhanced for Dark Mode */
+.date-input-display.valid-date .fa-calendar-alt,
+.date-input-display.date-selected .fa-calendar-alt {
+    color: #10b981 !important;
+}
+
+[data-theme="dark"] .date-input-display.valid-date .fa-calendar-alt,
+[data-theme="dark"] .date-input-display.date-selected .fa-calendar-alt {
+    color: #34d399 !important;
+}
+
+/* DARK MODE DATE INPUT - SAME BACKGROUND AS TEXT INPUTS */
+[data-theme="dark"] .date-input-display {
+    background: var(--dark-secondary); /* SAME AS TEXT INPUTS */
+    border-color: var(--dark-tertiary);
+}
+
+[data-theme="dark"] .date-input-display.active {
+    border-color: var(--dark-quaternary);
+    box-shadow: 0 0 0 4px rgba(124, 77, 255, 0.1);
+    background: rgba(124, 77, 255, 0.05);
+}
+
+.date-calendar {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    z-index: 10000 !important;
+    display: none;
+    width: 100%;
+    max-width: 280px;
+    animation: calendarFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.date-calendar.show {
+    display: block;
+}
+
+[data-theme="dark"] .date-calendar {
+    background: var(--dark-secondary);
+    border-color: var(--dark-tertiary);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes calendarFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.calendar-header {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+[data-theme="dark"] .calendar-header {
+    border-bottom-color: var(--dark-tertiary);
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.calendar-nav select {
+    padding: 0.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.calendar-nav select::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+
+[data-theme="dark"] .calendar-nav select {
+    background: var(--dark-tertiary);
+    border-color: var(--dark-quaternary);
+}
+
+.calendar-grid {
+    padding: 0.75rem;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.15rem;
+    margin-bottom: 0.4rem;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.15rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+    position: relative;
+    min-height: 24px;
+}
+
+.calendar-day:hover {
+    background: rgba(46, 92, 215, 0.1);
+    transform: scale(1.05);
+}
+
+.calendar-day.other-month {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.calendar-day.selected {
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+}
+
+.calendar-day.today {
+    background: rgba(46, 92, 215, 0.2);
+    font-weight: 700;
+}
+
+[data-theme="dark"] .calendar-day:hover {
+    background: rgba(124, 77, 255, 0.2);
+}
+
+[data-theme="dark"] .calendar-day.selected {
+    background: var(--dark-quaternary);
+}
+
+[data-theme="dark"] .calendar-day.today {
+    background: rgba(124, 77, 255, 0.3);
+}
+
+/* Contact Information Section */
+.contact-info-section {
+    margin-top: 2rem;
+}
+
+.contact-card {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all var(--motion-transition);
+    position: relative;
+    overflow: visible;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.contact-card:hover {
+    box-shadow: 0 8px 25px var(--shadow-color);
+    transform: translateY(-3px);
+    border-color: var(--accent);
+}
+
+[data-theme="dark"] .contact-card {
+    background: var(--dark-secondary);
+    border-color: var(--dark-tertiary);
+}
+
+[data-theme="dark"] .contact-card:hover {
+    border-color: var(--dark-quaternary);
+}
+
+/* Terms Section */
+.terms-section {
+    margin-top: 1.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.checkbox-group:hover {
+    background: rgba(46, 92, 215, 0.02);
+    border-color: var(--accent);
+}
+
+[data-theme="dark"] .checkbox-group {
+    background: var(--dark-secondary);
+    border-color: var(--dark-tertiary);
+}
+
+[data-theme="dark"] .checkbox-group:hover {
+    background: rgba(124, 77, 255, 0.02);
+    border-color: var(--dark-quaternary);
+}
+
+/* Override generic checkbox styles from Layout */
+.passenger-forms .checkbox-group input[type="checkbox"] {
+    appearance: none !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    border: 2px solid var(--border-color) !important;
+    border-radius: 4px !important;
+    background: var(--bg-primary) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    flex-shrink: 0 !important;
+    margin-top: 0.125rem !important;
+    position: relative !important;
+}
+
+.passenger-forms .checkbox-group input[type="checkbox"]:hover {
+    border-color: var(--accent) !important;
+}
+
+.passenger-forms .checkbox-group input[type="checkbox"]:checked {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+}
+
+.passenger-forms .checkbox-group input[type="checkbox"]:checked::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 40% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) rotate(45deg) !important;
+    width: 4px !important;
+    height: 8px !important;
+    border: solid white !important;
+    border-width: 0 2px 2px 0 !important;
+}
+
+[data-theme="dark"] .checkbox-group input[type="checkbox"] {
+    background: var(--dark-secondary) !important;
+    border-color: var(--dark-tertiary) !important;
+}
+
+[data-theme="dark"] .checkbox-group input[type="checkbox"]:hover {
+    border-color: var(--dark-quaternary) !important;
+}
+
+[data-theme="dark"] .checkbox-group input[type="checkbox"]:checked {
+    background: var(--dark-quaternary) !important;
+    border-color: var(--dark-quaternary) !important;
+}
+
+/* Error state for terms */
+.checkbox-group.error {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+.checkbox-group.error input[type="checkbox"] {
+    border-color: #ef4444 !important;
+}
+
+/* Terms Text Design */
+.terms-text {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.terms-main {
+    margin-bottom: 0.5rem;
+}
+
+.terms-links {
+    margin: 0.75rem 0;
+}
+
+.terms-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    margin: 0 0.1rem;
+}
+
+.terms-link:hover {
+    background: rgba(46, 92, 215, 0.1);
+    text-decoration: underline;
+}
+
+[data-theme="dark"] .terms-link {
+    color: var(--dark-quaternary);
+}
+
+[data-theme="dark"] .terms-link:hover {
+    background: rgba(124, 77, 255, 0.1);
+}
+
+.terms-note {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .terms-note {
+    border-top-color: var(--dark-tertiary);
+}
+
+/* Booking Summary Sidebar */
+.booking-summary {
+    position: sticky;
+    top: 2rem;
+    background: var(--bg-primary);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    height: fit-content;
+    z-index: 1; /* Add low z-index to keep it behind dropdowns */
+}
+
+.summary-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.summary-title i {
+    color: var(--accent);
+}
+
+.booking-info {
+    margin-bottom: 1.5rem;
+}
+
+.price-breakdown {
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem; /* Increased from 0.75rem for better spacing */
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.info-item strong {
+    color: var(--text-primary);
+}
+
+.trip-summary {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.trip-summary h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.75rem; /* Increased from 0.5rem */
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.trip-summary p {
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem 0; /* Added bottom margin for better spacing */
+    font-size: 0.875rem;
+}
+
+.trip-summary p:last-child {
+    margin-bottom: 0;
+}
+
+/* Fix button styling in booking summary */
+.booking-summary .complete-button {
+    width: 100% !important;
+    background: var(--accent) !important;
+    color: white !important;
+    border: none !important;
+    padding: 1rem !important;
+    border-radius: var(--border-radius) !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all var(--motion-transition) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    height: auto !important;
+}
+
+.booking-summary .complete-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(46, 92, 215, 0.3) !important;
+    background: var(--primary-dark) !important;
+}
+
+[data-theme="dark"] .booking-summary .complete-button:hover {
+    background: var(--dark-quaternary) !important;
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.3) !important;
+}
+
+.passenger-forms .complete-button {
+    width: 100% !important;
+    background: var(--accent) !important;
+    color: white !important;
+    border: none !important;
+    padding: 1rem !important;
+    border-radius: var(--border-radius) !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all var(--motion-transition) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    height: auto !important;
+}
+
+.passenger-forms .complete-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(46, 92, 215, 0.3) !important;
+    background: var(--primary-dark) !important;
+}
+
+[data-theme="dark"] .passenger-forms .complete-button:hover {
+    background: var(--dark-quaternary) !important;
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.3) !important;
+}
+
+.security-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.security-info i {
+    color: #10b981;
+}
+
+/* Validation Error Styling - Enhanced for Dark Mode visibility */
+.text-danger {
+    color: #ef4444;
+    font-size: 0.7rem; /* Reduced from 0.75rem */
+    margin-top: 0.25rem; /* Reduced from 0.5rem */
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Contact field validation messages - Enhanced for Dark Mode */
+.text-warning {
+    color: #f59e0b;
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.text-danger i {
+    font-size: 0.65rem; /* Reduced from 0.7rem */
+}
+
+.text-warning i {
+    font-size: 0.65rem;
+}
+
+/* Dark Mode Validation Text Overrides */
+[data-theme="dark"] .text-danger {
+    color: #f87171 !important;
+}
+
+[data-theme="dark"] .text-warning {
+    color: #fbbf24 !important;
+}
+
+.form-group input.input-validation-error,
+.form-group .select-button.input-validation-error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+/* Age Validation Messages */
+.age-validation-message {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem; /* Reduced padding */
+    margin-top: 0.25rem; /* Reduced from 0.5rem */
+    font-size: 0.75rem; /* Reduced from 0.8rem */
+    color: #d97706;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.age-validation-message.error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+.age-validation-message i {
+    font-size: 0.85rem; /* Reduced from 0.9rem */
+}
+
+/* Fix for calendar overlapping issues - Allow calendar to show above other passengers */
+.passenger-card {
+    position: relative;
+}
+
+/* When calendar/dropdown is active, increase z-index significantly */
+.passenger-card.calendar-active {
+    z-index: 1000 !important;
+    position: relative;
+}
+
+.form-row.calendar-active {
+    z-index: 1001 !important;
+    position: relative;
+}
+
+.form-group.calendar-active {
+    z-index: 1002 !important;
+    position: relative;
+}
+
+/* Fix Newsletter styling conflicts */
+.footer .newsletter-form {
+    display: flex !important;
+    gap: 0 !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+    border-radius: var(--border-radius) !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 15px var(--shadow-color) !important;
+    position: relative !important;
+}
+
+.footer .newsletter-input {
+    flex: 1 !important;
+    padding: 0.95rem 1.25rem !important;
+    border: 2px solid var(--border-color) !important;
+    border-right: none !important;
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    font-size: 1rem !important;
+    border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+    transition: border-color var(--hover-transition) !important;
+    height: 56px !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    box-sizing: border-box !important;
+}
+
+.footer .newsletter-input:focus {
+    outline: none !important;
+    border-color: var(--accent) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.footer .newsletter-input:hover {
+    border-color: var(--accent) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.footer .newsletter-button {
+    padding: 0 28px !important;
+    background: var(--accent) !important;
+    color: white !important;
+    border: 2px solid var(--accent) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    cursor: pointer !important;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+    height: 56px !important;
+    white-space: nowrap !important;
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 1 !important;
+    transition: background-color var(--hover-transition),
+                color var(--hover-transition),
+                border-color var(--hover-transition),
+                transform var(--spring-transition),
+                box-shadow var(--spring-transition) !important;
+}
+
+.footer .newsletter-button:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    box-shadow: 0 6px 20px rgba(46, 92, 215, 0.4) !important;
+    transform: none !important;
+}
+
+[data-theme="dark"] .footer .newsletter-button:hover {
+    background-color: var(--dark-quaternary) !important;
+    border-color: var(--dark-quaternary) !important;
+    box-shadow: 0 6px 20px rgba(124, 77, 255, 0.4) !important;
+}
+
+@media (max-width: 1024px) {
+    .passenger-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-summary {
+        position: relative;
+        top: 0;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .passenger-container {
+        padding: 0 1rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .flight-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .passenger-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    .date-calendar {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-width: 280px;
+        z-index: 10000 !important;
+    }
+    
+    .select-dropdown {
+        z-index: 10000 !important;
+    }
+}

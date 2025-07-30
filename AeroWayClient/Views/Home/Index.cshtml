@@ -1,0 +1,415 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home/common.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/home-hero.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/home-search.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/home-dropdowns.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/home-travelers.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/home-calendar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/destination.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/fleet.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home/about.css" asp-append-version="true" />
+}
+
+<section id="home">
+    <div class="hero-section">
+        <div class="hero-background">
+            <div class="gradient-overlay"></div>
+            <div class="animated-elements">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+                <div class="floating-shape shape-4"></div>
+                <div class="floating-shape shape-5"></div>
+                <div class="floating-shape shape-6"></div>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="accent">Fly</span> Beyond
+                <span class="hero-subtitle">Your Dreams</span>
+            </h1>
+            <p class="hero-description">Experience seamless travel to hundreds of destinations worldwide</p>
+        </div>
+    </div>
+
+    <div class="search-section">
+        <div class="container">
+            <div class="search-card">
+                <div class="search-tabs">
+                    <button class="tab-btn active" data-tab="flights">
+                        <i class="fas fa-plane"></i>
+                        <span>Flights</span>
+                    </button>
+                    <button class="tab-btn" data-tab="hotels">
+                        <i class="fas fa-hotel"></i>
+                        <span>Hotels</span>
+                    </button>
+                    <button class="tab-btn" data-tab="packages">
+                        <i class="fas fa-suitcase"></i>
+                        <span>Packages</span>
+                    </button>
+                </div>
+                
+                <div class="tab-content active" id="flights-tab">
+                    <form asp-controller="Flight" asp-action="Search" method="post" class="flight-search-form" id="flightSearchForm">
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="trip-type">
+                            <label class="radio-container">
+                                <input type="radio" name="TripType" value="roundtrip" checked>
+                                <span class="radio-label">Round Trip</span>
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="TripType" value="oneway">
+                                <span class="radio-label">One Way</span>
+                            </label>
+                        </div>
+                        
+                        <div class="search-inputs">
+                            <div class="location-group">
+                                <div class="input-wrapper from-wrapper">
+                                    <label for="fromLocation">FROM</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-plane-departure"></i>
+                                        <input type="text" 
+                                            id="fromLocation" 
+                                            name="From" 
+                                            placeholder="City or Airport" 
+                                            required
+                                            autocomplete="off">
+                                    </div>
+                                    <div class="custom-dropdown" id="fromDropdown">
+                                    </div>
+                                </div>
+                                
+                                <div class="swap-button-container">
+                                    <button type="button" class="swap-btn" aria-label="Swap locations">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="input-wrapper to-wrapper">
+                                    <label for="toLocation">TO</label>
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-plane-arrival"></i>
+                                        <input type="text" 
+                                            id="toLocation" 
+                                            name="To" 
+                                            placeholder="City or Airport" 
+                                            required
+                                            autocomplete="off">
+                                    </div>
+                                    <div class="custom-dropdown" id="toDropdown">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="date-group">
+                                <div class="input-wrapper date-wrapper">
+                                    <label for="departDate">DEPART</label>
+                                    <div class="input-with-icon" id="departDateContainer">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <input type="text" 
+                                            id="departDate" 
+                                            name="DepartureDate" 
+                                            placeholder="Select date" 
+                                            required
+                                            readonly>
+                                    </div>
+                                    <div class="custom-calendar" id="departCalendar">
+                                        <div class="calendar-header">
+                                            <button type="button" class="calendar-nav prev-month">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <div class="current-month">June 2025</div>
+                                            <button type="button" class="calendar-nav next-month">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                        <div class="calendar-weekdays">
+                                            <div class="weekday">S</div>
+                                            <div class="weekday">M</div>
+                                            <div class="weekday">T</div>
+                                            <div class="weekday">W</div>
+                                            <div class="weekday">T</div>
+                                            <div class="weekday">F</div>
+                                            <div class="weekday">S</div>
+                                        </div>
+                                        <div class="calendar-days">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-wrapper date-wrapper return-date">
+                                    <label for="returnDate">RETURN</label>
+                                    <div class="input-with-icon" id="returnDateContainer">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <input type="text" 
+                                            id="returnDate" 
+                                            name="ReturnDate" 
+                                            placeholder="Select date" 
+                                            readonly>
+                                    </div>
+                                    <div class="custom-calendar" id="returnCalendar">
+                                        <div class="calendar-header">
+                                            <button type="button" class="calendar-nav prev-month">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <div class="current-month">June 2025</div>
+                                            <button type="button" class="calendar-nav next-month">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                        <div class="calendar-weekdays">
+                                            <div class="weekday">S</div>
+                                            <div class="weekday">M</div>
+                                            <div class="weekday">T</div>
+                                            <div class="weekday">W</div>
+                                            <div class="weekday">T</div>
+                                            <div class="weekday">F</div>
+                                            <div class="weekday">S</div>
+                                        </div>
+                                        <div class="calendar-days">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="travelers-group">
+                                <div class="input-wrapper travelers-wrapper">
+                                    <label for="travelers">TRAVELERS</label>
+                                    <div class="input-with-icon" id="travelersContainer">
+                                        <i class="fas fa-user-friends"></i>
+                                        <span id="travelersCount">1 Traveler</span>
+                                        <span class="dropdown-arrow">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </span>
+                                    </div>
+                                    <input type="hidden" id="adultsInput" name="Adults" value="1">
+                                    <input type="hidden" id="childrenInput" name="Children" value="0">
+                                    <input type="hidden" id="infantsInput" name="Infants" value="0">
+                                    
+                                    <div class="custom-dropdown travelers-dropdown" id="travelersDropdown">
+                                        <div class="dropdown-content">
+                                            <div class="travelers-option">
+                                                <div class="traveler-type">
+                                                    <div class="traveler-label">Adults</div>
+                                                    <div class="traveler-desc">12+ years</div>
+                                                </div>
+                                                <div class="counter">
+                                                    <button type="button" class="counter-btn minus" data-type="adults">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <span class="counter-value" id="adultsCount">1</span>
+                                                    <button type="button" class="counter-btn plus" data-type="adults">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="travelers-option">
+                                                <div class="traveler-type">
+                                                    <div class="traveler-label">Children</div>
+                                                    <div class="traveler-desc">2-11 years</div>
+                                                </div>
+                                                <div class="counter">
+                                                    <button type="button" class="counter-btn minus disabled" data-type="children">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <span class="counter-value" id="childrenCount">0</span>
+                                                    <button type="button" class="counter-btn plus" data-type="children">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="travelers-option">
+                                                <div class="traveler-type">
+                                                    <div class="traveler-label">Infants</div>
+                                                    <div class="traveler-desc">Under 2 years</div>
+                                                </div>
+                                                <div class="counter">
+                                                    <button type="button" class="counter-btn minus disabled" data-type="infants">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <span class="counter-value" id="infantsCount">0</span>
+                                                    <button type="button" class="counter-btn plus" data-type="infants">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="search-footer">
+                            <button type="submit" class="btn btn-search">
+                                <i class="fas fa-search"></i>
+                                <span>Search Flights</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="hotels-tab">
+                    <div class="coming-soon">
+                        <i class="fas fa-hotel feature-icon"></i>
+                        <h3>Hotel Search Coming Soon</h3>
+                        <p>We're working on bringing you the best hotel deals around the world.</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="packages-tab">
+                    <div class="coming-soon">
+                        <i class="fas fa-suitcase feature-icon"></i>
+                        <h3>Travel Packages Coming Soon</h3>
+                        <p>Save more with our flight + hotel packages. This feature will be available soon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="destinations" class="destinations-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-subtitle">Our Destinations</span>
+            <h2 class="section-title">Fly to Major Cities Worldwide</h2>
+            <p class="section-description">Explore our network of international airports and destinations</p>
+        </div>
+        
+        <div class="destinations-carousel">
+            <button class="carousel-nav carousel-prev" id="prevDestination">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="carousel-container">
+                <div class="swiper-container destinations-swiper">
+                    <div class="swiper-wrapper" id="destinationsTrack">
+                    </div>
+                </div>
+            </div>
+            
+            <button class="carousel-nav carousel-next" id="nextDestination">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+<section id="fleet" class="fleet-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-subtitle">Premium Fleet</span>
+            <h2 class="section-title">Our Luxury Private Jets</h2>
+            <p class="section-description">Experience unparalleled comfort and performance with our exceptional fleet of private aircraft</p>
+        </div>
+        
+        <div class="fleet-grid" id="fleetGrid">
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about-section">
+    <div class="about-container">
+        <div class="about-header">
+            <span class="about-subtitle">About AeroWay</span>
+            <h2 class="about-title">Elite <span>Private Aviation</span> Experience</h2>
+            <p class="about-description">
+                AeroWay delivers an unparalleled luxury private jet experience, where exceptional service meets absolute discretion. 
+                Every detail is meticulously crafted to exceed the expectations of our distinguished clientele.
+            </p>
+        </div>
+        
+        <div class="about-cards">
+            <div class="about-card">
+                <div class="card-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3 class="card-title">Unmatched Luxury</h3>
+                <p class="card-description">
+                    We redefine luxury air travel with impeccable attention to detail and personalized experiences tailored to your preferences.
+                </p>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Custom cabin configurations</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Gourmet catering options</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Premium amenities onboard</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-card">
+                <div class="card-icon">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
+                <h3 class="card-title">Exceptional Service</h3>
+                <p class="card-description">
+                    Our dedicated concierge team anticipates your needs and delivers white-glove service from booking to arrival.
+                </p>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">24/7 dedicated concierge</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Seamless travel arrangements</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Personalized flight profiles</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-card">
+                <div class="card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="card-title">Client Protection</h3>
+                <p class="card-description">
+                    Your safety, privacy, and peace of mind are our highest priorities, backed by industry-leading standards and protocols.
+                </p>
+                <div class="card-features">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Rigorous safety certifications</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Complete privacy guarantees</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span class="feature-text">Elite security measures</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css">
+    
+    <script src="~/js/home/calendar.js" asp-append-version="true"></script>
+    <script src="~/js/home/destination.js" asp-append-version="true"></script>
+    <script src="~/js/home/fleet.js" asp-append-version="true"></script>
+    <script src="~/js/home/home.js" asp-append-version="true"></script>
+    <script src="~/js/home/main.js" asp-append-version="true"></script>
+}

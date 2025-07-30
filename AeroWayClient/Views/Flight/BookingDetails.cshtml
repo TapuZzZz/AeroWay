@@ -1,0 +1,417 @@
+@model AeroWayClient.Services.BookingService.BookingInfo
+@{
+    ViewData["Title"] = $"Booking Details - {Model.BookingReference}";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Flight/print-invoice.css" />
+    <link rel="stylesheet" href="~/css/Flight/booking-details.css" />
+}
+
+<div class="page-header">
+    <div class="header-container">
+        <div class="header-content">
+            <div class="header-info">
+                <h1>Booking Details</h1>
+                <div class="booking-ref-display">
+                    <span class="ref-badge">@Model.BookingReference</span>
+                    <span class="status-badge-large @Model.Status.ToLower()">
+                        @if (Model.Status == "Confirmed")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else if (Model.Status == "Completed")
+                        {
+                            <i class="fas fa-check"></i>
+                        }
+                        else if (Model.Status == "Cancelled")
+                        {
+                            <i class="fas fa-times"></i>
+                        }
+                        @Model.Status
+                    </span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button id="printReceiptBtn" class="action-btn btn-secondary">
+                    <i class="fas fa-print"></i>
+                    Print
+                </button>
+                <a href="@Url.Action("MyBookings", "Flight")" class="action-btn btn-primary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Bookings
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="details-wrapper">
+    <div class="details-container">
+        <div class="details-grid">
+            <div>
+                <div class="detail-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h2 class="card-title">Flight Information</h2>
+                    </div>
+                    
+                    <div class="flight-segment">
+                        <div class="flight-header">
+                            <span class="flight-type">Outbound Flight</span>
+                            <span class="flight-number">@Model.OutboundFlightNumber</span>
+                        </div>
+                        
+                        <div class="flight-route">
+                            <div class="airport-info">
+                                <div class="airport-code">@Model.OutboundOriginCode</div>
+                                <div class="airport-city">@Model.OutboundOriginCity</div>
+                                <div class="flight-time">@Model.OutboundDeparture.ToString("HH:mm")</div>
+                                <div class="flight-date">@Model.OutboundDeparture.ToString("MMM dd, yyyy")</div>
+                            </div>
+                            
+                            <div class="flight-arrow">
+                                <div class="arrow-line"></div>
+                                <span class="flight-duration">
+                                    @{
+                                        var outboundDuration = Model.OutboundArrival - Model.OutboundDeparture;
+                                        var outboundHours = (int)outboundDuration.TotalHours;
+                                        var outboundMinutes = outboundDuration.Minutes;
+                                    }
+                                    @outboundHours<text>h </text>@outboundMinutes<text>m</text>
+                                </span>
+                            </div>
+                            
+                            <div class="airport-info">
+                                <div class="airport-code">@Model.OutboundDestCode</div>
+                                <div class="airport-city">@Model.OutboundDestCity</div>
+                                <div class="flight-time">@Model.OutboundArrival.ToString("HH:mm")</div>
+                                <div class="flight-date">@Model.OutboundArrival.ToString("MMM dd, yyyy")</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flight-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Aircraft</div>
+                                <div class="detail-value">@Model.OutboundAircraft</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Flight Time</div>
+                                <div class="detail-value">@outboundHours<text>h </text>@outboundMinutes<text>m</text></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value">@Model.Status</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    @if (Model.ReturnFlightNumber != null)
+                    {
+                        <div class="flight-segment">
+                            <div class="flight-header">
+                                <span class="flight-type">Return Flight</span>
+                                <span class="flight-number">@Model.ReturnFlightNumber</span>
+                            </div>
+                            
+                            <div class="flight-route">
+                                <div class="airport-info">
+                                    <div class="airport-code">@Model.ReturnOriginCode</div>
+                                    <div class="airport-city">@Model.ReturnOriginCity</div>
+                                    <div class="flight-time">@Model.ReturnDeparture?.ToString("HH:mm")</div>
+                                    <div class="flight-date">@Model.ReturnDeparture?.ToString("MMM dd, yyyy")</div>
+                                </div>
+                                
+                                <div class="flight-arrow">
+                                    <div class="arrow-line"></div>
+                                    <span class="flight-duration">
+                                        @if (Model.ReturnDeparture.HasValue && Model.ReturnArrival.HasValue)
+                                        {
+                                            var returnDuration = Model.ReturnArrival.Value - Model.ReturnDeparture.Value;
+                                            var returnHours = (int)returnDuration.TotalHours;
+                                            var returnMinutes = returnDuration.Minutes;
+                                            @returnHours<text>h </text>@returnMinutes<text>m</text>
+                                        }
+                                    </span>
+                                </div>
+                                
+                                <div class="airport-info">
+                                    <div class="airport-code">@Model.ReturnDestCode</div>
+                                    <div class="airport-city">@Model.ReturnDestCity</div>
+                                    <div class="flight-time">@Model.ReturnArrival?.ToString("HH:mm")</div>
+                                    <div class="flight-date">@Model.ReturnArrival?.ToString("MMM dd, yyyy")</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flight-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">Aircraft</div>
+                                    <div class="detail-value">@Model.ReturnAircraft</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Flight Time</div>
+                                    <div class="detail-value">
+                                        @if (Model.ReturnDeparture.HasValue && Model.ReturnArrival.HasValue)
+                                        {
+                                            var returnDuration = Model.ReturnArrival.Value - Model.ReturnDeparture.Value;
+                                            var returnHours = (int)returnDuration.TotalHours;
+                                            var returnMinutes = returnDuration.Minutes;
+                                            @returnHours<text>h </text>@returnMinutes<text>m</text>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">@Model.Status</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+                <div class="detail-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h2 class="card-title">Passenger Information</h2>
+                    </div>
+                    
+                    <div class="passenger-list">
+                        @if (Model.Passengers != null && Model.Passengers.Any())
+                        {
+                            var passengerCount = 1;
+                            @foreach (var passenger in Model.Passengers.OrderBy(p => p.PassengerType == "Adult" ? 1 : p.PassengerType == "Child" ? 2 : 3).ThenBy(p => p.FirstName))
+                            {
+                                <div class="passenger-item">
+                                    <div class="passenger-number">@passengerCount</div>
+                                    <div class="passenger-info">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                            <div class="passenger-name">@passenger.FirstName @passenger.LastName</div>
+                                            <div class="passenger-type-badge @passenger.PassengerType.ToLower()">
+                                                @if (passenger.PassengerType == "Adult")
+                                                {
+                                                    <i class="fas fa-user"></i>
+                                                }
+                                                else if (passenger.PassengerType == "Child")
+                                                {
+                                                    <i class="fas fa-child"></i>
+                                                }
+                                                else if (passenger.PassengerType == "Infant")
+                                                {
+                                                    <i class="fas fa-baby"></i>
+                                                }
+                                                @passenger.PassengerType
+                                            </div>
+                                        </div>
+                                        <div class="passenger-details">
+                                            <span class="passenger-detail-item">@passenger.DateOfBirth.ToString("MMM dd, yyyy")</span>
+                                            <span class="passenger-detail-separator">•</span>
+                                            <span class="passenger-detail-item">@passenger.Gender</span>
+                                            <span class="passenger-detail-separator">•</span>
+                                            <span class="passenger-detail-item">@passenger.Nationality</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(passenger.PassportNumber))
+                                        {
+                                            <div class="passenger-additional-info">
+                                                <div class="passenger-info-row">
+                                                    <i class="fas fa-passport passenger-info-icon"></i>
+                                                    <span>Passport: @passenger.PassportNumber</span>
+                                                </div>
+                                                @if (passenger.PassengerType == "Infant")
+                                                {
+                                                    <div class="passenger-info-row">
+                                                        <i class="fas fa-baby passenger-info-icon"></i>
+                                                        <span>Lap infant - no seat required</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="passenger-info-row">
+                                                        <i class="fas fa-chair passenger-info-icon"></i>
+                                                        <span>Seat to be assigned at check-in</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="passenger-additional-info">
+                                                @if (passenger.PassengerType == "Infant")
+                                                {
+                                                    <div class="passenger-info-row">
+                                                        <i class="fas fa-baby passenger-info-icon"></i>
+                                                        <span>Lap infant - no seat required</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="passenger-info-row">
+                                                        <i class="fas fa-chair passenger-info-icon"></i>
+                                                        <span>Seat to be assigned at check-in</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                passengerCount++;
+                            }
+                        }
+                        else
+                        {
+                            var passengerCount = 1;
+                            @for (int i = 0; i < Model.Adults; i++)
+                            {
+                                <div class="passenger-item">
+                                    <div class="passenger-number">@passengerCount</div>
+                                    <div class="passenger-info">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                            <div class="passenger-name">Adult Passenger @(i + 1)</div>
+                                            <div class="passenger-type-badge adult">
+                                                <i class="fas fa-user"></i>
+                                                Adult
+                                            </div>
+                                        </div>
+                                        <div class="passenger-additional-info">
+                                            <div class="passenger-info-row">
+                                                <i class="fas fa-chair passenger-info-icon"></i>
+                                                <span>Seat to be assigned at check-in</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                passengerCount++;
+                            }
+                            
+                            @for (int i = 0; i < Model.Children; i++)
+                            {
+                                <div class="passenger-item">
+                                    <div class="passenger-number">@passengerCount</div>
+                                    <div class="passenger-info">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                            <div class="passenger-name">Child Passenger @(i + 1)</div>
+                                            <div class="passenger-type-badge child">
+                                                <i class="fas fa-child"></i>
+                                                Child
+                                            </div>
+                                        </div>
+                                        <div class="passenger-additional-info">
+                                            <div class="passenger-info-row">
+                                                <i class="fas fa-chair passenger-info-icon"></i>
+                                                <span>Seat to be assigned at check-in</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                passengerCount++;
+                            }
+                            
+                            @if (Model.Infants > 0)
+                            {
+                                <div class="passenger-item">
+                                    <div class="passenger-number">
+                                        <i class="fas fa-baby" style="font-size: 0.75rem;"></i>
+                                    </div>
+                                    <div class="passenger-info">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                            <div class="passenger-name">@Model.Infants Infant@(Model.Infants != 1 ? "s" : "")</div>
+                                            <div class="passenger-type-badge infant">
+                                                <i class="fas fa-baby"></i>
+                                                Infant
+                                            </div>
+                                        </div>
+                                        <div class="passenger-additional-info">
+                                            <div class="passenger-info-row">
+                                                <i class="fas fa-baby passenger-info-icon"></i>
+                                                <span>Lap infant@(Model.Infants != 1 ? "s" : "") - no seat required</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="detail-card">
+                    <div class="summary-section">
+                        <h3 class="summary-title">
+                            <i class="fas fa-info-circle"></i>
+                            Booking Summary
+                        </h3>
+                        <div class="summary-item">
+                            <span>Booking ID</span>
+                            <strong>#@Model.BookingId</strong>
+                        </div>
+                        <div class="summary-item">
+                            <span>Booked on</span>
+                            <strong>@Model.BookingDate.ToString("MMM dd, yyyy")</strong>
+                        </div>
+                        <div class="summary-item">
+                            <span>Trip Type</span>
+                            <strong>@(Model.ReturnFlightNumber != null ? "Round Trip" : "One Way")</strong>
+                        </div>
+                        <div class="summary-item">
+                            <span>Total Passengers</span>
+                            <strong>@(Model.Adults + Model.Children)@(Model.Infants > 0 ? $" (+{Model.Infants} infant{(Model.Infants != 1 ? "s" : "")})" : "")</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="total-price">
+                        Total: $@Model.TotalPrice.ToString("N0")
+                    </div>
+                </div>
+                
+                <div class="actions-card">
+                    <h3>Need Help?</h3>
+                    <div class="action-buttons">
+                        @if (Model.Status == "Confirmed" && Model.OutboundDeparture > DateTime.Now)
+                        {
+                            <button class="action-btn btn-secondary">
+                                <i class="fas fa-calendar-check"></i>
+                                Add to Calendar
+                            </button>
+                            <button class="action-btn btn-secondary">
+                                <i class="fas fa-edit"></i>
+                                Modify Booking
+                            </button>
+                            <button class="action-btn btn-danger">
+                                <i class="fas fa-times-circle"></i>
+                                Cancel Booking
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="action-btn btn-secondary">
+                                <i class="fas fa-headset"></i>
+                                Contact Support
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="application/json" id="bookingData">
+{
+    "BookingId": @Model.BookingId,
+    "BookingReference": "@Model.BookingReference",
+    "TotalPrice": "@Model.TotalPrice",
+    "Adults": @Model.Adults,
+    "Children": @Model.Children,
+    "Infants": @Model.Infants
+}
+</script>
+
+@section Scripts {
+    <script src="~/js/Flight/booking-details.js"></script>
+}

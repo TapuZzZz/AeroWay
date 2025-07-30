@@ -1,0 +1,332 @@
+.about-section {
+    background-color: var(--bg-primary);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.about-subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    display: inline-block;
+    position: relative;
+}
+
+[data-theme="dark"] .about-subtitle {
+    color: var(--dark-quaternary);
+}
+
+.about-title {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.about-title span {
+    color: var(--accent);
+    position: relative;
+}
+
+[data-theme="dark"] .about-title span {
+    color: var(--dark-quaternary);
+}
+
+.about-description {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.about-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.about-card {
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-secondary);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+[data-theme="dark"] .about-card::before {
+    background-color: var(--dark-quaternary);
+}
+
+.about-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.about-card:hover::before {
+    transform: scaleX(1);
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 20px rgba(46, 92, 215, 0.2);
+    transition: all 0.4s ease;
+}
+
+[data-theme="dark"] .card-icon {
+    background-color: var(--dark-quaternary);
+    box-shadow: 0 10px 20px rgba(124, 77, 255, 0.2);
+}
+
+.about-card:hover .card-icon {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 15px 30px rgba(46, 92, 215, 0.3);
+}
+
+[data-theme="dark"] .about-card:hover .card-icon {
+    box-shadow: 0 15px 30px rgba(124, 77, 255, 0.3);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.about-card:hover .card-title {
+    color: var(--accent);
+}
+
+[data-theme="dark"] .about-card:hover .card-title {
+    color: var(--dark-quaternary);
+}
+
+.card-description {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    flex-grow: 1;
+}
+
+.card-features {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+.about-card:hover .card-features {
+    border-color: var(--accent);
+}
+
+[data-theme="dark"] .about-card:hover .card-features {
+    border-color: var(--dark-quaternary);
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.feature-item:last-child {
+    margin-bottom: 0;
+}
+
+.feature-icon {
+    color: var(--accent);
+    font-size: 0.875rem;
+}
+
+[data-theme="dark"] .feature-icon {
+    color: var(--dark-quaternary);
+}
+
+.feature-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.about-card:hover .feature-text {
+    color: var(--text-primary);
+}
+
+@media (max-width: 1200px) {
+    .about-section {
+        padding: 80px 0;
+    }
+    
+    .about-container {
+        max-width: 960px;
+    }
+    
+    .about-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .about-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .about-title {
+        font-size: 2.25rem;
+    }
+    
+    .about-description {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-section {
+        padding: 60px 0;
+    }
+    
+    .about-header {
+        margin-bottom: 40px;
+    }
+    
+    .about-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .about-title {
+        font-size: 2rem;
+    }
+    
+    .about-description {
+        font-size: 1.05rem;
+        margin-bottom: 2rem;
+    }
+    
+    .about-card {
+        padding: 2rem;
+    }
+    
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .card-title {
+        font-size: 1.35rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-section {
+        padding: 40px 0;
+    }
+    
+    .about-container {
+        padding: 0 1rem;
+    }
+    
+    .about-title {
+        font-size: 1.75rem;
+    }
+    
+    .about-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .about-description {
+        font-size: 1rem;
+    }
+    
+    .about-card {
+        padding: 1.75rem;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+    }
+    
+    .card-description {
+        font-size: 0.95rem;
+    }
+    
+    .feature-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .about-title {
+        font-size: 1.5rem;
+    }
+    
+    .about-card {
+        padding: 1.5rem;
+    }
+    
+    .card-features {
+        margin-top: 1.25rem;
+        padding-top: 1.25rem;
+    }
+    
+    .feature-item {
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+}

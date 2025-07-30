@@ -1,0 +1,800 @@
+@using AeroWayClient.Services
+@model AeroWayClient.Services.UserProfileService.UserProfile
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "_Layout";
+    
+    var recentActivity = ViewBag.RecentActivity as List<AeroWayClient.Services.UserProfileService.ActivityItem> ?? new List<AeroWayClient.Services.UserProfileService.ActivityItem>();
+}
+
+@section Styles {
+<link rel="stylesheet" href="~/css/Account/Profile.css" />
+}
+
+<div class="profile-wrapper">
+    <div class="profile-header">
+        <div class="header-container">
+            <div class="profile-header-content">
+                <div class="profile-avatar">
+                    @Model.FirstName.Substring(0, 1).ToUpper()@(Model.LastName.Length > 0 ? Model.LastName.Substring(0, 1).ToUpper() : "")
+                </div>
+                <div class="profile-info">
+                    <h1>@Model.FirstName @Model.LastName</h1>
+                    <p>@Model.Email</p>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">@Model.TotalFlights</span>
+                            <span class="stat-label">Total Flights</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">@((Model.TotalMiles * 1.60934m).ToString("N0"))</span>
+                            <span class="stat-label">KM Flown</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">@Model.CountriesVisited</span>
+                            <span class="stat-label">Countries Visited</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @if (TempData["Success"] != null)
+    {
+        <div class="profile-container">
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                @TempData["Success"]
+            </div>
+        </div>
+    }
+    
+    @if (TempData["Error"] != null)
+    {
+        <div class="profile-container">
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                @TempData["Error"]
+            </div>
+        </div>
+    }
+    
+    <div class="profile-container">
+        <div class="profile-grid">
+            <div class="profile-sidebar">
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    <div class="quick-links">
+                        <a href="@Url.Action("Index", "Flight")" class="quick-link">
+                            <span>Book New Flight</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="@Url.Action("MyBookings", "Flight")" class="quick-link">
+                            <span>View Bookings</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#" class="quick-link" onclick="alert('Leaderboard feature coming soon!')">
+                            <span>Leaderboard</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-award"></i> Membership</h3>
+                    <div class="member-status">
+                        <div>
+                            <p style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">
+                                @{
+                                    string currentTier = "";
+                                    if (Model.TotalBookings >= 10)
+                                    {
+                                        currentTier = "Gold Member";
+                                    }
+                                    else if (Model.TotalBookings >= 5)
+                                    {
+                                        currentTier = "Silver Member";
+                                    }
+                                    else
+                                    {
+                                        currentTier = "Bronze Member";
+                                    }
+                                }
+                                <span>@currentTier</span>
+                            </p>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);">Since @Model.CreatedDate.ToString("MMMM yyyy")</p>
+                        </div>
+                        <span class="status-badge">Active</span>
+                    </div>
+                    
+                    <div class="membership-explanation">
+                        <div class="membership-title">
+                            <i class="fas fa-info-circle"></i>
+                            Membership Tiers
+                        </div>
+                        
+                        <div class="membership-tiers">
+                            <div class="tier @(Model.TotalBookings < 5 ? "current" : "achieved")">
+                                <div class="tier-info">
+                                    <div class="tier-icon bronze">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <div class="tier-details">
+                                        <div class="tier-name">Bronze Member</div>
+                                        <div class="tier-requirement">0-4 bookings</div>
+                                    </div>
+                                </div>
+                                <span class="tier-status @(Model.TotalBookings < 5 ? "current" : "achieved")">
+                                    @(Model.TotalBookings < 5 ? "Current" : "✓")
+                                </span>
+                            </div>
+                            
+                            <div class="tier @(Model.TotalBookings >= 5 && Model.TotalBookings < 10 ? "current" : (Model.TotalBookings >= 10 ? "achieved" : ""))">
+                                <div class="tier-info">
+                                    <div class="tier-icon silver">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <div class="tier-details">
+                                        <div class="tier-name">Silver Member</div>
+                                        <div class="tier-requirement">5-9 bookings</div>
+                                    </div>
+                                </div>
+                                <span class="tier-status @(Model.TotalBookings >= 5 && Model.TotalBookings < 10 ? "current" : (Model.TotalBookings >= 10 ? "achieved" : "locked"))">
+                                    @if (Model.TotalBookings >= 5 && Model.TotalBookings < 10)
+                                    {
+                                        <text>Current</text>
+                                    }
+                                    else if (Model.TotalBookings >= 10)
+                                    {
+                                        <text>✓</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@(5 - Model.TotalBookings) more</text>
+                                    }
+                                </span>
+                            </div>
+                            
+                            <div class="tier @(Model.TotalBookings >= 10 ? "current" : "")">
+                                <div class="tier-info">
+                                    <div class="tier-icon gold">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <div class="tier-details">
+                                        <div class="tier-name">Gold Member</div>
+                                        <div class="tier-requirement">10+ bookings</div>
+                                    </div>
+                                </div>
+                                <span class="tier-status @(Model.TotalBookings >= 10 ? "current" : "locked")">
+                                    @if (Model.TotalBookings >= 10)
+                                    {
+                                        <text>Current</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@(10 - Model.TotalBookings) more</text>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3><i class="fas fa-chart-bar"></i> Booking Statistics</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                            <span style="color: var(--text-secondary);">Total Bookings</span>
+                            <span style="font-weight: 600; color: var(--text-primary);">@Model.TotalBookings</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                            <span style="color: var(--text-secondary);">Confirmed</span>
+                            <span style="font-weight: 600; color: #10b981;">@Model.ConfirmedBookings</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                            <span style="color: var(--text-secondary);">Completed</span>
+                            <span style="font-weight: 600; color: #6b7280;">@Model.CompletedBookings</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-top: 1px solid var(--border-color); margin-top: 0.5rem; padding-top: 1rem;">
+                            <span style="color: var(--text-secondary);">Total Spent</span>
+                            <span style="font-weight: 700; color: var(--accent); font-size: 1.125rem;">$@Model.TotalSpent.ToString("N0")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- כפתור מחיקת חשבון -->
+                <div class="sidebar-card danger-zone">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                    <div class="danger-content">
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                            Once you delete your account, there is no going back. This will permanently delete your profile, bookings history, and all associated data.
+                        </p>
+                        <button class="btn-delete-account" onclick="openDeleteAccountModal()">
+                            <i class="fas fa-trash-alt"></i>
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-content">
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            Personal Information
+                        </div>
+                        <button class="edit-btn" onclick="openEditModal()">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">First Name</span>
+                            <span class="info-value">@Model.FirstName</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Name</span>
+                            <span class="info-value">@Model.LastName</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email Address</span>
+                            <span class="info-value">@Model.Email</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Phone Number</span>
+                            <span class="info-value">@Model.Phone</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Date of Birth</span>
+                            <span class="info-value">@Model.DateOfBirth.ToString("MMMM dd, yyyy")</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Gender</span>
+                            <span class="info-value">@Model.Gender</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Nationality</span>
+                            <span class="info-value">@Model.Nationality</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Login</span>
+                            <span class="info-value">@Model.LastLoginDate</span>
+                        </div>
+                    </div>
+                    
+                    @if (Model.EmailVerified)
+                    {
+                        <div style="margin-top: 1.5rem; padding: 0.75rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--border-radius); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                            <span style="color: #10b981; font-size: 0.875rem;">Email Verified</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="margin-top: 1.5rem; padding: 0.75rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--border-radius); display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-exclamation-circle" style="color: #ef4444;"></i>
+                            <span style="color: #ef4444; font-size: 0.875rem;">Email not verified</span>
+                        </div>
+                    }
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            Recent Activity
+                        </div>
+                    </div>
+                    
+                    <div class="activity-list">
+                        @if (recentActivity.Any())
+                        {
+                            @foreach (var activity in recentActivity.Take(5))
+                            {
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        @if (activity.Status == "Confirmed")
+                                        {
+                                            <i class="fas fa-calendar-check"></i>
+                                        }
+                                        else if (activity.Status == "Completed")
+                                        {
+                                            <i class="fas fa-check-circle"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-plane"></i>
+                                        }
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">@activity.Type</div>
+                                        <div class="activity-details">@activity.Description</div>
+                                    </div>
+                                    <div class="activity-time">
+                                        @{
+                                            var timeDiff = DateTime.Now - activity.ActivityDate;
+                                            string timeAgo;
+                                            if (timeDiff.TotalDays >= 1)
+                                            {
+                                                timeAgo = $"{(int)timeDiff.TotalDays} day{((int)timeDiff.TotalDays != 1 ? "s" : "")} ago";
+                                            }
+                                            else if (timeDiff.TotalHours >= 1)
+                                            {
+                                                timeAgo = $"{(int)timeDiff.TotalHours} hour{((int)timeDiff.TotalHours != 1 ? "s" : "")} ago";
+                                            }
+                                            else
+                                            {
+                                                timeAgo = $"{(int)timeDiff.TotalMinutes} minute{((int)timeDiff.TotalMinutes != 1 ? "s" : "")} ago";
+                                            }
+                                        }
+                                        @timeAgo
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="empty-activity">
+                                <i class="fas fa-inbox"></i>
+                                <p>No recent activity to display</p>
+                                <p style="font-size: 0.875rem;">Your recent bookings and activities will appear here</p>
+                            </div>
+                        }
+                    </div>
+                    
+                    @if (recentActivity.Count > 5)
+                    {
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <a href="@Url.Action("MyBookings", "Flight")" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                                View All Activity <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- מודל עריכת פרופיל -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-user-edit"></i>
+                    Edit Profile
+                </h2>
+                <button class="close-btn" onclick="closeEditModal()" type="button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="security-notice-text">
+                        <strong>Security Notice:</strong> Your current password is required to save any changes to your profile information.
+                    </div>
+                </div>
+                
+                <form id="editProfileForm" method="post" action="@Url.Action("UpdateProfile", "Account")">
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i>
+                                First Name <span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="text" name="FirstName" class="form-input" value="@Model.FirstName" required maxlength="50" />
+                                <i class="fas fa-check input-icon" style="display: none;"></i>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i>
+                                Last Name <span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="text" name="LastName" class="form-input" value="@Model.LastName" required maxlength="50" />
+                                <i class="fas fa-check input-icon" style="display: none;"></i>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-phone"></i>
+                                Phone Number <span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="tel" name="Phone" class="form-input" value="@Model.Phone" required />
+                                <i class="fas fa-check input-icon" style="display: none;"></i>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-calendar-alt"></i>
+                                Date of Birth <span class="required">*</span>
+                            </label>
+                            <div class="date-picker-container" data-name="DateOfBirth">
+                                <div class="date-input-display">
+                                    <span class="date-display-text">@Model.DateOfBirth.ToString("MMMM dd, yyyy")</span>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="date-calendar">
+                                    <div class="calendar-header">
+                                        <div class="calendar-nav">
+                                            <select class="month-select">
+                                                <option value="0">January</option>
+                                                <option value="1">February</option>
+                                                <option value="2">March</option>
+                                                <option value="3">April</option>
+                                                <option value="4">May</option>
+                                                <option value="5">June</option>
+                                                <option value="6">July</option>
+                                                <option value="7">August</option>
+                                                <option value="8">September</option>
+                                                <option value="9">October</option>
+                                                <option value="10">November</option>
+                                                <option value="11">December</option>
+                                            </select>
+                                            <select class="year-select"></select>
+                                        </div>
+                                    </div>
+                                    <div class="calendar-grid">
+                                        <div class="calendar-weekdays">
+                                            <div class="calendar-weekday">Sun</div>
+                                            <div class="calendar-weekday">Mon</div>
+                                            <div class="calendar-weekday">Tue</div>
+                                            <div class="calendar-weekday">Wed</div>
+                                            <div class="calendar-weekday">Thu</div>
+                                            <div class="calendar-weekday">Fri</div>
+                                            <div class="calendar-weekday">Sat</div>
+                                        </div>
+                                        <div class="calendar-days"></div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <span class="text-danger"></span>
+                            <div class="age-validation-container"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-venus-mars"></i>
+                                Gender <span class="required">*</span>
+                            </label>
+                            <div class="custom-select">
+                                <div class="select-button">
+                                    <span>@Model.Gender</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="select-dropdown">
+                                    <div class="select-option @(Model.Gender == "Male" ? "selected" : "")" data-value="Male">
+                                        <div class="gender-option">
+                                            <i class="fas fa-mars gender-icon male-icon"></i>
+                                            <span>Male</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Gender == "Female" ? "selected" : "")" data-value="Female">
+                                        <div class="gender-option">
+                                            <i class="fas fa-venus gender-icon female-icon"></i>
+                                            <span>Female</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <select name="Gender" style="display: none;" required>
+                                    @if (Model.Gender == "Male")
+                                    {
+                                        <option value="Male" selected>Male</option>
+                                        <option value="Female">Female</option>
+                                    }
+                                    else if (Model.Gender == "Female")
+                                    {
+                                        <option value="Male">Male</option>
+                                        <option value="Female" selected>Female</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="">Select gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    }
+                                </select>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-flag"></i>
+                                Nationality <span class="required">*</span>
+                            </label>
+                            <div class="custom-select">
+                                <div class="select-button">
+                                    <span>@Model.Nationality</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="select-dropdown">
+                                    <div class="select-option @(Model.Nationality == "United States" ? "selected" : "")" data-value="United States">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇺🇸</span>
+                                            <span>United States</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "United Kingdom" ? "selected" : "")" data-value="United Kingdom">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇬🇧</span>
+                                            <span>United Kingdom</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "Canada" ? "selected" : "")" data-value="Canada">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇨🇦</span>
+                                            <span>Canada</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "Israel" ? "selected" : "")" data-value="Israel">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇮🇱</span>
+                                            <span>Israel</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "Germany" ? "selected" : "")" data-value="Germany">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇩🇪</span>
+                                            <span>Germany</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "France" ? "selected" : "")" data-value="France">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇫🇷</span>
+                                            <span>France</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "Australia" ? "selected" : "")" data-value="Australia">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇦🇺</span>
+                                            <span>Australia</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "Japan" ? "selected" : "")" data-value="Japan">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇯🇵</span>
+                                            <span>Japan</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "Italy" ? "selected" : "")" data-value="Italy">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇮🇹</span>
+                                            <span>Italy</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-option @(Model.Nationality == "Spain" ? "selected" : "")" data-value="Spain">
+                                        <div class="nationality-option">
+                                            <span class="country-flag">🇪🇸</span>
+                                            <span>Spain</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <select name="Nationality" style="display: none;" required>
+                                    <option value="">Select nationality</option>
+                                    @if (Model.Nationality == "United States")
+                                    {
+                                        <option value="United States" selected>United States</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="United States">United States</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "United Kingdom")
+                                    {
+                                        <option value="United Kingdom" selected>United Kingdom</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="United Kingdom">United Kingdom</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "Canada")
+                                    {
+                                        <option value="Canada" selected>Canada</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Canada">Canada</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "Israel")
+                                    {
+                                        <option value="Israel" selected>Israel</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Israel">Israel</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "Germany")
+                                    {
+                                        <option value="Germany" selected>Germany</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Germany">Germany</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "France")
+                                    {
+                                        <option value="France" selected>France</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="France">France</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "Australia")
+                                    {
+                                        <option value="Australia" selected>Australia</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Australia">Australia</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "Japan")
+                                    {
+                                        <option value="Japan" selected>Japan</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Japan">Japan</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "Italy")
+                                    {
+                                        <option value="Italy" selected>Italy</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Italy">Italy</option>
+                                    }
+                                    
+                                    @if (Model.Nationality == "Spain")
+                                    {
+                                        <option value="Spain" selected>Spain</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Spain">Spain</option>
+                                    }
+                                </select>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-lock"></i>
+                                Current Password <span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="password" name="CurrentPassword" class="form-input" required placeholder="Enter your current password to confirm changes" />
+                                <i class="fas fa-check input-icon" style="display: none;"></i>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="closeEditModal()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-save">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- מודל מחיקת חשבון -->
+<div class="modal-overlay" id="deleteAccountModal">
+    <div class="modal delete-modal">
+        <div class="modal-content">
+            <div class="modal-header delete-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Delete Account
+                </h2>
+                <button class="close-btn" onclick="closeDeleteAccountModal()" type="button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="delete-warning">
+                    <i class="fas fa-skull-crossbones"></i>
+                    <div class="warning-text">
+                        <h3>This action cannot be undone!</h3>
+                        <p>Deleting your account will permanently remove:</p>
+                        <ul>
+                            <li>Your profile and personal information</li>
+                            <li>All booking history and flight records</li>
+                            <li>Membership status and accumulated benefits</li>
+                            <li>All activity data and preferences</li>
+                        </ul>
+                        <p><strong>Are you absolutely sure you want to continue?</strong></p>
+                    </div>
+                </div>
+                
+                <form id="deleteAccountForm" method="post" action="@Url.Action("DeleteAccount", "Account")">
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="confirmation-section">
+                        <div class="form-group">
+                            <label class="form-label delete-label">
+                                <i class="fas fa-keyboard"></i>
+                                Type "DELETE" to confirm <span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="text" id="deleteConfirmation" class="form-input delete-input" 
+                                       placeholder="Type DELETE to confirm" required />
+                                <i class="fas fa-check input-icon" style="display: none;"></i>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label delete-label">
+                                <i class="fas fa-lock"></i>
+                                Current Password <span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="password" name="CurrentPassword" class="form-input delete-input" 
+                                       required placeholder="Enter your current password" />
+                                <i class="fas fa-check input-icon" style="display: none;"></i>
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions delete-actions">
+                        <button type="button" class="btn-cancel" onclick="closeDeleteAccountModal()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-delete-confirm" disabled>
+                            <i class="fas fa-trash-alt"></i>
+                            Delete My Account
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="~/js/Account/Profile.js"></script>
+}

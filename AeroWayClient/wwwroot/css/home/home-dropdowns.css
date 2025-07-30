@@ -1,0 +1,182 @@
+.custom-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px var(--shadow-color);
+    z-index: 1000;
+    display: none;
+    animation: fadeIn 0.2s ease-out;
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.custom-dropdown::-webkit-scrollbar {
+    display: none;
+}
+
+.custom-dropdown.active {
+    display: block;
+}
+
+.custom-dropdown .dropdown-item {
+    padding: 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: all var(--hover-transition);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.custom-dropdown .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.custom-dropdown .dropdown-item:hover {
+    background: var(--bg-secondary);
+}
+
+.custom-dropdown .dropdown-item::before {
+    content: '';
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: height 0.2s ease;
+    position: absolute;
+    left: 0;
+}
+
+[data-theme="dark"] .custom-dropdown .dropdown-item::before {
+    background: var(--dark-quaternary);
+}
+
+.custom-dropdown .dropdown-item:hover::before {
+    height: 70%;
+}
+
+.custom-dropdown .dropdown-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 0.9rem;
+    position: relative;
+    background-color: var(--accent);
+}
+
+.custom-dropdown .dropdown-item-icon .letter-icon {
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1;
+    text-align: center;
+}
+
+[data-theme="dark"] .custom-dropdown .dropdown-item-icon {
+    background-color: var(--dark-quaternary);
+}
+
+.custom-dropdown .dropdown-item:hover .dropdown-item-icon {
+    background-color: white;
+}
+
+.custom-dropdown .dropdown-item:hover .dropdown-item-icon .letter-icon {
+    color: var(--accent);
+}
+
+[data-theme="dark"] .custom-dropdown .dropdown-item:hover .dropdown-item-icon .letter-icon {
+    color: var(--dark-quaternary);
+}
+
+.custom-dropdown .dropdown-item-content {
+    flex: 1;
+}
+
+.custom-dropdown .label-text {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.custom-dropdown .airport-code {
+    font-weight: 700;
+    color: var(--accent);
+    background-color: var(--bg-secondary);
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+[data-theme="dark"] .custom-dropdown .airport-code {
+    color: var(--dark-quaternary);
+}
+
+.custom-dropdown .label-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .custom-dropdown {
+        max-height: 250px;
+    }
+    
+    .custom-dropdown .dropdown-item {
+        padding: 0.875rem;
+    }
+    
+    .custom-dropdown .dropdown-item-icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .custom-dropdown .dropdown-item-icon .letter-icon {
+        font-size: 1rem;
+    }
+    
+    .custom-dropdown .label-text {
+        font-size: 0.95rem;
+    }
+    
+    .custom-dropdown .label-desc {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .custom-dropdown {
+        max-height: 200px;
+    }
+    
+    .custom-dropdown .dropdown-item {
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+    
+    .custom-dropdown .dropdown-item-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .custom-dropdown .dropdown-item-icon .letter-icon {
+        font-size: 0.9rem;
+    }
+    
+    .custom-dropdown .airport-code {
+        font-size: 0.75rem;
+    }
+}

@@ -1,0 +1,283 @@
+@model AeroWayClient.Models.RegisterViewModel
+@using System.Linq
+@{
+    ViewData["Title"] = "Create Account";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account/register.css" asp-append-version="true" />
+}
+
+<div class="register-container">
+    <div class="register-box">
+        <div class="register-header">
+            <h2>Create Your Account</h2>
+            <p>Join AeroWay and discover amazing flight deals</p>
+        </div>
+
+        <div class="progress-steps">
+            <div class="step active" id="step1">
+                <div class="step-number">1</div>
+                <span class="step-label">Personal Info</span>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-number">2</div>
+                <span class="step-label">Contact Details</span>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-number">3</div>
+                <span class="step-label">Security</span>
+            </div>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0 && ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
+        {
+            <div class="error-container">
+                <div class="error-header">
+                    <div class="error-icon">!</div>
+                    <span>Please fix the following errors:</span>
+                </div>
+                <ul class="error-list">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors).Where(e => !string.IsNullOrEmpty(e.ErrorMessage)))
+                    {
+                        <li class="error-item">@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="Register" method="post" id="registerForm">
+            <div class="form-steps">
+                <div class="form-step active" id="step-1">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="form-label">
+                                First Name <span class="required">*</span>
+                            </label>
+                            <input asp-for="FirstName" class="form-control" placeholder="Enter your first name" id="firstName" autocomplete="off" value="@Model?.FirstName" maxlength="30" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="LastName" class="form-label">
+                                Last Name <span class="required">*</span>
+                            </label>
+                            <input asp-for="LastName" class="form-control" placeholder="Enter your last name" id="lastName" autocomplete="off" value="@Model?.LastName" maxlength="30" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="DateOfBirth" class="form-label">
+                                Date of Birth <span class="required">*</span>
+                            </label>
+                            <div class="date-picker">
+                                <div class="custom-select date-select">
+                                    <button type="button" class="select-button" id="dayButton">
+                                        <span>Day</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div class="select-dropdown" id="dayDropdown"></div>
+                                </div>
+                                <div class="custom-select date-select">
+                                    <button type="button" class="select-button" id="monthButton">
+                                        <span>Month</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div class="select-dropdown" id="monthDropdown">
+                                        <div class="select-option" data-value="1">January</div>
+                                        <div class="select-option" data-value="2">February</div>
+                                        <div class="select-option" data-value="3">March</div>
+                                        <div class="select-option" data-value="4">April</div>
+                                        <div class="select-option" data-value="5">May</div>
+                                        <div class="select-option" data-value="6">June</div>
+                                        <div class="select-option" data-value="7">July</div>
+                                        <div class="select-option" data-value="8">August</div>
+                                        <div class="select-option" data-value="9">September</div>
+                                        <div class="select-option" data-value="10">October</div>
+                                        <div class="select-option" data-value="11">November</div>
+                                        <div class="select-option" data-value="12">December</div>
+                                    </div>
+                                </div>
+                                <div class="custom-select date-select">
+                                    <button type="button" class="select-button" id="yearButton">
+                                        <span>Year</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div class="select-dropdown" id="yearDropdown"></div>
+                                </div>
+                            </div>
+                            <input asp-for="DateOfBirth" type="hidden" id="dateOfBirthHidden" value="@(Model?.DateOfBirth.ToString("yyyy-MM-dd"))" />
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Gender" class="form-label">
+                                Gender <span class="required">*</span>
+                            </label>
+                            <div class="custom-select">
+                                <button type="button" class="select-button" id="genderButton">
+                                    <span>Select your gender</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="select-dropdown" id="genderDropdown">
+                                    <div class="select-option" data-value="Male">Male</div>
+                                    <div class="select-option" data-value="Female">Female</div>
+                                </div>
+                            </div>
+                            <input asp-for="Gender" type="hidden" id="genderHidden" value="@Model?.Gender" />
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label asp-for="Nationality" class="form-label">
+                                Nationality <span class="required">*</span>
+                            </label>
+                            <div class="custom-select">
+                                <button type="button" class="select-button" id="nationalityButton">
+                                    <span>Select your nationality</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <div class="select-dropdown" id="nationalityDropdown">
+                                </div>
+                            </div>
+                            <input asp-for="Nationality" type="hidden" id="nationalityHidden" value="@Model?.Nationality" />
+                            <span asp-validation-for="Nationality" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-2">
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label asp-for="Email" class="form-label">
+                                Email Address <span class="required">*</span>
+                            </label>
+                            <input asp-for="Email" class="form-control" placeholder="you@example.com" type="email" id="email" autocomplete="off" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="Phone" class="form-label">
+                                Phone Number <span class="required">*</span>
+                            </label>
+                            <div class="phone-wrapper">
+                                <div class="custom-select country-code-select">
+                                    <button type="button" class="select-button" id="countryCodeButton">
+                                        <span>Select code</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div class="select-dropdown" id="countryCodeDropdown">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control phone-number" placeholder="Enter phone number" id="phoneNumber" autocomplete="off" />
+                            </div>
+                            <input asp-for="Phone" type="hidden" id="phoneHidden" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-3">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="Password" class="form-label">
+                                Password <span class="required">*</span>
+                            </label>
+                            <div class="password-wrapper">
+                                <input asp-for="Password" class="form-control" placeholder="Create a strong password" type="password" id="password" autocomplete="off" />
+                                <button type="button" class="password-toggle" id="passwordToggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="passwordStrength" style="display: none;">
+                                <div class="password-strength-bar"></div>
+                            </div>
+                            <div class="password-requirements" id="passwordRequirements">
+                                <div class="requirement" id="lengthReq">
+                                    <i class="fas fa-times"></i>
+                                    <span>At least 8 characters</span>
+                                </div>
+                                <div class="requirement" id="uppercaseReq">
+                                    <i class="fas fa-times"></i>
+                                    <span>One uppercase letter</span>
+                                </div>
+                                <div class="requirement" id="lowercaseReq">
+                                    <i class="fas fa-times"></i>
+                                    <span>One lowercase letter</span>
+                                </div>
+                                <div class="requirement" id="numberReq">
+                                    <i class="fas fa-times"></i>
+                                    <span>One number</span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword" class="form-label">
+                                Confirm Password <span class="required">*</span>
+                            </label>
+                            <div class="password-wrapper">
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Re-enter your password" type="password" id="confirmPassword" autocomplete="off" />
+                                <button type="button" class="password-toggle" id="confirmPasswordToggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input asp-for="MarketingOptIn" type="checkbox" class="checkbox-input" id="marketing" />
+                        <label for="marketing" class="checkbox-label">
+                            I agree to receive newsletters, exclusive deals, and travel tips from AeroWay. 
+                            You can unsubscribe at any time. Read our <a href="/privacy">Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" class="checkbox-input" id="terms" required />
+                        <label for="terms" class="checkbox-label">
+                            I agree to AeroWay's <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a> <span class="required">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="step-nav-btn btn-prev" id="prevBtn" style="display: none;">
+                        <i class="fas fa-arrow-left"></i>
+                        Previous
+                    </button>
+                    
+                    <div style="flex: 1;"></div>
+                    
+                    <button type="button" class="step-nav-btn btn-next" id="nextBtn">
+                        Next
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    
+                    <button type="submit" class="step-nav-btn btn-next" id="submitBtn" style="display: none;">
+                        Create Account
+                        <i class="fas fa-check"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <p>Already have an account? <a asp-action="Login">Sign in here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Account/register.js" asp-append-version="true"></script>
+}

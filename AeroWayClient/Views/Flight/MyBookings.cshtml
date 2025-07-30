@@ -1,0 +1,289 @@
+@* AeroWayClient\Views\Flight\MyBookings.cshtml *@
+
+@model List<AeroWayClient.Services.BookingService.BookingInfo>
+@{
+    ViewData["Title"] = "My Bookings";
+    Layout = "_Layout";
+    
+    var confirmedCount = Model.Count(b => b.Status == "Confirmed");
+    var completedCount = Model.Count(b => b.Status == "Completed");
+    var cancelledCount = Model.Count(b => b.Status == "Cancelled");
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Flight/mybookings.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <div class="header-container">
+        <div class="header-content">
+            <div>
+                <h1 class="page-title">My Bookings</h1>
+                <p class="page-subtitle">Manage and track all your flight reservations</p>
+            </div>
+            <a href="@Url.Action("Index", "Home")" class="new-booking-btn">
+                <i class="fas fa-plus"></i>
+                New Booking
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="stats-section">
+    <div class="stat-card">
+        <div class="stat-icon total">
+            <i class="fas fa-plane"></i>
+        </div>
+        <div class="stat-content">
+            <div class="stat-value">@Model.Count</div>
+            <div class="stat-label">Total Bookings</div>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon confirmed">
+            <i class="fas fa-calendar-check"></i>
+        </div>
+        <div class="stat-content">
+            <div class="stat-value">@confirmedCount</div>
+            <div class="stat-label">Confirmed</div>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon completed">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+            <div class="stat-value">@completedCount</div>
+            <div class="stat-label">Completed</div>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon cancelled">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-content">
+            <div class="stat-value">@cancelledCount</div>
+            <div class="stat-label">Cancelled</div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Count > 0)
+{
+    <div class="filters-section">
+        <div class="filter-pills">
+            <button class="filter-pill active" data-filter="all" onclick="filterBookings('all')">
+                All Bookings
+                <span class="filter-count">@Model.Count</span>
+            </button>
+            <button class="filter-pill" data-filter="Confirmed" onclick="filterBookings('Confirmed')">
+                Confirmed
+                <span class="filter-count">@confirmedCount</span>
+            </button>
+            <button class="filter-pill" data-filter="Completed" onclick="filterBookings('Completed')">
+                Completed
+                <span class="filter-count">@completedCount</span>
+            </button>
+            <button class="filter-pill" data-filter="Cancelled" onclick="filterBookings('Cancelled')">
+                Cancelled
+                <span class="filter-count">@cancelledCount</span>
+            </button>
+        </div>
+        
+        <div class="sort-dropdown">
+            <span>Sort by:</span>
+            <div class="custom-select" id="customSelect">
+                <div class="custom-select-trigger">
+                    <span>Newest First</span>
+                </div>
+                <div class="custom-options">
+                    <div class="custom-option selected" data-value="date-desc">Newest First</div>
+                    <div class="custom-option" data-value="date-asc">Oldest First</div>
+                    <div class="custom-option" data-value="price-desc">Price (High to Low)</div>
+                    <div class="custom-option" data-value="price-asc">Price (Low to High)</div>
+                </div>
+            </div>
+            <select id="sortBookings" style="display: none;">
+                <option value="date-desc">Newest First</option>
+                <option value="date-asc">Oldest First</option>
+                <option value="price-desc">Price (High to Low)</option>
+                <option value="price-asc">Price (Low to High)</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="bookings-container">
+        <!-- Desktop Table -->
+        <div class="bookings-table">
+            <div class="table-wrapper">
+                <table id="bookingsTable">
+                    <thead>
+                        <tr>
+                            <th>Booking Reference</th>
+                            <th>Route</th>
+                            <th>Travel Dates</th>
+                            <th>Passengers</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in Model.OrderByDescending(b => b.BookingDate))
+                        {
+                            <tr data-status="@booking.Status" data-price="@booking.TotalPrice" data-date="@booking.BookingDate.Ticks">
+                                <td class="booking-ref">@booking.BookingReference</td>
+                                <td>
+                                    <div class="route-info">
+                                        <span>@booking.OutboundOriginCity</span>
+                                        <i class="fas fa-arrow-right route-arrow"></i>
+                                        <span>@booking.OutboundDestCity</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="date-info">
+                                        @if (booking.ReturnFlightNumber != null)
+                                        {
+                                            <span>@booking.OutboundDeparture.ToString("MMM dd") - @booking.ReturnArrival?.ToString("MMM dd, yyyy")</span>
+                                            <span class="date-label">Round Trip</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@booking.OutboundDeparture.ToString("MMM dd, yyyy")</span>
+                                            <span class="date-label">One Way</span>
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="passenger-count">
+                                        <i class="fas @(booking.Adults + booking.Children > 1 ? "fa-users" : "fa-user")"></i>
+                                        <span>@(booking.Adults + booking.Children) Passenger@(booking.Adults + booking.Children != 1 ? "s" : "")</span>
+                                        @if (booking.Infants > 0)
+                                        {
+                                            <span>(+@booking.Infants infant@(booking.Infants != 1 ? "s" : ""))</span>
+                                        }
+                                    </div>
+                                </td>
+                                <td class="price-cell">$@booking.TotalPrice.ToString("N0")</td>
+                                <td>
+                                    <span class="status-badge @booking.Status.ToLower()">
+                                        @if (booking.Status == "Confirmed")
+                                        {
+                                            <i class="fas fa-check-circle"></i>
+                                        }
+                                        else if (booking.Status == "Completed")
+                                        {
+                                            <i class="fas fa-check"></i>
+                                        }
+                                        else if (booking.Status == "Cancelled")
+                                        {
+                                            <i class="fas fa-times"></i>
+                                        }
+                                        @booking.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("BookingDetails", "Flight", new { id = booking.BookingId })" 
+                                       class="action-btn" 
+                                       onclick="event.stopPropagation();">
+                                        View Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Mobile Cards -->
+        <div class="mobile-bookings">
+            @foreach (var booking in Model.OrderByDescending(b => b.BookingDate))
+            {
+                <div class="mobile-booking-card" data-status="@booking.Status" data-price="@booking.TotalPrice" data-date="@booking.BookingDate.Ticks">
+                    <div class="mobile-booking-header">
+                        <div class="mobile-booking-ref">@booking.BookingReference</div>
+                        <span class="status-badge @booking.Status.ToLower()">
+                            @if (booking.Status == "Confirmed")
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else if (booking.Status == "Completed")
+                            {
+                                <i class="fas fa-check"></i>
+                            }
+                            else if (booking.Status == "Cancelled")
+                            {
+                                <i class="fas fa-times"></i>
+                            }
+                            @booking.Status
+                        </span>
+                    </div>
+                    
+                    <div class="mobile-booking-route">
+                        @booking.OutboundOriginCity <i class="fas fa-arrow-right route-arrow"></i> @booking.OutboundDestCity
+                    </div>
+                    
+                    <div class="mobile-booking-details">
+                        <div>
+                            <i class="fas fa-calendar"></i>
+                            @if (booking.ReturnFlightNumber != null)
+                            {
+                                <span>@booking.OutboundDeparture.ToString("MMM dd") - @booking.ReturnArrival?.ToString("MMM dd, yyyy") (Round Trip)</span>
+                            }
+                            else
+                            {
+                                <span>@booking.OutboundDeparture.ToString("MMM dd, yyyy") (One Way)</span>
+                            }
+                        </div>
+                        <div>
+                            <i class="fas @(booking.Adults + booking.Children > 1 ? "fa-users" : "fa-user")"></i>
+                            <span>@(booking.Adults + booking.Children) Passenger@(booking.Adults + booking.Children != 1 ? "s" : "")</span>
+                            @if (booking.Infants > 0)
+                            {
+                                <span>(+@booking.Infants infant@(booking.Infants != 1 ? "s" : ""))</span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-booking-footer">
+                        <div class="mobile-price">$@booking.TotalPrice.ToString("N0")</div>
+                        <a href="@Url.Action("BookingDetails", "Flight", new { id = booking.BookingId })" 
+                           class="action-btn">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="bookings-container">
+        <div class="empty-state">
+            <i class="fas fa-plane-slash empty-icon"></i>
+            <h2 class="empty-title">No Bookings Yet</h2>
+            <p class="empty-text">You haven't made any flight bookings yet. Start your journey today!</p>
+            <a href="@Url.Action("Index", "Home")" class="new-booking-btn">
+                <i class="fas fa-search"></i>
+                Search Flights
+            </a>
+        </div>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position: fixed; top: 100px; right: 20px; z-index: 1000;">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@section Scripts {
+    <script src="~/js/Flight/mybookings.js" asp-append-version="true"></script>
+}
